@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <TextView
+        android:text="Usted está a punto de generar una reserva en el siguiente establecimiento:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_label_reserva"
+        android:textSize="18sp"
+        android:padding="10dp"
+        android:textColor="#000000" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:paddingStart="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/icn_techado"
+            android:id="@+id/img_nombre_reservar"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/tv_nombreEstac_reservar"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="0"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:paddingStart="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/icn_globe"
+            android:id="@+id/img_direccion_reservar"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_direccionEstac_reservar"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:paddingStart="10dp" />
+    </LinearLayout>
+
+    <TextView
+        android:text="A partir del momento que confirme la misma, dispondrá de 15 minutos para apersonarse a dicho lugar y confirmar la transacción; caso contrario, pasados los 15 minutos, su reserva caducará."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_descripcion_reserva"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:padding="10dp" />
+
+    <Button
+        android:text="confirmar reserva"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:id="@+id/button_confirmar_reserva"
+        android:backgroundTint="@android:color/holo_orange_light" />
+
+</LinearLayout>

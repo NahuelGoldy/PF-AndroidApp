@@ -1,0 +1,196 @@
+<resources>
+    <string name="app_name">MapMaterial</string>
+
+    <string name="navigation_drawer_open">Mostrar Opciones</string>
+    <string name="navigation_drawer_close">Ocultar Opciones</string>
+    <string name="navigation_recordar_estacionamiento">Estacionar aquí</string>
+    <string name="navigation_encontrar_estacionamiento">Donde estacioné?</string>
+
+
+    <!-- Strings del servicio de mapa y ubicacion -->
+    <string name="service_not_available">El servicio de busqueda de direcciones no esta disponible actualmente.</string>
+    <string name="invalid_lat_long_used">La informacion de ubicacion enviada es incorrecta.</string>
+    <string name="no_address_found">No se encontraron direcciones asociadas a esa ubicacion.</string>
+    <string name="address_found">La direccion asociada a esa ubicacion se encontro exitosamente.</string>
+    <string name="no_geocoder_available">El geocoder no esta disponible actualmente.</string>
+    <string name="no_geocoder_avaiable_msg">El sistema de ubicacion no se encuentra disponible actualmente, intente mas tarde.</string>
+    <string name="ubicacionActualEncontrada">Ubicacion encontrada, enfocando mapa en coordenadas.</string>
+    <string name="ubicacionActualInexistente">La ubicacion es inexistente o nula y no se puede enfocar el mapa.</string>
+    <string name="parkLoggerEstacionamientoExitoso">Se realizo un estacionamiento exitoso, marcando el punto en el mapa.</string>
+    <string name="parkLoggerInicioPersistiendoUbicacion">Comenzando persistencia de la ubicacion en donde se realizo el estacionamiento.</string>
+    <string name="parkLoggerInicioActualizacionUbicacion">Comenzando actualizacion de la informacion de ubicacion en donde se realizo el estacionamiento.</string>
+    <string name="parkLoggerInicioSalidaEstacionamiento">Comenzado a dar salida al estacionamiento.</string>
+    <string name="parkLoggerInicioNavegacion">Comenzando la navegacion a marcador destino.</string>
+    <!-- Strings de mensajes de exceptions -->
+    <string name="ubicacionVehiculoBuscadoFound">La ubicacion de estacionamiento con el id solicitada se encontro exitosamente.</string>
+    <string name="ubicacionVehiculoBuscadoNotFound">La ubicacion de estacionamiento con el id solicitado no pudo ser encontrada.</string>
+    <string name="ubicacionVehiculoEliminadoNotFound">La ubicacion de estacionamiento con el id solicitado no pudo ser eliminada.</string>
+    <string name="listaUbicacionVehiculosNotFound">No se encontraron vehiculos actualmente estacionados.</string>
+    <string name="listaUbicacionVehiculosEncontradaExitosamente">Se recupero exitosamente la lista de vehiculos estacionados.</string>
+    <string name="listaUbicacionVehiculosErrorLectura">Se produjo un error en la busqueda de la lista de los vehiculos estacionados.</string>
+
+    <string name="geofenceService_transition_invalid_type">El tipo de transicion del geofence es invalida.</string>
+    <string name="geofenceService_transition_entered">Se esta ingresando en una zona de estacionamiento.</string>
+    <string name="geofenceService_transition_exited">Se esta saliendo de una zona de estacionamiento.</string>
+    <string name="geofenceService_unknown_geofence_transition">Se desconoce el tipo de transicion.</string>
+    <string name="geofenceService_transition_notification_text">Se genero una notificacion.</string>
+
+    <string name="fileSaverInicioEscrituraExterna">Se esta comenzando a guardar un objeto en memoria externa.</string>
+    <string name="fileSaverInicioEscrituraInterna">Se esta comenzando a guardar un objeto en memoria interna.</string>
+    <string name="fileSaverInicioLecturaInterna">Se esta comenzando a leer un objeto de memoria interna.</string>
+    <string name="fileSaverInicioLecturaExterna">Se esta comenzando a leer un objeto en memoria externa.</string>
+    <string name="fileSaverErrorEscrituraLocal">Se produjo un error al procesar la solicitud de guardado.</string>
+    <string name="fileSaverErrorLecturaLocal">Se produjo un error al procesar la solicitud de lectura.</string>
+    <string name="fileSaverErrorLecturaObjetoLocal">Se produjo un error al leer el objeto solicitado.</string>
+    <string name="fileSaverErrorLecturaFileNotFound">El archivo solicitado no se encontro.</string>
+    <string name="fileSaverAlmacenExitoso">El archivo fue almacenado en memoria con exito.</string>
+    <string name="fileSaverLecturaExitosa">El archivo fue leido de memoria.</string>
+    <string name="fileSaverCreacionObjetoExitosa">El archivo JSON fue leido exitosamente.</string>
+
+    <string name="jsonDbHelperIniciandoInstanciacion">Comenzando la instanciacion de la base de datos JSON.</string>
+    <string name="jsonDbHelperBDInstanciadaExitosamente">La base de datos JSON fue instanciada exitosamente.</string>
+    <string name="jsonDbHelperBDNoInstanciada">Se produjo un error al instanciar la base de datos JSON.</string>
+    <string name="jsonDbHelperBDExistente">La base de datos ya existe, no se realizaron modificaciones.</string>
+
+    <string name="permissionLocationObtenido">Se obtuvieron con exito los permisos de location</string>
+    <string name="permissionLocationNoObtenido">No se han obtenido los permisos necesarios de ubicacion.</string>
+
+    <string name="alarmEstacionamientoGenerada">Se produjo una alarma asociada a un estacionamiento</string>
+    <string name="alarmEstacionamientoPospuesta">Se pospuso la alarma asociada al estacionamiento</string>
+
+    <!-- Strings de interfaz de usuario -->
+    <string name="titMarcadorEstacionamiento">Ubicacion actual del vehiculo</string>
+    <string name="action_estacionar">Estacionar aca</string>
+    <string name="btnAbrirEnNavigator">Navegar al destino</string>
+    <string name="btnMarcarSalida">Marcar salida del estacionamiento</string>
+    <string name="btnAceptar">Aceptar</string>
+    <string name="btnCancelar">Cancelar</string>
+    <string name="btnIrAlEstacionamiento">Ir al estacionamiento.</string>
+    <string name="btnDialogSetearAlarma">Guardar</string>
+    <string name="tvTituloInfoEstacionamiento">Informacion acerca del aparcamiento: </string>
+    <string name="tvTituloInfoEstacionamientoCalle">Calle:</string>
+    <string name="tvInfoEstacionamientoCalle">CALLE DEFAULT 123</string>
+    <string name="tvTituloInfoEstacionamientoCiudad">Ciudad:</string>
+    <string name="tvInfoEstacionamientoCiudad">CIUDAD DEFAULT 123</string>
+    <string name="errorProducidoIntenteNuevamente">Se produjo un error al procesar su solicitud, por favor intente nuevamente</string>
+    <string name="tituloSolicitudPermisos">Permisos de requeridos</string>
+    <string name="mensajeSolicitudPermisos">Para poder continuar, es necesario solicitar un conjunto de permisos, desea hacerlo?</string>
+    <string name="presionarAtrasParaSalir">Presione ATRAS otra vez para salir</string>
+    <string name="notificacionAlarmaEstTitulo">Recordatorio estacionamiento</string>
+    <string name="notificacionAlarmaEstTexto">Su auto esta estacionado</string>
+    <string name="btnIgnorarAlarma">Ignorar</string>
+    <string name="btnSalirEstacionamiento">Salir</string>
+
+    <string name="menuOptEstacionarAqui">Estacionar aquí</string>
+    <string name="menuOptDondeEstacione">Donde estacioné?</string>
+    <string name="menuDialogTitulo">Opciones</string>
+
+    <!-- De Aca para abajo borrar luego-->
+    <!-- De Aca para abajo borrar luego-->
+    <!-- De Aca para abajo borrar luego-->
+    <!-- De Aca para abajo borrar luego-->
+
+    <string name="action_settings">Settings</string>
+    <string name="item_title">Palais Garnier</string>
+    <string name="item_desc">The Palais Garnier which locates in Paris was built from 1861 for
+    the Paris Opera.
+    </string>
+    <string name="detail_desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+    deserunt mollit anim id est laborum.
+    </string>
+    <string name="detail_location">"8 Rue Scribe, 75009 Paris, France"</string>
+    <string name="title_activity_maps_content_fragment">Map</string>
+
+        <string-array name="places">
+            <item>Palais Garnie</item>
+            <item>Piazza del Duomo</item>
+            <item>Manhattan</item>
+            <item>Senso-ji</item>
+            <item>Sultan Ahmed Mosque</item>
+            <item>Table Mountain</item>
+        </string-array>
+        <string-array name="place_desc">
+        <item>The Palais Garnier which locates in Paris was built from 1861 for
+        the Paris Opera.
+        </item>
+            <item>Piazza del Duomo the cathedral which locates in Florence.</item>
+            <item>Manhattan is the district in New York City</item>
+            <item>Senso-ji is the Shrine locates in Asakusa Tokyo</item>
+            <item>Sultan Ahmed Mosque is mosque locates in Istabul, Turkey</item>
+            <item>Table Mountain is mountain and park locates in Cape Town, South Africa.</item>
+        </string-array>
+        <string-array name="place_details">
+        <item>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+        deserunt mollit anim id est laborum.
+        </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+        deserunt mollit anim id est laborum.
+        </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+        deserunt mollit anim id est laborum.
+        </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+        deserunt mollit anim id est laborum.
+        </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+        deserunt mollit anim id est laborum.
+        </item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+        deserunt mollit anim id est laborum.
+        </item>
+        </string-array>
+        <string-array name="place_locations">
+            <item>8 Rue Scribe, 75009 Paris, France</item>
+            <item>Piazza del Capitolo - 50122 Florence</item>
+            <item>New York City</item>
+            <item>2-3-1 Asakusa, Taitō-ku, Tokyo, Japan</item>
+            <item>At Meydanı No:7, 34122 Fatih/İstanbul, Turkey</item>
+            <item>Cape Town, South Africa</item>
+        </string-array>
+        <array name="place_avator">
+            <item>@drawable/a_avator</item>
+            <item>@drawable/b_avator</item>
+            <item>@drawable/c_avator</item>
+            <item>@drawable/d_avator</item>
+            <item>@drawable/e_avator</item>
+            <item>@drawable/f_avator</item>
+        </array>
+        <array name="places_picture">
+            <item>@drawable/a</item>
+            <item>@drawable/b</item>
+            <item>@drawable/c</item>
+            <item>@drawable/d</item>
+            <item>@drawable/e</item>
+            <item>@drawable/f</item>
+        </array>
+
+
+</resources>

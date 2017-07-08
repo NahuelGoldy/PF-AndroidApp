@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvMsgRecordatorio"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:paddingEnd="5dp"
+        android:paddingRight="5dp"
+        tools:ignore="RtlSymmetry" />
+
+    <Button
+        android:text="@string/btnAceptar"
+        android:id="@+id/btnAceptar"
+        android:textColor="#383838"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1"
+        android:background="@drawable/button_sinborde"
+
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5" />
+
+    <Button
+        android:text="@string/btnIrAlEstacionamiento"
+        android:id="@+id/btnIrAlEstacionamiento"
+        android:textColor="#383838"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1"
+        android:background="@drawable/button_sinborde"
+
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5" />
+
+    <Button
+        android:text="@string/btnCancelar"
+        android:id="@+id/btnCancelar"
+        android:textColor="#383838"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1"
+        android:background="@drawable/button_sinborde"
+
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5" />
+</LinearLayout>
