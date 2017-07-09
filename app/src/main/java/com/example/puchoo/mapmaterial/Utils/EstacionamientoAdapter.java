@@ -13,10 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
-import com.example.puchoo.mapmaterial.R;
-import com.example.puchoo.mapmaterial.MapsContentFragment;
-import com.example.puchoo.mapmaterial.VistasAndControllers.ReservarActivity;
-import com.google.android.gms.maps.model.LatLng;
+
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,9 +11,8 @@ import android.widget.ListView;
 
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
-import com.example.puchoo.mapmaterial.MapsContentFragment;
+import com.example.puchoo.mapmaterial.ListContentFragment;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
-import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.EstacionamientoAdapter;
 
 import java.util.Arrays;
@@ -71,7 +70,7 @@ public class ListarLugaresActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (v.getId() == fab.getId()) {
-            Intent intent = new Intent(this, MapsContentFragment.class);
+            Intent intent = new Intent(this, ListContentFragment.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("bandera", "FABMAPA");
             startActivity(intent);

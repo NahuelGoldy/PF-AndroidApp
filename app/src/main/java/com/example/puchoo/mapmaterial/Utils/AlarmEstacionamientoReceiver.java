@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.example.puchoo.mapmaterial.Dao.UbicacionVehiculoEstacionadoDAO;
 import com.example.puchoo.mapmaterial.Exceptions.UbicacionVehiculoException;
-import com.example.puchoo.mapmaterial.MapsContentFragment;
+import com.example.puchoo.mapmaterial.ListContentFragment;
 import com.example.puchoo.mapmaterial.Modelo.UbicacionVehiculoEstacionado;
 import com.example.puchoo.mapmaterial.R;
 import com.google.android.gms.maps.model.Marker;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class AlarmEstacionamientoReceiver extends BroadcastReceiver {
 
     private static final String TAG = "AlarmEstReceiver";
-    private static final Map<String,Marker> mapaMarcadores = MapsContentFragment.mapaMarcadores;
+    private static final Map<String,Marker> mapaMarcadores = ListContentFragment.mapaMarcadores;
     private static UbicacionVehiculoEstacionado ubicacionEstacionamiento;
     private static Marker markerEstacionamiento;
     private static Context context;

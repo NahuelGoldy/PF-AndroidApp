@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MapMaterial.iml" filepath="$PROJECT_DIR$/MapMaterial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PF-AndroidApp.iml" filepath="$PROJECT_DIR$/PF-AndroidApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

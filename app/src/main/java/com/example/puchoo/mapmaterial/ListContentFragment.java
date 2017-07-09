@@ -207,21 +207,10 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         mMapView.getMapAsync(this);
-                /*new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap mMap) {
-                googleMap = mMap;
-                LatLng LatLng = new LatLng(32.433,32.34);
-                googleMap.setMyLocationEnabled(true);
-                cargarMapa(googleMap);
-            }
-        });*/
 
         return rootView;
     }
-
     /**
      * Accion que se ejecuta luego de que el mapa de google esta listo, se extrae en este metodo
      * debido a que el codigo se repite si es necesario pedir permisos
@@ -234,22 +223,16 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
             //TODO Acomodar esto que no entra por los permisos
-            googleMap.setPadding(0, 80, 0, 0);
+           //googleMap.setPadding(0, 80, 0, 0);
             googleMap.setMyLocationEnabled(true);
             googleMap.setOnInfoWindowClickListener(this);
             googleMap.setInfoWindowAdapter(ventanaInfo);
             marcarEstacionamientos();
-            estCalle = cargarUltimoEstacionamiento(ID_USUARIO_ACTUAL);
-            //enfocarMapaEnUbicacion(ubicacionActual);
+           // estCalle = cargarUltimoEstacionamiento(ID_USUARIO_ACTUAL);
+            enfocarMapaEnUbicacion(ubicacionActual);
         }
         else enfocarMapaEnUbicacion(ubicacionActual);
 
-        //googleMap.setPadding(0, 80, 0, 0);
-        googleMap.setMyLocationEnabled(true);
-        googleMap.setOnInfoWindowClickListener(this);
-        googleMap.setInfoWindowAdapter(ventanaInfo);
-        enfocarMapaEnUbicacion(ubicacionActual);
-        marcarEstacionamientos();
 
     }
 
@@ -564,6 +547,42 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     /**-------------------------------------------------------------------*/
 
     /**
+     * Agrega la Api de Google
+     */
+    private void addGoogleApi() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this.getContext())
+                .addConnectionCallbacks(this)
+                .addApi(LocationServices.API)
+                .build();
+        System.out.println("*************************************************");
+        System.out.println("*******************CONECTAAAA************");
+        mGoogleApiClient.connect();
+    }
+    private void getCurrentLocation() {
+    /**
+     * Esta fruta la tiro aumatica android para los permisos de Location
+     * ------------------------------------------------------------------------------------------------
+     */
+        if (ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+    /**
+     *-----------------------------------------------------------------------------------------------
+     */
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (location != null) {
+            ubicacionActual = location;
+        }
+    }
+
+    /**
      * Guarda el ultimo lugar en donde se realizo el estacionamiento
      */
     private void persistirUbicacion(UbicacionVehiculoEstacionado ubicacionEstacionado){
@@ -594,6 +613,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
      */
     private void enfocarMapaEnUbicacion(Location location){
         String msg;
+        System.out.println("ENFOCAR CAMARAAAAAAA******" + location);
         if(location!=null){
             msg = getResources().getString(R.string.ubicacionActualEncontrada);
             Log.v(TAG,msg);
@@ -624,11 +644,16 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
      *  Se conecta con location services de google luego de haber solicitado permisos
      */
     private void conectarALocationServices(){
+        System.out.println("*****************PUTOOOOOOOOO************************");
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
+            System.out.println("*************************************************");
+            System.out.println("*****"+ mGoogleApiClient.isConnected());
             ubicacionActual = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            System.out.println(ubicacionActual);
+
             //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
             //mapFragment.getMapAsync(this);
             if (ubicacionActual != null) {
@@ -637,6 +662,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                     Log.v(TAG, getResources().getString(R.string.no_geocoder_available));
                 }
                 if (mAddressRequested) {
+                    System.out.println("ASDASDASD ADREESS SERVICE");
                     startAddressFetchService();
                 }
             }
@@ -783,13 +809,18 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         /** Pido permisos de ubicacion */
+        System.out.println("*************TU HERMANA ME DEJARA?**********************");
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("*************TU HERMANA ME DEJO AFUERA**********************");
             pedirPermisosUbicacion(ConstantePermisos.getPermisoFineLocationParaLocationService());
         }
         /** Tengo permisos */
         else{
+            System.out.println("TU HERMANA ME DEJO ENTRAR");
             conectarALocationServices();
         }
+
+        cargarMapa(this.googleMap);
     }
 
     @Override
@@ -942,7 +973,13 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         this.googleMap = googleMap;
        // this.googleMap.setMyLocationEnabled(true);
         //this.googleMap.setOnInfoWindowClickListener(this);
-        cargarMapa(this.googleMap);
-
+        addGoogleApi();
     }
+
+
+
+
+
+
+
 }

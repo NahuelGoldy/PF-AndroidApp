@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         // Set item in checked state
                         menuItem.setChecked(true);
 
-                        // TODO: handle navigation
+                        // TODO: hacer las acciones al clicker en el nav
 
                         // Closing drawer on item click
                         mDrawerLayout.closeDrawers();
@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
+        Bundle bundle = new Bundle();
         adapter.addFragment(new ListContentFragment(), "Mapa");
         adapter.addFragment(new CardContentFragment(), "Estacionamientos");
         adapter.addFragment(new TileContentFragment(), "Donde estacionaste");

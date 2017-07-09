@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.puchoo.mapmaterial.MapsContentFragment;
+import com.example.puchoo.mapmaterial.ListContentFragment;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
 import com.example.puchoo.mapmaterial.R;
@@ -115,7 +115,7 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
      * @return retorna el Marker o Null, si no lo encuentra
      */
     private Marker buscarMarker(LatLng posicion){
-        for(Marker aux : MapsContentFragment.mapaMarcadores.values()) {
+        for(Marker aux : ListContentFragment.mapaMarcadores.values()) {
             if (aux.getPosition().equals(posicion)) {
                 return aux;
             }
