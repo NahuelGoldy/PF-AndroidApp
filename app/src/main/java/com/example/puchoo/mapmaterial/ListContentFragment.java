@@ -229,9 +229,9 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             googleMap.setInfoWindowAdapter(ventanaInfo);
             marcarEstacionamientos();
            // estCalle = cargarUltimoEstacionamiento(ID_USUARIO_ACTUAL);
-            enfocarMapaEnUbicacion(ubicacionActual);
+            enfocarMapaEnUbicacion(ubicacionActual, 16f);
         }
-        else enfocarMapaEnUbicacion(ubicacionActual);
+        else enfocarMapaEnUbicacion(ubicacionActual, 16f);
 
 
     }
@@ -296,7 +296,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 .setExpirationDuration(ConstantsEstacionamientoService.GEOFENCE_EXPIRATION_DURATION_TIME)
                 .setCircularRegion(marker.getPosition().latitude, marker.getPosition().longitude, ConstantsEstacionamientoService.GEOFENCE_RADIUS_IN_METERS)
         ;
-        mGeofenceList.add(geof.build());
+        //mGeofenceList.add(geof.build());
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -305,7 +305,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         }
         else
         {
-            agregarGeofence();
+            //agregarGeofence();
         }
         mapaMarcadores.put(marker.getId(),marker);
         return marker;
@@ -362,6 +362,9 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         locationParque.setLatitude(position.latitude);
         locationParque.setLongitude(position.longitude);
         if (mGoogleApiClient.isConnected() && ubicacionActual != null) {
+            System.out.println("###############################");
+            System.out.println("ESTACIONAR EN PARQUE");
+            System.out.println("###############################");
             estCalle = new UbicacionVehiculoEstacionado(locationParque);
             estCalle.setHoraIngreso(System.currentTimeMillis());
             startAddressFetchService();
@@ -442,7 +445,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 Location lugarEstacionado = new Location(ubicacionActual);
                 lugarEstacionado.setLatitude(ubicacionEstacionamiento.getCoordenadas().latitude);
                 lugarEstacionado.setLongitude(ubicacionEstacionamiento.getCoordenadas().longitude);
-                enfocarMapaEnUbicacion(lugarEstacionado);
+                enfocarMapaEnUbicacion(lugarEstacionado,18f);
                 dialogTest.dismiss();
             }
         });
@@ -554,8 +557,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 .addConnectionCallbacks(this)
                 .addApi(LocationServices.API)
                 .build();
-        System.out.println("*************************************************");
-        System.out.println("*******************CONECTAAAA************");
         mGoogleApiClient.connect();
     }
     private void getCurrentLocation() {
@@ -611,9 +612,8 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     /**
      * Recibe una ubicacion y enfoca el mapa en ese punto
      */
-    private void enfocarMapaEnUbicacion(Location location){
+    private void enfocarMapaEnUbicacion(Location location, float zoom){
         String msg;
-        System.out.println("ENFOCAR CAMARAAAAAAA******" + location);
         if(location!=null){
             msg = getResources().getString(R.string.ubicacionActualEncontrada);
             Log.v(TAG,msg);
@@ -626,7 +626,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             String msgToast = location.getLatitude() + ", " + location.getLongitude();
 
             //Muevo la camara
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),17f),200,null);
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),zoom),200,null);
 
             //Le doy zoom
             //mapa.animateCamera(CameraUpdateFactory.zoomTo(17f));
@@ -644,15 +644,11 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
      *  Se conecta con location services de google luego de haber solicitado permisos
      */
     private void conectarALocationServices(){
-        System.out.println("*****************PUTOOOOOOOOO************************");
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            System.out.println("*************************************************");
-            System.out.println("*****"+ mGoogleApiClient.isConnected());
             ubicacionActual = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            System.out.println(ubicacionActual);
 
             //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
             //mapFragment.getMapAsync(this);
@@ -662,7 +658,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                     Log.v(TAG, getResources().getString(R.string.no_geocoder_available));
                 }
                 if (mAddressRequested) {
-                    System.out.println("ASDASDASD ADREESS SERVICE");
                     startAddressFetchService();
                 }
             }
@@ -809,14 +804,11 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         /** Pido permisos de ubicacion */
-        System.out.println("*************TU HERMANA ME DEJARA?**********************");
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("*************TU HERMANA ME DEJO AFUERA**********************");
             pedirPermisosUbicacion(ConstantePermisos.getPermisoFineLocationParaLocationService());
         }
         /** Tengo permisos */
         else{
-            System.out.println("TU HERMANA ME DEJO ENTRAR");
             conectarALocationServices();
         }
 
@@ -851,7 +843,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         Location loc = new Location(ubicacionActual);
         loc.setLatitude(marker.getPosition().latitude); //Actualizo la posicion a la del estacionamiento
         loc.setLongitude(marker.getPosition().longitude);
-        enfocarMapaEnUbicacion(loc); //Enfoco el mapa al estacionamiento para que se vea mejor
+        enfocarMapaEnUbicacion(loc,18f); //Enfoco el mapa al estacionamiento para que se vea mejor
 
         final Dialog dialogTest = new Dialog(getContext()); // Context, this, etc.
         dialogTest.setContentView(R.layout.custom_info_window_estacionamiento);
@@ -887,9 +879,16 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
         if(lugarEstacionamientoGuardado == true && marker.getId().equals(markerUltimoEstacionamiento.getId())){
             btnSalidaEntrada.setEnabled(true);
+            System.out.println("###############################");
+            System.out.println("BTN SALIDA AHORA ES TRUE");
+            System.out.println("###############################");
         }
         else{
             //btnSalidaEntrada.setEnabled(false);
+
+            System.out.println("###############################");
+            System.out.println("BTN SALIDA AHORA ES FALSE");
+            System.out.println("###############################");
         }
 
         /** Listener de la opcion de marcar salida del estacionamiento */
@@ -917,7 +916,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                         Location lugarEstacionado = new Location(ubicacionActual);
                         lugarEstacionado.setLatitude(estCalle.getCoordenadas().latitude);
                         lugarEstacionado.setLongitude(estCalle.getCoordenadas().longitude);
-                        enfocarMapaEnUbicacion(lugarEstacionado);
+                        enfocarMapaEnUbicacion(lugarEstacionado, 18f);
                         btnSalidaEntrada.setText(msgEstacionarAqui);
                         //TODO Setear enable o disable segun corresponda los botones del menu desplegable
                         //menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_ESTACIONAR_AQUI).setTitle(msgEstacionarAqui);
