@@ -4,6 +4,7 @@ package com.example.puchoo.mapmaterial;
 import android.app.Dialog;
 import android.location.Location;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,13 +25,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.puchoo.mapmaterial.Utils.ConstantsNavigatorView;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     /** Booleano que sirve para identificar si pulsó dos veces para salir */
     boolean doubleBackToExitPressedOnce = false;
@@ -59,34 +61,26 @@ public class MainActivity extends AppCompatActivity {
         // Create Navigation drawer and inflate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        navigationView.setNavigationItemSelectedListener(this);
+        //SetEnable el boton de estacionar Aqui del Nav
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(false);
+        //SetEnable el boton de Alarma del Nav
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(false);
+        /*
+            TODO Habilitar o desabilitar el boton estacionar aqui
+         */
+
         // Adding menu icon to Toolbar
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
             supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
-        // Set behavior of Navigation drawer
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    // This method will trigger on item Click of navigation menu
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // Set item in checked state
-                        menuItem.setChecked(true);
-
-                        // TODO: hacer las acciones al clicker en el nav
-
-                        // Closing drawer on item click
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
 
     }
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        Bundle bundle = new Bundle();
         adapter.addFragment(new ListContentFragment(), "Mapa");
         adapter.addFragment(new CardContentFragment(), "Estacionamientos");
         adapter.addFragment(new TileContentFragment(), "Donde estacionaste");
@@ -107,6 +101,17 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Set item in checked state
+
+        // TODO: hacer las acciones al clicker en el nav
+
+        // Closing drawer on item click
+        mDrawerLayout.closeDrawers();
+        return true;
     }
 
     static class Adapter extends FragmentPagerAdapter {

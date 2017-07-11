@@ -24,8 +24,20 @@
             android:tint="@color/button_grey"
             android:title="Favoritos" />
         <item
-            android:icon="@drawable/ic_bookmark_border_black_24dp"
+            android:icon="@drawable/icn_menu_alarma"
             android:tint="@color/button_grey"
             android:title="Alarma" />
     </group>
+    <item android:title="Usuario">
+        <menu>
+            <item
+                android:id="@+id/nav_reservas"
+                android:title="Reservas"
+                android:icon="@drawable/icn_menu_info" />
+            <item
+                android:id="@+id/nav_preferencias"
+                android:title="Preferencias"
+                android:icon="@drawable/icn_menu_settings" />
+        </menu>
+    </item>
 </menu>
