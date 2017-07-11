@@ -877,7 +877,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             }
         });
 
-        if(lugarEstacionamientoGuardado == true && marker.getId().equals(markerUltimoEstacionamiento.getId())){
+        if(lugarEstacionamientoGuardado == true && marker.getPosition().equals(markerUltimoEstacionamiento.getPosition())){
             btnSalidaEntrada.setEnabled(true);
             System.out.println("###############################");
             System.out.println("BTN SALIDA AHORA ES TRUE");
