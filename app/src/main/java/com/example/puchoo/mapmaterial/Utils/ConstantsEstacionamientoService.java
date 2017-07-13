@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 public final class ConstantsEstacionamientoService {
     /* Indica el icono a usar del marcador de la calle, TODO - Cambiarlo por algo mejor */
-    public static final float MARCADOR_ESTACIONAMIENTO_CALLE = BitmapDescriptorFactory.HUE_AZURE;
+    public static final float MARCADOR_ESTACIONAMIENTO_CALLE = BitmapDescriptorFactory.HUE_YELLOW;
     /* Indica el radio de las geofences */
     public static final Integer GEOFENCE_RADIUS_IN_METERS = 100;
     /* Indica el tiempo de permanencia en milisegundos que la persona tiene que estar en el geofence para activar la notificacion */

@@ -284,10 +284,12 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 .title(estacionamiento.getTitulo()));
 
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(ConstantsEstacionamientoService.MARCADOR_ESTACIONAMIENTO_CALLE));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(estacionamiento.getCoordenadas(), 15));
+        //googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(estacionamiento.getCoordenadas(), 15));
         /* Agrego el objeto estacionamiento al marcador */
         marker.setTag(estacionamiento);
-
+        if(!estacionamiento.getEnLaCalle()){
+            marker.setVisible(false);
+        }
          /* Objeto que permite generar eventos de aproximacion al radio del marcador */
         Geofence.Builder geof = new Geofence.Builder();
         geof.setRequestId(marker.getId())
@@ -325,7 +327,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         Log.v(TAG,msg);
         String estacionarAqui = getResources().getString(R.string.menuOptEstacionarAqui);
         String dondeEstacione = getResources().getString(R.string.menuOptDondeEstacione);
-        UbicacionVehiculoEstacionado ubicacionVehiculo = (UbicacionVehiculoEstacionado) marcadorSalida.getTag();
+        UbicacionVehiculoEstacionado ubicacionVehiculo = (UbicacionVehiculoEstacionado) markerUltimoEstacionamiento.getTag();
         ubicacionVehiculo.setHoraEgreso(System.currentTimeMillis());
         try{
             /* Elimino la alarma que se asocia al estacionamiento del usuario */
@@ -358,6 +360,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
     private void estacionarEnParque(LatLng position){
         String msg;
+        //Se usa ubicacionActual solo para poder crear otra location
         Location locationParque = new Location(ubicacionActual);
         locationParque.setLatitude(position.latitude);
         locationParque.setLongitude(position.longitude);
@@ -367,6 +370,14 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             System.out.println("###############################");
             estCalle = new UbicacionVehiculoEstacionado(locationParque);
             estCalle.setHoraIngreso(System.currentTimeMillis());
+
+            //Busca si existe un markador en esta posicion, si existe entonces estaciono en un "Estacionamiento
+            //Si no existe, es porque estaciono en la calle.
+            Marker markerEstacionamiento = buscarMarker(position);
+            if(markerEstacionamiento == null){
+                estCalle.setEnLaCalle(true);
+            }
+
             startAddressFetchService();
             mAddressRequested = false;
             msg = getResources().getString(R.string.parkLoggerEstacionamientoExitoso);

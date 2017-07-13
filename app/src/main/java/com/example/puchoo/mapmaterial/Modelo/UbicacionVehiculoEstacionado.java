@@ -17,6 +17,7 @@ public class UbicacionVehiculoEstacionado {
     protected Long horaEgreso;
     protected Integer idUsuario;
     protected Boolean eliminado;
+    private Boolean enLaCalle;
 
     public UbicacionVehiculoEstacionado(Location ubicacion) {
         direccion = new Address(Locale.getDefault());
@@ -24,6 +25,7 @@ public class UbicacionVehiculoEstacionado {
         direccion.setLatitude(ubicacion.getLatitude());
         this.eliminado = false;
         this.idUsuario = 0;
+        this.enLaCalle = false; //Bool para saber si esta en la calle o en un "Estacionamiento"
     }
     public UbicacionVehiculoEstacionado(){}
 
@@ -117,4 +119,11 @@ public class UbicacionVehiculoEstacionado {
     }
 
 
+    public Boolean getEnLaCalle() {
+        return enLaCalle;
+    }
+
+    public void setEnLaCalle(Boolean enLaCalle) {
+        this.enLaCalle = enLaCalle;
+    }
 }
