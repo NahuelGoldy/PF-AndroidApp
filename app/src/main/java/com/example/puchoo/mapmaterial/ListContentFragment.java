@@ -287,6 +287,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         //googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(estacionamiento.getCoordenadas(), 15));
         /* Agrego el objeto estacionamiento al marcador */
         marker.setTag(estacionamiento);
+
         if(!estacionamiento.getEnLaCalle()){
             marker.setVisible(false);
         }
@@ -376,6 +377,9 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             Marker markerEstacionamiento = buscarMarker(position);
             if(markerEstacionamiento == null){
                 estCalle.setEnLaCalle(true);
+            }else {
+                //Seteo un icono distinto al marker del estacionamiento donde el tipo estaciono
+                markerEstacionamiento.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento_dondeestaciono));
             }
 
             startAddressFetchService();
@@ -925,6 +929,11 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                         Log.v(TAG_MENU, "Borrando ubicacion guardada");
                         //Creo una Location auxiliar con las coordenadas de la ubicacion guardada y enfoco el mapa ahi
                         Location lugarEstacionado = new Location(ubicacionActual);
+
+                        //Cambia el icono al comun de todos lso estacionamientos, TODO validar que lo sea
+                        if(marcadorSelected.equals(markerUltimoEstacionamiento)) {
+                            marcadorSelected.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento));
+                        }
                         lugarEstacionado.setLatitude(estCalle.getCoordenadas().latitude);
                         lugarEstacionado.setLongitude(estCalle.getCoordenadas().longitude);
                         enfocarMapaEnUbicacion(lugarEstacionado, 18f);
