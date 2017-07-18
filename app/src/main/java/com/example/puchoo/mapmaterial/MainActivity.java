@@ -63,9 +63,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView.setNavigationItemSelectedListener(this);
         //SetEnable el boton de estacionar Aqui del Nav
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(false);
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(true);
         //SetEnable el boton de Alarma del Nav
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(false);
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(true);
+        //SetVisible el boton de Ver Estacionmiento
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setVisible(false);
         /*
             TODO Habilitar o desabilitar el boton estacionar aqui
          */
@@ -99,6 +101,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         } else if (id == android.R.id.home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            //SetEnable el boton de estacionar Aqui del Nav
+            navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI);
+            //SetEnable el boton de Alarma del Nav
+            navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA);
+
+            navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setVisible(ConstantsNavigatorView.VIEW_INDICE_MENU_VER_ESTACIONAMIENTO);
+            navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setVisible(ConstantsNavigatorView.VIEW_INDICE_MENU_ESTACIONAR_AQUI);
         }
         return super.onOptionsItemSelected(item);
     }

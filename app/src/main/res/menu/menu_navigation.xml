@@ -20,6 +20,10 @@
             android:tint="@color/button_grey"
             android:title="Estacionar Aquí" />
         <item
+            android:icon="@drawable/icn_notif"
+            android:tint="@color/button_grey"
+            android:title="Ver Estacionamiento" />
+        <item
             android:icon="@drawable/ic_favorite_black_24dp"
             android:tint="@color/button_grey"
             android:title="Favoritos" />

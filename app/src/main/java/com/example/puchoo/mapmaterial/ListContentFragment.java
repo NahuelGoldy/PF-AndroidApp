@@ -47,6 +47,7 @@ import com.example.puchoo.mapmaterial.Utils.AddressResultReceiver;
 import com.example.puchoo.mapmaterial.Utils.AlarmEstacionamientoReceiver;
 import com.example.puchoo.mapmaterial.Utils.ConstantsAddresses;
 import com.example.puchoo.mapmaterial.Utils.ConstantsEstacionamientoService;
+import com.example.puchoo.mapmaterial.Utils.ConstantsNavigatorView;
 import com.example.puchoo.mapmaterial.Utils.ConstantsNotificaciones;
 import com.example.puchoo.mapmaterial.Utils.ConstantsPermissionLocation;
 import com.example.puchoo.mapmaterial.Utils.FetchAddressIntentService;
@@ -214,7 +215,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     /**
      * Accion que se ejecuta luego de que el mapa de google esta listo, se extrae en este metodo
      * debido a que el codigo se repite si es necesario pedir permisos
-     ==
      */
     public void cargarMapa(GoogleMap googleMap){
 
@@ -222,21 +222,15 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
-            //TODO Acomodar esto que no entra por los permisos
-           //googleMap.setPadding(0, 80, 0, 0);
             googleMap.setMyLocationEnabled(true);
             googleMap.setOnInfoWindowClickListener(this);
             googleMap.setInfoWindowAdapter(ventanaInfo);
             marcarEstacionamientos();
-           // estCalle = cargarUltimoEstacionamiento(ID_USUARIO_ACTUAL);
+           // TODO estCalle = cargarUltimoEstacionamiento(ID_USUARIO_ACTUAL);
             enfocarMapaEnUbicacion(ubicacionActual, 16f);
         }
         else enfocarMapaEnUbicacion(ubicacionActual, 16f);
-
-
     }
-
-
 
     /**-------------------------------------------------------------------*/
     /**                      Metodos de Markes                            */
@@ -250,7 +244,9 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     private Marker buscarMarker(LatLng posicion){
         for(Marker aux : mapaMarcadores.values()) {
             if (aux.getPosition().equals(posicion)) {
-                return aux;
+                if(aux.isVisible()) {
+                    return aux;
+                }
             }
         }
         return null;
@@ -284,7 +280,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 .title(estacionamiento.getTitulo()));
 
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(ConstantsEstacionamientoService.MARCADOR_ESTACIONAMIENTO_CALLE));
-        //googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(estacionamiento.getCoordenadas(), 15));
         /* Agrego el objeto estacionamiento al marcador */
         marker.setTag(estacionamiento);
 
@@ -310,7 +305,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         {
             //agregarGeofence();
         }
-        mapaMarcadores.put(marker.getId(),marker);
+        //mapaMarcadores.put(marker.getId(),marker);
         return marker;
     }
 
@@ -334,26 +329,21 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             /* Elimino la alarma que se asocia al estacionamiento del usuario */
             eliminarAlarma(markerUltimoEstacionamiento);
             actualizarUbicacionPersistida(ubicacionVehiculo);
-            marcadorSalida.remove();
+            //marcadorSalida.remove();
         }
         catch (UbicacionVehiculoException e) {
             msg = getResources().getString(R.string.errorProducidoIntenteNuevamente);
             Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
         }
+
         markerUltimoEstacionamiento = null;
         estCalle = null;
         this.lugarEstacionamientoGuardado = false;
-        //(menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_ESTACIONAR_AQUI)).setTitle(estacionarAqui);
-        //menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_LIMPIAR).setEnabled(false);
-        //menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_ALARMA).setEnabled(false);
+        ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI = true;
+        ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA = false;
     }
 
     private void marcarEstacionamientos(){
-        /*mMap.addMarker((new MarkerOptions()
-                .position(Estacionamientos[0].getPosicionEstacionamiento()) //Pongo el lugar
-                .title(Estacionamientos[0].getNombreEstacionamiento())) //Le meto titulo
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento)));
-        addMarker(Estacionamientos[0].getPosicionEstacionamiento(),Estacionamientos[0].getNombreEstacionamiento(),R.drawable.marker_estacionamiento);*/
         for(int i=0; i<Estacionamientos.length;i++){
             addMarker(Estacionamientos[i].getPosicionEstacionamiento(),(Estacionamientos[i].getNombreEstacionamiento()).substring(8),R.drawable.marker_estacionamiento);
         }
@@ -366,9 +356,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         locationParque.setLatitude(position.latitude);
         locationParque.setLongitude(position.longitude);
         if (mGoogleApiClient.isConnected() && ubicacionActual != null) {
-            System.out.println("###############################");
-            System.out.println("ESTACIONAR EN PARQUE");
-            System.out.println("###############################");
             estCalle = new UbicacionVehiculoEstacionado(locationParque);
             estCalle.setHoraIngreso(System.currentTimeMillis());
 
@@ -378,6 +365,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             if(markerEstacionamiento == null){
                 estCalle.setEnLaCalle(true);
             }else {
+                estCalle.setEnLaCalle(false);
                 //Seteo un icono distinto al marker del estacionamiento donde el tipo estaciono
                 markerEstacionamiento.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento_dondeestaciono));
             }
@@ -388,7 +376,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG);
             markerUltimoEstacionamiento = agregarMarcadorEstacionamiento(estCalle);
             /* Agrego el marcador a la lista de marcadores */
-            mapaMarcadores.put(markerUltimoEstacionamiento.getId(),markerUltimoEstacionamiento);
+            //mapaMarcadores.put(markerUltimoEstacionamiento.getId(),markerUltimoEstacionamiento);
             /* Agrego la alarma que se asocia al estacionamiento del usuario */
             agregarAlarma(markerUltimoEstacionamiento);
             Log.v(TAG,msg);
@@ -409,15 +397,22 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 de ingreso sea chico, si paso mucho tiempo significa que se olvido de marcar el egreso y por lo tanto habria
                 que marcar el egreso y no poner el marcador
                 */
-                markerUltimoEstacionamiento = agregarMarcadorEstacionamiento(ultimoEst);
+                Marker marcadorAux = buscarMarker(markerUltimoEstacionamiento.getPosition());
+                if(marcadorAux != null) {
+                    marcadorAux.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento_dondeestaciono));
+                } else{
+                    markerUltimoEstacionamiento = agregarMarcadorEstacionamiento(ultimoEst);
+                }
                 // agregarAlarma(markerUltimoEstacionamiento);
                 generarVentanaRecordatorioEstacionamiento(markerUltimoEstacionamiento);
                 this.lugarEstacionamientoGuardado = true;
                 msg = getResources().getString(R.string.menuOptDondeEstacione);
+
                 //TODO Setear eneable o disable los botones del menu lateral segun corresponda
-                // menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_ESTACIONAR_AQUI).setTitle(msg);
-                // menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_ESTACIONAR_AQUI).setChecked(true);
-                // menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_LIMPIAR).setEnabled(true);
+                ConstantsNavigatorView.VIEW_INDICE_MENU_ESTACIONAR_AQUI = false;
+                ConstantsNavigatorView.VIEW_INDICE_MENU_VER_ESTACIONAMIENTO = true;
+                ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA = true;
+
             }
         }
         return ultimoEst;
@@ -470,8 +465,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             public void onClick(View v) {
                 String estacionarAqui = getResources().getString(R.string.menuOptEstacionarAqui);
                 marcarSalidaEstacionamiento(markerUltimoEstacionamiento);
-                //TODO setear enable o disable los botones del menu lateral segun corresponda
-                //menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_ESTACIONAR_AQUI).setTitle(estacionarAqui);
                 dialogTest.dismiss();
             }
         });
@@ -554,11 +547,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 dialogTest.dismiss();
             }
         });
-
-
     }
-
-
 
     /**-------------------------------------------------------------------*/
     /**         Metodos de Ubicacion / Servicios de Ubicacion             */
@@ -573,29 +562,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
-    }
-    private void getCurrentLocation() {
-    /**
-     * Esta fruta la tiro aumatica android para los permisos de Location
-     * ------------------------------------------------------------------------------------------------
-     */
-        if (ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-    /**
-     *-----------------------------------------------------------------------------------------------
-     */
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location != null) {
-            ubicacionActual = location;
-        }
     }
 
     /**
@@ -632,27 +598,16 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         if(location!=null){
             msg = getResources().getString(R.string.ubicacionActualEncontrada);
             Log.v(TAG,msg);
-           /* LatLng target = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraPosition position = this.mapa.getCameraPosition();
-            CameraPosition.Builder builder = new CameraPosition.Builder();
-            builder.zoom(15);
-            builder.target(target);
-            this.mapa.animateCamera(CameraUpdateFactory.newCameraPosition(builder.build()));*/
             String msgToast = location.getLatitude() + ", " + location.getLongitude();
 
             //Muevo la camara
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),zoom),200,null);
-
             //Le doy zoom
-            //mapa.animateCamera(CameraUpdateFactory.zoomTo(17f));
-            //TODO  Sacar el toast en un futuro
-            //  Toast.makeText(this, msgToast, Toast.LENGTH_LONG).show();
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),zoom),200,null);
         }
         else{
             msg = getResources().getString(R.string.ubicacionActualInexistente);
             Log.v(TAG,msg);
         }
-
     }
 
     /**
@@ -665,8 +620,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 == PackageManager.PERMISSION_GRANTED) {
             ubicacionActual = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-            //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
-            //mapFragment.getMapAsync(this);
             if (ubicacionActual != null) {
                 // Determine whether a Geocoder is available.
                 if (!Geocoder.isPresent()) {
@@ -894,16 +847,9 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
         if(lugarEstacionamientoGuardado == true && marker.getPosition().equals(markerUltimoEstacionamiento.getPosition())){
             btnSalidaEntrada.setEnabled(true);
-            System.out.println("###############################");
-            System.out.println("BTN SALIDA AHORA ES TRUE");
-            System.out.println("###############################");
         }
         else{
             //btnSalidaEntrada.setEnabled(false);
-
-            System.out.println("###############################");
-            System.out.println("BTN SALIDA AHORA ES FALSE");
-            System.out.println("###############################");
         }
 
         /** Listener de la opcion de marcar salida del estacionamiento */
@@ -918,9 +864,9 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                     btnSalidaEntrada.setText(msgSalidaEstacionamiento);
 
                     //TODO Setear enable o disable segun corresponda los botones del menu desplegable
-                    //menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_ESTACIONAR_AQUI).setTitle(msgVerEstacionamiento);
-                    //menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_LIMPIAR).setEnabled(true);
-                    //menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_ALARMA).setEnabled(true);
+                    ConstantsNavigatorView.VIEW_INDICE_MENU_VER_ESTACIONAMIENTO = true;
+                    ConstantsNavigatorView.VIEW_INDICE_MENU_ESTACIONAR_AQUI = false;
+                    ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA = true;
                     dialogTest.dismiss();
                 }
                 else {
@@ -930,18 +876,20 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                         //Creo una Location auxiliar con las coordenadas de la ubicacion guardada y enfoco el mapa ahi
                         Location lugarEstacionado = new Location(ubicacionActual);
 
-                        //Cambia el icono al comun de todos lso estacionamientos, TODO validar que lo sea
-                        if(marcadorSelected.equals(markerUltimoEstacionamiento)) {
+                        //Cambia el icono al comun de todos lso estacionamientos
+                        if(marcadorSelected.getPosition().equals(markerUltimoEstacionamiento.getPosition())) {
                             marcadorSelected.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento));
                         }
                         lugarEstacionado.setLatitude(estCalle.getCoordenadas().latitude);
                         lugarEstacionado.setLongitude(estCalle.getCoordenadas().longitude);
                         enfocarMapaEnUbicacion(lugarEstacionado, 18f);
                         btnSalidaEntrada.setText(msgEstacionarAqui);
-                        //TODO Setear enable o disable segun corresponda los botones del menu desplegable
-                        //menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_ESTACIONAR_AQUI).setTitle(msgEstacionarAqui);
-                        //menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_LIMPIAR).setEnabled(false);
-                        //menuLateral.getItem(ConstantsMenuNavegacion.INDICE_MENU_ALARMA).setEnabled(false);
+
+
+                        ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA = false;
+                        ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI = true;
+                        ConstantsNavigatorView.VIEW_INDICE_MENU_ESTACIONAR_AQUI = true;
+                        ConstantsNavigatorView.VIEW_INDICE_MENU_VER_ESTACIONAMIENTO = false;
                         dialogTest.dismiss();
                     }
                     marcarSalidaEstacionamiento(marcadorSelected);
@@ -994,11 +942,5 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         //this.googleMap.setOnInfoWindowClickListener(this);
         addGoogleApi();
     }
-
-
-
-
-
-
 
 }
