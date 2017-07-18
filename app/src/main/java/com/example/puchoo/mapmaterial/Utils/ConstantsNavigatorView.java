@@ -23,10 +23,5 @@ public final class ConstantsNavigatorView {
     public static boolean ENABLE__INDICE_MENU_ALARMA = false;
     public static boolean ENABLE__INDICE_MENU_RESERVAS = true;
     public static boolean ENABLE__INDICE_MENU_PREFERENCIAS = true;
-
-    /**
-     * Boolean de visibilidad de los botones
-     */
-    public static  boolean VIEW_INDICE_MENU_ESTACIONAR_AQUI = true;
-    public static  boolean VIEW_INDICE_MENU_VER_ESTACIONAMIENTO = false;
+    public static boolean ENABLE__INDIACE_MENU_VER_ESTACIONAMIENTO = false;
 }

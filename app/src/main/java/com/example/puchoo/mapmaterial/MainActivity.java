@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     boolean doubleBackToExitPressedOnce = false;
 
     private DrawerLayout mDrawerLayout;
+    private ListContentFragment mapFragment;
+    private CardContentFragment cardFragment;
+    private  TileContentFragment tileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +70,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(true);
         //SetEnable el boton de Alarma del Nav
         navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(true);
-        //SetVisible el boton de Ver Estacionmiento
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setVisible(false);
+        //SetEnale el btn ver donde estacione
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setEnabled(false);
         /*
             TODO Habilitar o desabilitar el boton estacionar aqui
          */
@@ -84,9 +87,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ListContentFragment(), "Mapa");
-        adapter.addFragment(new CardContentFragment(), "Estacionamientos");
-        adapter.addFragment(new TileContentFragment(), "Donde estacionaste");
+        mapFragment = new ListContentFragment();//Creo el fragmento del mapa
+        cardFragment = new CardContentFragment();//Creo el fragmento de la lista de estacionamientos
+        tileFragment = new TileContentFragment();//Creo el 3er fragmento - Sin uso especifico
+
+        adapter.addFragment(mapFragment, "Mapa");
+        adapter.addFragment(cardFragment, "Estacionamientos");
+        adapter.addFragment(tileFragment, "Donde estacionaste");
         viewPager.setAdapter(adapter);
     }
 
@@ -110,7 +117,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Set item in checked state
+        Integer idItem = item.getItemId();
+        System.out.println("***************************************");
+        System.out.println(idItem);
 
+            if(idItem == ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI){
+
+            }else if (idItem == ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO){
+                System.out.println("CLICKEO VER ESTACIONAMIENTO");
+                mapFragment.verDondeEstaciono();
+                item.setChecked(false);
+            }else if(idItem == ConstantsNavigatorView.INDICE_MENU_FAVORITOS){
+
+            }else if(idItem == ConstantsNavigatorView.INDICE_MENU_ALARMA){
+
+            }else if(idItem == ConstantsNavigatorView.INDICE_MENU_PREFERENCIAS){
+
+            }else if(idItem == ConstantsNavigatorView.INDICE_MENU_RESERVAS){
+
+            }
         // TODO: hacer las acciones al clicker en el nav
 
         // Closing drawer on item click
@@ -184,30 +209,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      *********************************************************************************************/
 
     @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
-
-    }
+    public void onDrawerSlide(View drawerView, float slideOffset) {    }
 
     @Override
     public void onDrawerOpened(View drawerView) {
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        //SetEnable el boton de estacionar Aqui del Nav
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI);
+
         //SetEnable el boton de Alarma del Nav
         navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA);
-        //SetVisible los botones
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setVisible(ConstantsNavigatorView.VIEW_INDICE_MENU_VER_ESTACIONAMIENTO);
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setVisible(ConstantsNavigatorView.VIEW_INDICE_MENU_ESTACIONAR_AQUI);
+        //SetEnable el boton de estacionar Aqui del Nav
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI);
+        //SetNebale el btn ver donde estacione
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setEnabled(ConstantsNavigatorView.ENABLE__INDIACE_MENU_VER_ESTACIONAMIENTO);
     }
 
     @Override
-    public void onDrawerClosed(View drawerView) {
-
-    }
+    public void onDrawerClosed(View drawerView) {    }
 
     @Override
-    public void onDrawerStateChanged(int newState) {
-
-    }
+    public void onDrawerStateChanged(int newState) {    }
 }

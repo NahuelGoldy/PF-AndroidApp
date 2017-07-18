@@ -315,6 +315,16 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     /**-------------------------------------------------------------------*/
 
     /**
+     * Permite mover la camara a donde esta estacionado el vehiculo
+     */
+    public void verDondeEstaciono(){
+        Location auxLocation = new Location(ubicacionActual);
+        auxLocation.setLatitude(markerUltimoEstacionamiento.getPosition().latitude);
+        auxLocation.setLongitude(markerUltimoEstacionamiento.getPosition().longitude);
+        enfocarMapaEnUbicacion(auxLocation,18f);
+    }
+
+    /**
      * Marca la salida del estacionamiento y elimina el marcador
      * @param marcadorSalida
      */
@@ -367,6 +377,8 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             }else {
                 estCalle.setEnLaCalle(false);
                 //Seteo un icono distinto al marker del estacionamiento donde el tipo estaciono
+
+                markerEstacionamiento.setIcon(BitmapDescriptorFactory.defaultMarker());
                 markerEstacionamiento.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento_dondeestaciono));
             }
 
@@ -409,8 +421,8 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 msg = getResources().getString(R.string.menuOptDondeEstacione);
 
                 //TODO Setear eneable o disable los botones del menu lateral segun corresponda
-                ConstantsNavigatorView.VIEW_INDICE_MENU_ESTACIONAR_AQUI = false;
-                ConstantsNavigatorView.VIEW_INDICE_MENU_VER_ESTACIONAMIENTO = true;
+                ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI = false;
+                ConstantsNavigatorView.ENABLE__INDIACE_MENU_VER_ESTACIONAMIENTO= true;
                 ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA = true;
 
             }
@@ -864,8 +876,8 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                     btnSalidaEntrada.setText(msgSalidaEstacionamiento);
 
                     //TODO Setear enable o disable segun corresponda los botones del menu desplegable
-                    ConstantsNavigatorView.VIEW_INDICE_MENU_VER_ESTACIONAMIENTO = true;
-                    ConstantsNavigatorView.VIEW_INDICE_MENU_ESTACIONAR_AQUI = false;
+                    ConstantsNavigatorView.ENABLE__INDIACE_MENU_VER_ESTACIONAMIENTO = true;
+                    ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI = false;
                     ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA = true;
                     dialogTest.dismiss();
                 }
@@ -888,8 +900,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
                         ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA = false;
                         ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI = true;
-                        ConstantsNavigatorView.VIEW_INDICE_MENU_ESTACIONAR_AQUI = true;
-                        ConstantsNavigatorView.VIEW_INDICE_MENU_VER_ESTACIONAMIENTO = false;
+                        ConstantsNavigatorView.ENABLE__INDIACE_MENU_VER_ESTACIONAMIENTO= false;
                         dialogTest.dismiss();
                     }
                     marcarSalidaEstacionamiento(marcadorSelected);
