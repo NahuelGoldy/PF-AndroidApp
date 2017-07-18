@@ -32,7 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
 
     /** Booleano que sirve para identificar si pulsó dos veces para salir */
     boolean doubleBackToExitPressedOnce = false;
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Create Navigation drawer and inflate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        mDrawerLayout.setDrawerListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         //SetEnable el boton de estacionar Aqui del Nav
         navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(true);
@@ -101,17 +102,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         } else if (id == android.R.id.home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-            //SetEnable el boton de estacionar Aqui del Nav
-            navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI);
-            //SetEnable el boton de Alarma del Nav
-            navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA);
-
-            navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setVisible(ConstantsNavigatorView.VIEW_INDICE_MENU_VER_ESTACIONAMIENTO);
-            navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setVisible(ConstantsNavigatorView.VIEW_INDICE_MENU_ESTACIONAR_AQUI);
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -185,4 +179,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /********************************************************************************************
+     * Listeners del Drawer - Para manejar el Nav, saber cuando abre y cierra, ect.
+     *********************************************************************************************/
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //SetEnable el boton de estacionar Aqui del Nav
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI);
+        //SetEnable el boton de Alarma del Nav
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA);
+        //SetVisible los botones
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setVisible(ConstantsNavigatorView.VIEW_INDICE_MENU_VER_ESTACIONAMIENTO);
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setVisible(ConstantsNavigatorView.VIEW_INDICE_MENU_ESTACIONAR_AQUI);
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
+    }
 }

@@ -214,6 +214,10 @@ public class UbicacionVehiculoEstacionadoDAO {
         JSONObject baseDeDatos;
         String jsonStringBaseDeDatos;
         String msg;
+
+        System.out.println("################################################################");
+        System.out.println("METODO GUARDAR UBICACION");
+        System.out.println("################################################################");
         try {
             vehiculo = new JSONObject(jsonStringVehiculo);
             jsonStringBaseDeDatos = dbManagerLocal.getArchivo(UBICACION_VEHICULO_FILENAME,context);
@@ -221,6 +225,9 @@ public class UbicacionVehiculoEstacionadoDAO {
             /** TODO Esto hay que cambiarlo a futuro en el caso de que hagamos herencia con los tipos de estacionamientos */
             baseDeDatos.getJSONArray("estacionamientosCalle").put(vehiculo);
             jsonStringBaseDeDatos = baseDeDatos.toString();
+            System.out.println("################################################################");
+            System.out.println("ARRANCO A GUARDAR LOCAL");
+            System.out.println("################################################################");
             dbManagerLocal.guardarArchivo(jsonStringBaseDeDatos,UBICACION_VEHICULO_FILENAME,context);
         }
         catch (FileSaverException e) {

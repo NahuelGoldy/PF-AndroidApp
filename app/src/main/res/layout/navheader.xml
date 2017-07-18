@@ -21,12 +21,6 @@
     android:gravity="bottom"
     android:padding="@dimen/md_keylines">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:src="@drawable/icn_notif" />
 
     <TextView
         android:layout_width="match_parent"
