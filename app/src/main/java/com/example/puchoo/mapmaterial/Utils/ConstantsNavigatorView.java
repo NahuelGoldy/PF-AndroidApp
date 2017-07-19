@@ -24,4 +24,15 @@ public final class ConstantsNavigatorView {
     public static boolean ENABLE__INDICE_MENU_RESERVAS = true;
     public static boolean ENABLE__INDICE_MENU_PREFERENCIAS = true;
     public static boolean ENABLE__INDIACE_MENU_VER_ESTACIONAMIENTO = false;
+
+    /**
+     * String de Tittles
+     */
+
+    public static String MENU_ESTACIONAR_AQUI = "Estacionar Aquí";
+    public static String MENU_VER_ESTACIONAMIENTO = "Ver donde estacione";
+    public static String MENU_FAVORITOS = "Favoritos";
+    public static String MENU_ALARMA = "Alarma";
+    public static String MENU_RESERVAS = "Reservas";
+    public static String MENU_PREFERENCIAS = "Preferencias";
 }

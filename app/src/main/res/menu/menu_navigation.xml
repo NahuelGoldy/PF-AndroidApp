@@ -23,7 +23,7 @@
         <item
             android:icon="@drawable/icn_notif"
             android:tint="@color/button_grey"
-            android:title="Ver Donde Estacione"
+            android:title="Ver donde estacione"
             />
         <item
             android:icon="@drawable/ic_favorite_black_24dp"

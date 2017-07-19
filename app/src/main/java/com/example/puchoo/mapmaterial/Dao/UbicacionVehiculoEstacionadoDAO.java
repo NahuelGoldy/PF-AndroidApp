@@ -2,7 +2,9 @@ package com.example.puchoo.mapmaterial.Dao;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Address;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.puchoo.mapmaterial.Exceptions.FileSaverException;
@@ -11,11 +13,13 @@ import com.example.puchoo.mapmaterial.Modelo.UbicacionVehiculoEstacionado;
 import com.example.puchoo.mapmaterial.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -23,11 +27,14 @@ import java.util.ArrayList;
  */
 
 public class UbicacionVehiculoEstacionadoDAO {
+
     private static UbicacionVehiculoEstacionadoDAO ourInstance = new UbicacionVehiculoEstacionadoDAO();
+    private static final String STRING_SHARED_PREF = "ubicacionAutoEstacionado"; //Nombre para guardar las shared pref
+    private static final int MODO_AUXILIAR = 3; // Los datos se guardan con sharedPreference
     private static final int MODO_PERSISTENCIA_MIXTA = 2;  // Los datos se almacenan en la api rest y en local
     private static final int MODO_PERSISTENCIA_LOCAL = 1;  // Los datos se almacenan solamente en la bdd local
     private static final int MODO_PERSISTENCIA_REMOTA = 0; // Los datos se almacenan solamente en la nube
-    private static int MODO_PERSISTENCIA_CONFIGURADA = MODO_PERSISTENCIA_MIXTA; // Como default es mixta
+    private static int MODO_PERSISTENCIA_CONFIGURADA = MODO_AUXILIAR; // Como default es mixta
     private static boolean usarApiRest = false; // default false
     private static final LocalDBManager dbManagerLocal = LocalDBManager.getInstance(); // Clase que se encarga del almacenamiento local
     private static final String TAG = "UbicacionVehiculoDAO";
@@ -66,10 +73,25 @@ public class UbicacionVehiculoEstacionadoDAO {
                 /* TODO - IMPLEMENTAR SI ES NECESARIO */
                 break;
             }
+            case MODO_AUXILIAR: {
+                return getUbicacionVehiculoSharedPref();
+            }
         }
         return null;
     }
-    
+
+    private UbicacionVehiculoEstacionado getUbicacionVehiculoSharedPref() {
+        UbicacionVehiculoEstacionado ubicacionVehiculo = new UbicacionVehiculoEstacionado();
+        Type type = new TypeToken<UbicacionVehiculoEstacionado>() {}.getType();
+        String ubicacionAutoEstacionado = PreferenceManager.getDefaultSharedPreferences(this.context)
+                .getString(STRING_SHARED_PREF,"");
+        ubicacionVehiculo = gson.fromJson(ubicacionAutoEstacionado,type);
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        System.out.println(ubicacionVehiculo);
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        return ubicacionVehiculo;
+    }
+
     private UbicacionVehiculoEstacionado getUbicacionVehiculoLocal(Integer idUsuario,Long fechaIngreso) throws UbicacionVehiculoException {
         ArrayList<UbicacionVehiculoEstacionado> ubicacionesUsuario;
         ubicacionesUsuario = listarUbicacionVehiculoEstacionadoLocal(idUsuario);
@@ -191,6 +213,7 @@ public class UbicacionVehiculoEstacionadoDAO {
      */
     public void guardarOActualizarUbicacionVehiculo(UbicacionVehiculoEstacionado ubicacionVehiculo, Context context) throws UbicacionVehiculoException {
         this.context = context;
+
         switch(MODO_PERSISTENCIA_CONFIGURADA){
             case MODO_PERSISTENCIA_LOCAL:{
                 guardarUbicacionVehiculoLocal(ubicacionVehiculo);
@@ -205,7 +228,28 @@ public class UbicacionVehiculoEstacionadoDAO {
                 guardarUbicacionVehiculoRemoto(ubicacionVehiculo);
                 break;
             }
+            case MODO_AUXILIAR: {
+                guardarUbicacionVehiculoSharedPref(ubicacionVehiculo);
+                break;
+            }
         }
+    }
+
+    /**
+     * Permite guardar la ubicacion del ultimo estacionamiento en SharedPref - Es temporal
+     * @param ubicacionVehiculo
+     */
+    private void guardarUbicacionVehiculoSharedPref(UbicacionVehiculoEstacionado ubicacionVehiculo) {
+        String jsonStringVehiculo = gson.toJson(ubicacionVehiculo);
+        PreferenceManager.getDefaultSharedPreferences(this.context).edit()
+                .putString(STRING_SHARED_PREF, jsonStringVehiculo)
+                .apply();
+
+        System.out.println("#################################");
+        System.out.println("GUARDADO TEMPORAL EN SHAREDPREF");
+        System.out.println("#################################");
+        String msg = context.getResources().getString(R.string.fileSaverAlmacenExitoso);
+        Log.v(TAG,msg);
     }
 
     private void guardarUbicacionVehiculoLocal(UbicacionVehiculoEstacionado ubicacionVehiculo) throws UbicacionVehiculoException {
@@ -315,6 +359,10 @@ public class UbicacionVehiculoEstacionadoDAO {
     /** TODO - Comprobar que devuelve realmente la ultima ubicacion */
     public UbicacionVehiculoEstacionado getUltimaUbicacionVehiculo(Integer idUsuario, Context context){
         this.context = context;
+        System.out.println("################################");
+        System.out.println("GET UBICACION");
+        System.out.println("################################");
+
         switch(MODO_PERSISTENCIA_CONFIGURADA){
             case MODO_PERSISTENCIA_LOCAL:{
                 return getUltimaUbicacionVehiculoLocal(idUsuario);
@@ -323,11 +371,15 @@ public class UbicacionVehiculoEstacionadoDAO {
                 return getUltimaUbicacionVehiculoRemoto(idUsuario);
             }
             case MODO_PERSISTENCIA_MIXTA:{
-                /** TODO - IMPLEMENTAR SI ES NECESARIO */
+                /** TODO - IMPLEMENTAR SI ES NECESARIO **/
                 break;
+            }
+            case MODO_AUXILIAR:{
+                return getUbicacionVehiculoSharedPref();
             }
         }
         return null;
+
     }
 
     private UbicacionVehiculoEstacionado getUltimaUbicacionVehiculoLocal(Integer idUsuario){

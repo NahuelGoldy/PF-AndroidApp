@@ -86,7 +86,7 @@ import java.util.Set;
 public class ListContentFragment extends Fragment implements TimePicker.OnTimeChangedListener, NavigationView.OnNavigationItemSelectedListener,
         GoogleMap.OnInfoWindowClickListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, AddressResultReceiver.Receiver,ResultCallback,
-        View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback, OnMapReadyCallback{
+        View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback, OnMapReadyCallback, GoogleMap.OnMapLongClickListener{
 
     MapView mMapView;
 
@@ -226,7 +226,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             googleMap.setOnInfoWindowClickListener(this);
             googleMap.setInfoWindowAdapter(ventanaInfo);
             marcarEstacionamientos();
-           // TODO estCalle = cargarUltimoEstacionamiento(ID_USUARIO_ACTUAL);
+            estCalle = cargarUltimoEstacionamiento(ID_USUARIO_ACTUAL);
             enfocarMapaEnUbicacion(ubicacionActual, 16f);
         }
         else enfocarMapaEnUbicacion(ubicacionActual, 16f);
@@ -285,6 +285,8 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
         if(!estacionamiento.getEnLaCalle()){
             marker.setVisible(false);
+        } else {
+            marker.setTitle("Su vehiculo esta aquí.");
         }
          /* Objeto que permite generar eventos de aproximacion al radio del marcador */
         Geofence.Builder geof = new Geofence.Builder();
@@ -315,6 +317,20 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     /**-------------------------------------------------------------------*/
 
     /**
+     * Permite estacionar en la posicion actual desde el Nav
+     **/
+    public void estacionarAqui(){
+        LatLng latLngActual = new LatLng(ubicacionActual.getLatitude(),ubicacionActual.getLongitude());
+        estacionarEnParque(latLngActual);
+
+        //Seteo true la bandera que indica que estaciono - se utiliza para los botones
+        lugarEstacionamientoGuardado = true;
+        //Configuro los botones del nav
+        ConstantsNavigatorView.ENABLE__INDIACE_MENU_VER_ESTACIONAMIENTO = true;
+        ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI = false;
+        ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA = true;
+    }
+    /**
      * Permite mover la camara a donde esta estacionado el vehiculo
      */
     public void verDondeEstaciono(){
@@ -339,13 +355,20 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             /* Elimino la alarma que se asocia al estacionamiento del usuario */
             eliminarAlarma(markerUltimoEstacionamiento);
             actualizarUbicacionPersistida(ubicacionVehiculo);
-            //marcadorSalida.remove();
         }
         catch (UbicacionVehiculoException e) {
             msg = getResources().getString(R.string.errorProducidoIntenteNuevamente);
             Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
         }
 
+        //Seteo el icono normal
+        if(marcadorSalida.getPosition().equals(markerUltimoEstacionamiento.getPosition()) && !estCalle.getEnLaCalle()) {
+            marcadorSalida.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento));
+        }
+        //Si estaciono en la calle remuevo el marker cuando se va
+        if(estCalle.getEnLaCalle()){
+            markerUltimoEstacionamiento.remove();
+        }
         markerUltimoEstacionamiento = null;
         estCalle = null;
         this.lugarEstacionamientoGuardado = false;
@@ -377,8 +400,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             }else {
                 estCalle.setEnLaCalle(false);
                 //Seteo un icono distinto al marker del estacionamiento donde el tipo estaciono
-
-                markerEstacionamiento.setIcon(BitmapDescriptorFactory.defaultMarker());
                 markerEstacionamiento.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento_dondeestaciono));
             }
 
@@ -395,27 +416,36 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             persistirUbicacion(estCalle);
         }
         mAddressRequested = true;
-
     }
 
     /** Permite cargar el ultimo estacionamiento en el mapa del usuario */
     public UbicacionVehiculoEstacionado cargarUltimoEstacionamiento(int idUsuario){
         UbicacionVehiculoEstacionado ultimoEst = ubicacionVehiculoDAO.getUltimaUbicacionVehiculo(idUsuario,getContext());
         String msg;
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        System.out.println(ultimoEst);
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
         if(ultimoEst !=null) {
+            System.out.println("*******************************");
+            System.out.println("PASO EL IF");
+            System.out.println("*******************************");
+
             /* Si no hay hora de egreso es porque no se produjo, y por lo tanto lo agrego como ubicacion del vehiculo */
             if(ultimoEst.getHoraEgreso() == null ){
+                System.out.println("*******************************");
+                System.out.println("PASO EL IF2");
+                System.out.println("*******************************");
                 /* TODO - una implementacion mejor tendria en cuenta otra condicion para el if: que el tiempo actual vs el tiempo
                 de ingreso sea chico, si paso mucho tiempo significa que se olvido de marcar el egreso y por lo tanto habria
                 que marcar el egreso y no poner el marcador
                 */
-                Marker marcadorAux = buscarMarker(markerUltimoEstacionamiento.getPosition());
+                Marker marcadorAux = buscarMarker(ultimoEst.getCoordenadas());
                 if(marcadorAux != null) {
                     marcadorAux.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento_dondeestaciono));
-                } else{
-                    markerUltimoEstacionamiento = agregarMarcadorEstacionamiento(ultimoEst);
                 }
-                // agregarAlarma(markerUltimoEstacionamiento);
+                markerUltimoEstacionamiento = agregarMarcadorEstacionamiento(ultimoEst);
+                //agregarAlarma(markerUltimoEstacionamiento);
                 generarVentanaRecordatorioEstacionamiento(markerUltimoEstacionamiento);
                 this.lugarEstacionamientoGuardado = true;
                 msg = getResources().getString(R.string.menuOptDondeEstacione);
@@ -889,8 +919,12 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                         Location lugarEstacionado = new Location(ubicacionActual);
 
                         //Cambia el icono al comun de todos lso estacionamientos
-                        if(marcadorSelected.getPosition().equals(markerUltimoEstacionamiento.getPosition())) {
+                        if(marcadorSelected.getPosition().equals(markerUltimoEstacionamiento.getPosition()) && !estCalle.getEnLaCalle()) {
                             marcadorSelected.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento));
+                        }
+                        //Si estaciono en la calle remuevo el marker cuando se va
+                        if(estCalle.getEnLaCalle()){
+                            markerUltimoEstacionamiento.remove();
                         }
                         lugarEstacionado.setLatitude(estCalle.getCoordenadas().latitude);
                         lugarEstacionado.setLongitude(estCalle.getCoordenadas().longitude);
@@ -953,5 +987,8 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         //this.googleMap.setOnInfoWindowClickListener(this);
         addGoogleApi();
     }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {    }
 
 }

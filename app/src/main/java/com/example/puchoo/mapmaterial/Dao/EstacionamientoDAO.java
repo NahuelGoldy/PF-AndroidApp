@@ -345,7 +345,7 @@ public class EstacionamientoDAO {
         Estacionamientos[3].setNombreEstacionamiento("NOMBRE: Garage y Lavadero Sarsotti");
         Estacionamientos[3].setHorarios("HORARIOS: Lun-Vie de 8hs a 20hs, Sáb de 9hs a 18hs");
         Estacionamientos[3].setTarifaEstacionamiento("TARIFA: $20/hs");
-        Estacionamientos[3].setPosicionEstacionamiento(new LatLng(-31.651290, -60.710671));
+        Estacionamientos[3].setPosicionEstacionamiento(new LatLng(-31.651290, -60.710682));
         Estacionamientos[3].setTelefono("458-2757");
         Estacionamientos[3].setEsTechado(true);
         Estacionamientos[3].setAceptaTarjetas(false);

@@ -117,27 +117,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Set item in checked state
-        Integer idItem = item.getItemId();
-        System.out.println("***************************************");
-        System.out.println(idItem);
-
-            if(idItem == ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI){
-
-            }else if (idItem == ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO){
+        String title = item.getTitle().toString();
+            if(title.equals(ConstantsNavigatorView.MENU_ESTACIONAR_AQUI)){
+                System.out.println("CLICKEO ESTACIONAR AQUI");
+                mapFragment.estacionarAqui();
+                item.setChecked(false); //Para que no quede como "clikeado" - No funciono igual
+            }else if (title.equals(ConstantsNavigatorView.MENU_VER_ESTACIONAMIENTO)){
                 System.out.println("CLICKEO VER ESTACIONAMIENTO");
                 mapFragment.verDondeEstaciono();
                 item.setChecked(false);
-            }else if(idItem == ConstantsNavigatorView.INDICE_MENU_FAVORITOS){
-
-            }else if(idItem == ConstantsNavigatorView.INDICE_MENU_ALARMA){
-
-            }else if(idItem == ConstantsNavigatorView.INDICE_MENU_PREFERENCIAS){
-
-            }else if(idItem == ConstantsNavigatorView.INDICE_MENU_RESERVAS){
-
+            }else if(title.equals(ConstantsNavigatorView.MENU_FAVORITOS)){
+                System.out.println("CLICKEO FAVORITOS");
+                item.setChecked(false);
+            }else if(title.equals(ConstantsNavigatorView.MENU_ALARMA)){
+                System.out.println("CLICKEO ALARMA");
+                item.setChecked(false);
+            }else if(title.equals(ConstantsNavigatorView.MENU_PREFERENCIAS)){
+                System.out.println("CLICKEO PREFERENCIAS");
+                item.setChecked(false);
+            }else if(title.equals(ConstantsNavigatorView.MENU_RESERVAS)){
+                System.out.println("CLICKEO RESERVAS");
+                item.setChecked(false);
             }
-        // TODO: hacer las acciones al clicker en el nav
-
         // Closing drawer on item click
         mDrawerLayout.closeDrawers();
         return true;
