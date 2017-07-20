@@ -41,9 +41,10 @@ class LocalDBManager {
         String resultado = null;
         String msg = context.getResources().getString(R.string.fileSaverErrorLecturaLocal);
         DAOCallable getArchivoCallable = new DAOCallable(null,fileName,context, METODO_GET_ARCHIVO);
+
         future = tareaFileSaver.submit(getArchivoCallable);
         try {
-            while (!future.isDone()) {            }
+            while (!future.isDone()) {     }
             resultado = (String) future.get();
         }
         catch (InterruptedException e) {

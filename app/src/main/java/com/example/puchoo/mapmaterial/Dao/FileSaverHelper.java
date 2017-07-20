@@ -13,10 +13,16 @@ import com.example.puchoo.mapmaterial.R;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+import static android.content.Context.MODE_APPEND;
 
 /**
  * Clase que permite guardar informacion en almacenamiento interno o externo aislando el comportamiento
@@ -132,14 +138,14 @@ public class FileSaverHelper {
                 contexto = context;
                 msg = contexto.getResources().getString(R.string.fileSaverInicioEscrituraExterna);
                 Log.v(TAG,msg);
-                guardarArchivoMemoriaExterna(objeto,nombre,Activity.MODE_APPEND);
+                guardarArchivoMemoriaExterna(objeto,nombre, MODE_APPEND);
                 break;
             }
             case MEMORIA_INTERNA:{
                 contexto=context;
                 msg = contexto.getResources().getString(R.string.fileSaverInicioEscrituraInterna);
                 Log.v(TAG,msg);
-                guardarArchivoMemoriaInterna(objeto,nombre,Activity.MODE_APPEND);
+                guardarArchivoMemoriaInterna(objeto,nombre, MODE_APPEND);
                 break;
             }
             default:
@@ -174,6 +180,7 @@ public class FileSaverHelper {
                 msg = contexto.getResources().getString(R.string.fileSaverInicioLecturaInterna);
                 Log.v(TAG,msg);
                 objet = getArchivoMemoriaInterna(nombre);
+
                 break;
             }
             default:
@@ -201,6 +208,19 @@ public class FileSaverHelper {
         FileInputStream mInput;
         String jsonString=null,msg;
         JSONObject objeto;
+        /*
+        File file = contexto.getFileStreamPath(fileName);
+        try {
+            if (!file.exists()){
+                FileOutputStream fou = contexto.openFileOutput(fileName, MODE_APPEND);
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fou);
+                //outputStreamWriter.write("");
+                outputStreamWriter.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
         try{
             mInput = contexto.openFileInput(fileName);
             size = mInput.available();
@@ -214,6 +234,7 @@ public class FileSaverHelper {
         catch(FileNotFoundException e){
             msg = contexto.getResources().getString(R.string.fileSaverErrorLecturaFileNotFound);
             Log.v(TAG,msg);
+            e.printStackTrace();
             throw new FileSaverException(msg);
         }
         catch(IOException e){

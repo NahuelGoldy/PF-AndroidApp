@@ -1,8 +1,6 @@
 package com.example.puchoo.mapmaterial;
 
 
-import android.app.Dialog;
-import android.location.Location;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -17,17 +15,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.Utils.ConstantsNavigatorView;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +111,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Set item in checked state
         String title = item.getTitle().toString();
+        System.out.println("################################");
+        System.out.println(item.getItemId());
+        System.out.println("################################");
+
             if(title.equals(ConstantsNavigatorView.MENU_ESTACIONAR_AQUI)){
                 System.out.println("CLICKEO ESTACIONAR AQUI");
                 mapFragment.estacionarAqui();
@@ -217,11 +214,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         //SetEnable el boton de Alarma del Nav
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(ConstantsNavigatorView.ENABLE__INDICE_MENU_ALARMA);
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(ConstantsNavigatorView.ENABLE_INDICE_MENU_ALARMA);
         //SetEnable el boton de estacionar Aqui del Nav
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(ConstantsNavigatorView.ENABLE__INDICE_MENU_ESTACIONAR_AQUI);
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI);
         //SetNebale el btn ver donde estacione
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setEnabled(ConstantsNavigatorView.ENABLE__INDIACE_MENU_VER_ESTACIONAMIENTO);
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setEnabled(ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO);
     }
 
     @Override

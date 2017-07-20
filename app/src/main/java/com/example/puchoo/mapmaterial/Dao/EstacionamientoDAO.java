@@ -232,6 +232,11 @@ public class EstacionamientoDAO {
             Gson myGson = new Gson();
             jsonStringBaseDeDatos = fileSaver.getArchivo(LISTA_ESTACIONAMIENTOS_FILENAME,context);
             Type type = new TypeToken<List<Estacionamiento>>() {}.getType();
+
+            System.out.println("8==============================D");
+            System.out.println(jsonStringBaseDeDatos);
+            System.out.println("8==============================D");
+
             List<Estacionamiento> estacionamientosList = myGson.fromJson(jsonStringBaseDeDatos, type);
 
             for (Estacionamiento e : estacionamientosList) {

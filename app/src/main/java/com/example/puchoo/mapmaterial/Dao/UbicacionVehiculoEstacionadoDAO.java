@@ -34,7 +34,7 @@ public class UbicacionVehiculoEstacionadoDAO {
     private static final int MODO_PERSISTENCIA_MIXTA = 2;  // Los datos se almacenan en la api rest y en local
     private static final int MODO_PERSISTENCIA_LOCAL = 1;  // Los datos se almacenan solamente en la bdd local
     private static final int MODO_PERSISTENCIA_REMOTA = 0; // Los datos se almacenan solamente en la nube
-    private static int MODO_PERSISTENCIA_CONFIGURADA = MODO_AUXILIAR; // Como default es mixta
+    private static int MODO_PERSISTENCIA_CONFIGURADA = MODO_PERSISTENCIA_LOCAL; // Como default es mixta
     private static boolean usarApiRest = false; // default false
     private static final LocalDBManager dbManagerLocal = LocalDBManager.getInstance(); // Clase que se encarga del almacenamiento local
     private static final String TAG = "UbicacionVehiculoDAO";
@@ -82,13 +82,11 @@ public class UbicacionVehiculoEstacionadoDAO {
 
     private UbicacionVehiculoEstacionado getUbicacionVehiculoSharedPref() {
         UbicacionVehiculoEstacionado ubicacionVehiculo = new UbicacionVehiculoEstacionado();
-        Type type = new TypeToken<UbicacionVehiculoEstacionado>() {}.getType();
+        Type type = new TypeToken<UbicacionVehiculoEstacionado>(){}.getType();
         String ubicacionAutoEstacionado = PreferenceManager.getDefaultSharedPreferences(this.context)
                 .getString(STRING_SHARED_PREF,"");
         ubicacionVehiculo = gson.fromJson(ubicacionAutoEstacionado,type);
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        System.out.println(ubicacionVehiculo);
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
         return ubicacionVehiculo;
     }
 
@@ -241,13 +239,11 @@ public class UbicacionVehiculoEstacionadoDAO {
      */
     private void guardarUbicacionVehiculoSharedPref(UbicacionVehiculoEstacionado ubicacionVehiculo) {
         String jsonStringVehiculo = gson.toJson(ubicacionVehiculo);
+
         PreferenceManager.getDefaultSharedPreferences(this.context).edit()
                 .putString(STRING_SHARED_PREF, jsonStringVehiculo)
                 .apply();
 
-        System.out.println("#################################");
-        System.out.println("GUARDADO TEMPORAL EN SHAREDPREF");
-        System.out.println("#################################");
         String msg = context.getResources().getString(R.string.fileSaverAlmacenExitoso);
         Log.v(TAG,msg);
     }
@@ -265,8 +261,12 @@ public class UbicacionVehiculoEstacionadoDAO {
         try {
             vehiculo = new JSONObject(jsonStringVehiculo);
             jsonStringBaseDeDatos = dbManagerLocal.getArchivo(UBICACION_VEHICULO_FILENAME,context);
+
+            System.out.println("CCARLOS MENENMMMMMMMM");
+            System.out.println("CCARLOS MENENMMMMMMMM");
+
             baseDeDatos = new JSONObject(jsonStringBaseDeDatos);
-            /** TODO Esto hay que cambiarlo a futuro en el caso de que hagamos herencia con los tipos de estacionamientos */
+
             baseDeDatos.getJSONArray("estacionamientosCalle").put(vehiculo);
             jsonStringBaseDeDatos = baseDeDatos.toString();
             System.out.println("################################################################");
@@ -275,9 +275,17 @@ public class UbicacionVehiculoEstacionadoDAO {
             dbManagerLocal.guardarArchivo(jsonStringBaseDeDatos,UBICACION_VEHICULO_FILENAME,context);
         }
         catch (FileSaverException e) {
+            System.out.println("MARCIANOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSS");
+            System.out.println("MARCIANOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSS");
+            System.out.println("1");
+            e.printStackTrace();
             Log.v(TAG,e.getMessage());
         }
         catch (JSONException e){
+            System.out.println("MARCIANOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSS");
+            System.out.println("MARCIANOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSS");
+            System.out.println("2");
+            e.printStackTrace();
             msg = context.getResources().getString(R.string.fileSaverErrorEscrituraLocal);
             Log.v(TAG,msg);
             throw new UbicacionVehiculoException(msg);
@@ -389,7 +397,11 @@ public class UbicacionVehiculoEstacionadoDAO {
         JSONObject iterador;
         UbicacionVehiculoEstacionado iteradorObject = null;
         try {
-            baseDeDatos = new JSONObject(dbManagerLocal.getArchivo(UBICACION_VEHICULO_FILENAME,context));
+            String baseDeDatosString = dbManagerLocal.getArchivo(UBICACION_VEHICULO_FILENAME,context);
+            if(baseDeDatosString.isEmpty()){
+                System.out.println("MACRRIIII GATOO");
+            }
+            baseDeDatos = new JSONObject(baseDeDatosString);
             listaEstacionamientos = baseDeDatos.getJSONArray("estacionamientosCalle");
             for(int i = listaEstacionamientos.length()-1; i>=0;i--){ // Como el file esta ordenado con los ultimos elementos al final, arranco por atras
                 iterador = ((JSONObject) listaEstacionamientos.get(i));
