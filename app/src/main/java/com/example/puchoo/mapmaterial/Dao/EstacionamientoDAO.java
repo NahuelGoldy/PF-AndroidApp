@@ -207,7 +207,7 @@ public class EstacionamientoDAO {
      * @return
      */
     /** TODO CAMBIAR FIRMA */
-    private ArrayList<Estacionamiento> listarEstacionamientos(/*Integer idUsuario,*/Context context) throws EstacionamientoException {
+    public ArrayList<Estacionamiento> listarEstacionamientos(/*Integer idUsuario,*/Context context) throws EstacionamientoException {
         this.context = context;
         switch(MODO_PERSISTENCIA_CONFIGURADA){
             case MODO_PERSISTENCIA_LOCAL:{
@@ -232,10 +232,6 @@ public class EstacionamientoDAO {
             Gson myGson = new Gson();
             jsonStringBaseDeDatos = fileSaver.getArchivo(LISTA_ESTACIONAMIENTOS_FILENAME,context);
             Type type = new TypeToken<List<Estacionamiento>>() {}.getType();
-
-            System.out.println("8==============================D");
-            System.out.println(jsonStringBaseDeDatos);
-            System.out.println("8==============================D");
 
             List<Estacionamiento> estacionamientosList = myGson.fromJson(jsonStringBaseDeDatos, type);
 

@@ -110,32 +110,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Set item in checked state
-        String title = item.getTitle().toString();
-        System.out.println("################################");
-        System.out.println(item.getItemId());
-        System.out.println("################################");
-
-            if(title.equals(ConstantsNavigatorView.MENU_ESTACIONAR_AQUI)){
+        switch(item.getItemId()){
+            case R.id.btnMenuEstacionarAqui:{
                 System.out.println("CLICKEO ESTACIONAR AQUI");
                 mapFragment.estacionarAqui();
                 item.setChecked(false); //Para que no quede como "clikeado" - No funciono igual
-            }else if (title.equals(ConstantsNavigatorView.MENU_VER_ESTACIONAMIENTO)){
+                break;
+            }
+            case R.id.btnMenuVerDondeEstacione:{
                 System.out.println("CLICKEO VER ESTACIONAMIENTO");
                 mapFragment.verDondeEstaciono();
                 item.setChecked(false);
-            }else if(title.equals(ConstantsNavigatorView.MENU_FAVORITOS)){
+                break;
+            }
+            case R.id.btnMenuFavoritos:{
                 System.out.println("CLICKEO FAVORITOS");
                 item.setChecked(false);
-            }else if(title.equals(ConstantsNavigatorView.MENU_ALARMA)){
+                break;
+            }
+            case R.id.btnMenuAlarma:{
                 System.out.println("CLICKEO ALARMA");
                 item.setChecked(false);
-            }else if(title.equals(ConstantsNavigatorView.MENU_PREFERENCIAS)){
+                break;
+            }
+            case R.id.btnMenuPreferenciasUsuario:{
                 System.out.println("CLICKEO PREFERENCIAS");
                 item.setChecked(false);
-            }else if(title.equals(ConstantsNavigatorView.MENU_RESERVAS)){
+                break;
+            }
+            case R.id.btnMenuReservasUsuario:{
                 System.out.println("CLICKEO RESERVAS");
                 item.setChecked(false);
+                break;
             }
+            default:{
+                break;
+            }
+        }
         // Closing drawer on item click
         mDrawerLayout.closeDrawers();
         return true;

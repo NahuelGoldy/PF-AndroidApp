@@ -8,4 +8,7 @@ public class FileSaverException extends Exception {
     public FileSaverException(String msg){
         super(msg);
     }
+    public FileSaverException(String msg,String cause){
+        super(msg);
+    }
 }

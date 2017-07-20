@@ -104,6 +104,7 @@ public class FileSaverHelper {
         FileOutputStream mOutput;
         if(objeto!=null) {
             try {
+                Log.v(TAG,"Guardando el archivo "+fileName+" en memoriaInterna");
                 mOutput = contexto.openFileOutput(fileName, modoGuardado);
                 mOutput.write(objeto.toString().getBytes());
                 mOutput.flush();
@@ -208,19 +209,6 @@ public class FileSaverHelper {
         FileInputStream mInput;
         String jsonString=null,msg;
         JSONObject objeto;
-        /*
-        File file = contexto.getFileStreamPath(fileName);
-        try {
-            if (!file.exists()){
-                FileOutputStream fou = contexto.openFileOutput(fileName, MODE_APPEND);
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fou);
-                //outputStreamWriter.write("");
-                outputStreamWriter.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
         try{
             mInput = contexto.openFileInput(fileName);
             size = mInput.available();
@@ -234,13 +222,13 @@ public class FileSaverHelper {
         catch(FileNotFoundException e){
             msg = contexto.getResources().getString(R.string.fileSaverErrorLecturaFileNotFound);
             Log.v(TAG,msg);
-            e.printStackTrace();
+            //e.printStackTrace();
             throw new FileSaverException(msg);
         }
         catch(IOException e){
             msg = contexto.getResources().getString(R.string.fileSaverErrorLecturaLocal);
             Log.v(TAG,msg);
-            throw new FileSaverException(msg);
+            throw new FileSaverException(msg,"ArchivoInexistente");
         }
         return jsonString;
     }

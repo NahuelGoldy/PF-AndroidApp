@@ -70,6 +70,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -124,7 +125,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     /** Dao que almacena ubicacion de vehiculos estacionados */
     private static final UbicacionVehiculoEstacionadoDAO ubicacionVehiculoDAO = UbicacionVehiculoEstacionadoDAO.getInstance();
 
-    /** Dao que almacena ubicacion de Estacionamientos */
+    /** Dao que almacena ubicacion de listaEstacionamientos */
     private static final EstacionamientoDAO estacionamientoDAO = EstacionamientoDAO.getInstance();
 
     /** Helper que administra la base de datos JSON LOCAL */
@@ -145,8 +146,9 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     /** Boton que permite switchear entre la lista de lugares y el mapa */
     FloatingActionButton fab;
 
-    /** Lista de Estacionamientos para marcar en el mapa */
-    private Estacionamiento[] Estacionamientos;
+    /** Lista de listaEstacionamientos para marcar en el mapa */
+    //private Estacionamiento[] listaEstacionamientos;
+    private ArrayList<Estacionamiento> listaEstacionamientos;
 
     /** Bandera que determina si se pidieron o no permisos */
     private Boolean flagPermisoPedido = false;
@@ -177,26 +179,23 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
         mMapView.onResume(); // needed to get the map to display immediately
 
+        String msgLog;
+
         //Aca hago el primer try para intentar leer el archivo que tiene la lista de estacionamientos
         //Si no existe, lo creo, lo lleno (harcodeado..!) y lo leo
 
-        /** TODO CAMBIAR ESTO */
-        /*try {
-            Estacionamientos = estacionamientoDAO.llenarEstacionamientos(getActivity());
+        try {
+            /** Levanto la lista de estacionamientos de archivo/nube/db **/
+            /** Cambiarlo en algun momento **/
+            estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
+            listaEstacionamientos = estacionamientoDAO.listarEstacionamientos(getActivity());
+            //listaEstacionamientos = estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
+            //listaEstacionamientos = estacionamientoDAO.llenarEstacionamientos(getActivity());
         }
-        catch (EstacionamientoException e) {
-            //TODO manejar la excepcion*/
-            String msgLog = "No se pudo leer el archivo";
+        catch (EstacionamientoException e1) {
+            msgLog = "Hubo un error al crear el archivo con la lista de listaEstacionamientos.";
             Log.v(TAG,msgLog);
-            try {
-                estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
-                Estacionamientos = estacionamientoDAO.llenarEstacionamientos(getActivity());
-            }
-            catch (EstacionamientoException e1) {
-                msgLog = "Hubo un error al crear el archivo con la lista de Estacionamientos.";
-                Log.v(TAG,msgLog);
-            }
-        //}
+        }
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -345,9 +344,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         String estacionarAqui = getResources().getString(R.string.menuOptEstacionarAqui);
         String dondeEstacione = getResources().getString(R.string.menuOptDondeEstacione);
         UbicacionVehiculoEstacionado ubicacionVehiculo = (UbicacionVehiculoEstacionado) markerUltimoEstacionamiento.getTag();
-        System.out.println("###############################################");
-        System.out.println(ubicacionVehiculo);
-        System.out.println("##############################################");
         ubicacionVehiculo.setHoraEgreso(System.currentTimeMillis());
 
         /* Elimino la alarma que se asocia al estacionamiento del usuario */
@@ -375,8 +371,14 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     }
 
     private void marcarEstacionamientos(){
-        for(int i=0; i<Estacionamientos.length;i++){
-            addMarker(Estacionamientos[i].getPosicionEstacionamiento(),(Estacionamientos[i].getNombreEstacionamiento()).substring(8),R.drawable.marker_estacionamiento);
+        Estacionamiento estIterador;
+        for(int i = 0; i< listaEstacionamientos.size(); i++){
+            estIterador = listaEstacionamientos.get(i);
+            addMarker(
+                    estIterador.getPosicionEstacionamiento(),
+                    (estIterador.getNombreEstacionamiento()).substring(8),
+                    R.drawable.marker_estacionamiento
+            );
         }
     }
 
@@ -421,20 +423,11 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     public UbicacionVehiculoEstacionado cargarUltimoEstacionamiento(int idUsuario){
         UbicacionVehiculoEstacionado ultimoEst = ubicacionVehiculoDAO.getUltimaUbicacionVehiculo(idUsuario,getContext());
         String msg;
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        System.out.println(ultimoEst);
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
         if(ultimoEst !=null) {
-            System.out.println("*******************************");
-            System.out.println("PASO EL IF");
-            System.out.println("*******************************");
 
             /* Si no hay hora de egreso es porque no se produjo, y por lo tanto lo agrego como ubicacion del vehiculo */
             if(ultimoEst.getHoraEgreso() == null ){
-                System.out.println("*******************************");
-                System.out.println("PASO EL IF2");
-                System.out.println("*******************************");
                 /* TODO - una implementacion mejor tendria en cuenta otra condicion para el if: que el tiempo actual vs el tiempo
                 de ingreso sea chico, si paso mucho tiempo significa que se olvido de marcar el egreso y por lo tanto habria
                 que marcar el egreso y no poner el marcador

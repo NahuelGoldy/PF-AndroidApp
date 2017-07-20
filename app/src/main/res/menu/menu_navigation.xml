@@ -19,31 +19,36 @@
             android:icon="@drawable/icn_globe"
             android:tint="@color/button_grey"
             android:title="Estacionar Aquí"
-            android:id="@+id/EstacionarAqui"/>
+            android:id="@+id/btnMenuEstacionarAqui"/>
         <item
             android:icon="@drawable/icn_notif"
             android:tint="@color/button_grey"
             android:title="Ver donde estacione"
+            android:id="@+id/btnMenuVerDondeEstacione"/>
             />
         <item
             android:icon="@drawable/ic_favorite_black_24dp"
             android:tint="@color/button_grey"
             android:title="Favoritos"
+            android:id="@+id/btnMenuFavoritos"/>
             />
         <item
             android:icon="@drawable/icn_menu_alarma"
             android:tint="@color/button_grey"
             android:title="Alarma"
+            android:id="@+id/btnMenuAlarma"/>
             />
     </group>
     <item android:title="Usuario">
         <menu>
             <item
                 android:title="Reservas"
-                android:icon="@drawable/icn_menu_info" />
+                android:icon="@drawable/icn_menu_info"
+                android:id="@+id/btnMenuReservasUsuario"/>
             <item
                 android:title="Preferencias"
-                android:icon="@drawable/icn_menu_settings" />
+                android:icon="@drawable/icn_menu_settings"
+                android:id="@+id/btnMenuPreferenciasUsuario"/>
         </menu>
     </item>
 </menu>

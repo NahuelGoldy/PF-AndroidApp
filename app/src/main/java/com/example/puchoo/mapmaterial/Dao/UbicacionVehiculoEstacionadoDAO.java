@@ -254,42 +254,52 @@ public class UbicacionVehiculoEstacionadoDAO {
         JSONObject baseDeDatos;
         String jsonStringBaseDeDatos;
         String msg;
-
-        System.out.println("################################################################");
-        System.out.println("METODO GUARDAR UBICACION");
-        System.out.println("################################################################");
         try {
+            /** Obtengo la Db local de ubicacion de vehiculo **/
+            jsonStringBaseDeDatos = obtenerDbUbicacionVehiculoLocal();
+            /** Luego de obtenida la DB Local de ubicacion de vehiculo, guardo la nueva ubicacion **/
             vehiculo = new JSONObject(jsonStringVehiculo);
-            jsonStringBaseDeDatos = dbManagerLocal.getArchivo(UBICACION_VEHICULO_FILENAME,context);
-
-            System.out.println("CCARLOS MENENMMMMMMMM");
-            System.out.println("CCARLOS MENENMMMMMMMM");
-
             baseDeDatos = new JSONObject(jsonStringBaseDeDatos);
-
             baseDeDatos.getJSONArray("estacionamientosCalle").put(vehiculo);
             jsonStringBaseDeDatos = baseDeDatos.toString();
-            System.out.println("################################################################");
-            System.out.println("ARRANCO A GUARDAR LOCAL");
-            System.out.println("################################################################");
             dbManagerLocal.guardarArchivo(jsonStringBaseDeDatos,UBICACION_VEHICULO_FILENAME,context);
+
         }
         catch (FileSaverException e) {
-            System.out.println("MARCIANOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSS");
-            System.out.println("MARCIANOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSS");
-            System.out.println("1");
             e.printStackTrace();
-            Log.v(TAG,e.getMessage());
+            msg = e.getMessage();
+            Log.v(TAG,msg);
+            throw new UbicacionVehiculoException(msg);
         }
         catch (JSONException e){
-            System.out.println("MARCIANOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSS");
-            System.out.println("MARCIANOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSS");
-            System.out.println("2");
             e.printStackTrace();
             msg = context.getResources().getString(R.string.fileSaverErrorEscrituraLocal);
             Log.v(TAG,msg);
             throw new UbicacionVehiculoException(msg);
         }
+    }
+
+    /**
+     * Obtiene la bd json de la ubicacion de los vehiculos del filesystem,
+     * si no hay una creada la crea
+     * @return
+     */
+    private String obtenerDbUbicacionVehiculoLocal() throws JSONException {
+        String jsonStringBaseDeDatos;
+        try {
+            /** Obtengo la base de datos json **/
+            jsonStringBaseDeDatos = dbManagerLocal.getArchivo(UBICACION_VEHICULO_FILENAME, context);
+        }
+        catch (FileSaverException e) {
+            /** Si el archivo de la BD no existe, lo creo **/
+            Log.v(TAG,"Creando DB Ubicacion actual");
+            JSONObject db = new JSONObject();
+            JSONArray listaEstacionamientosCalle = new JSONArray();
+            db.put("estacionamientosCalle",listaEstacionamientosCalle);
+            jsonStringBaseDeDatos = db.toString();
+            Log.v(TAG, e.getMessage());
+        }
+        return jsonStringBaseDeDatos;
     }
 
     /* TODO - Implementar */
@@ -367,9 +377,7 @@ public class UbicacionVehiculoEstacionadoDAO {
     /** TODO - Comprobar que devuelve realmente la ultima ubicacion */
     public UbicacionVehiculoEstacionado getUltimaUbicacionVehiculo(Integer idUsuario, Context context){
         this.context = context;
-        System.out.println("################################");
-        System.out.println("GET UBICACION");
-        System.out.println("################################");
+        Log.v(TAG,"Buscando ultima ubicacion donde estaciono el usuario");
 
         switch(MODO_PERSISTENCIA_CONFIGURADA){
             case MODO_PERSISTENCIA_LOCAL:{
@@ -398,9 +406,6 @@ public class UbicacionVehiculoEstacionadoDAO {
         UbicacionVehiculoEstacionado iteradorObject = null;
         try {
             String baseDeDatosString = dbManagerLocal.getArchivo(UBICACION_VEHICULO_FILENAME,context);
-            if(baseDeDatosString.isEmpty()){
-                System.out.println("MACRRIIII GATOO");
-            }
             baseDeDatos = new JSONObject(baseDeDatosString);
             listaEstacionamientos = baseDeDatos.getJSONArray("estacionamientosCalle");
             for(int i = listaEstacionamientos.length()-1; i>=0;i--){ // Como el file esta ordenado con los ultimos elementos al final, arranco por atras
@@ -418,17 +423,16 @@ public class UbicacionVehiculoEstacionadoDAO {
             Log.v(TAG,msg);
         }
         catch (FileSaverException e) {
-            e.printStackTrace();
             msg = e.getMessage();
             Log.v(TAG,msg);
         }
         catch(JSONException e){
-            e.printStackTrace();
             msg = context.getResources().getString(R.string.listaUbicacionVehiculosNotFound);
             Log.v(TAG,msg);
         }
         return iteradorObject;
     }
+
 
     /** TODO - Implementar */
     private UbicacionVehiculoEstacionado getUltimaUbicacionVehiculoRemoto(Integer idUsuario){ return null;}

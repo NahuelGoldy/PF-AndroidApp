@@ -40,7 +40,7 @@ class LocalDBManager {
     public String getArchivo(String fileName,Context context) throws FileSaverException {
         String resultado = null;
         String msg = context.getResources().getString(R.string.fileSaverErrorLecturaLocal);
-        DAOCallable getArchivoCallable = new DAOCallable(null,fileName,context, METODO_GET_ARCHIVO);
+        DAOCallable getArchivoCallable = new DAOCallable(fileName,context, METODO_GET_ARCHIVO);
 
         future = tareaFileSaver.submit(getArchivoCallable);
         try {
@@ -104,6 +104,12 @@ class LocalDBManager {
 
         public DAOCallable(String objeto,String fileName,Context context, String accionARealizar) {
             this.objeto=objeto;
+            this.fileName=fileName;
+            this.accionARealizar = accionARealizar;
+            this.context = context;
+        }
+
+        public DAOCallable(String fileName,Context context, String accionARealizar) {
             this.fileName=fileName;
             this.accionARealizar = accionARealizar;
             this.context = context;
