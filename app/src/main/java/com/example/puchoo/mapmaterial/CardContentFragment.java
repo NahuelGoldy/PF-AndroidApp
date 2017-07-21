@@ -7,6 +7,7 @@ package com.example.puchoo.mapmaterial;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,21 +30,52 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
+import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
+import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
+
+import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
+
 /**
  * Provides UI for the view with Cards.
  */
 public class CardContentFragment extends Fragment {
+
+    /** Lista de listaEstacionamientos */
+    private ArrayList<Estacionamiento> listaEstacionamientos;
+
+    /** Dao que almacena ubicacion de listaEstacionamientos */
+    private static final EstacionamientoDAO estacionamientoDAO = EstacionamientoDAO.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
+
+        /** Cargo la lista de estacionamientos para luego hacer las Card**/
+        cargarEstacionamientos();
+
+        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext(),listaEstacionamientos);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return recyclerView;
+    }
+
+    private void cargarEstacionamientos() {
+        try {
+            /** Levanto la lista de estacionamientos de archivo/nube/db **/
+            /** Cambiarlo en algun momento **/
+            estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
+            listaEstacionamientos = estacionamientoDAO.listarEstacionamientos(getActivity());
+        }
+        catch (EstacionamientoException e1) {
+            String msgLog = "Hubo un error al crear el archivo con la lista de listaEstacionamientos.";
+            Log.v(TAG,msgLog);
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -106,17 +138,32 @@ public class CardContentFragment extends Fragment {
         private final String[] mPlaces;
         private final String[] mPlaceDesc;
         private final Drawable[] mPlacePictures;
+        private ArrayList<Estacionamiento> listaEstContentAdapter;
 
-        public ContentAdapter(Context context) {
+        public ContentAdapter(Context context, ArrayList<Estacionamiento> listaEstacionamientos) {
             Resources resources = context.getResources();
-            //TODO Remplazarlos resources por peticiones al sv
-            mPlaces = resources.getStringArray(R.array.places);
-            mPlaceDesc = resources.getStringArray(R.array.place_desc);
-            TypedArray a = resources.obtainTypedArray(R.array.places_picture);
-            mPlacePictures = new Drawable[a.length()];
-            for (int i = 0; i < mPlacePictures.length; i++) {
-                mPlacePictures[i] = a.getDrawable(i);
+
+            /** Inicialiacion de variables**/
+            listaEstContentAdapter = listaEstacionamientos;
+            mPlaces = new String[listaEstContentAdapter.size()];
+            mPlaceDesc = new String[listaEstContentAdapter.size()];
+            mPlacePictures = new Drawable[listaEstContentAdapter.size()];
+
+            //TODO Remplazarlos resources por peticiones al sv para no iterar tanto
+            int i = 0;
+            for(Estacionamiento e : listaEstContentAdapter){
+                mPlaces[i] = e.getNombreEstacionamiento().substring(8); //Substring para sacar "NOMBRE:"
+                mPlaceDesc[i] = e.getHorarios().substring(10); //Substring para sacar el "HORARIOS:"
+                i++;
             }
+            TypedArray a = resources.obtainTypedArray(R.array.places_picture);
+
+            /** METODO TOTOALMENTE CROTO PARA PONER IMAGENES REPETIDAS A TODOS LOS ESTACIONAMIENTOS **/
+            for (int y=0,x = 0; x < mPlacePictures.length; x++,y++) {
+                mPlacePictures[x] = a.getDrawable(y);
+                if (x == (a.length()-1)){ y=0;}
+            }
+
             a.recycle();
         }
 
