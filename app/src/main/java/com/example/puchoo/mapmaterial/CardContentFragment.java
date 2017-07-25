@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
+import com.example.puchoo.mapmaterial.VistasAndControllers.ReservarActivity;
 
 import java.util.ArrayList;
 
@@ -87,6 +88,7 @@ public class CardContentFragment extends Fragment {
             picture = (ImageView) itemView.findViewById(R.id.card_image);
             name = (TextView) itemView.findViewById(R.id.card_title);
             description = (TextView) itemView.findViewById(R.id.card_text);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -98,12 +100,18 @@ public class CardContentFragment extends Fragment {
             });
 
             // Adding Snackbar to Action Button inside card
-            Button button = (Button)itemView.findViewById(R.id.reserva_button);
-            button.setOnClickListener(new View.OnClickListener(){
+            Button buttonReserva = (Button)itemView.findViewById(R.id.reserva_button);
+            buttonReserva.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Snackbar.make(v, "Action is pressed",
+                    Snackbar.make(v, "Reservando.....",
                             Snackbar.LENGTH_LONG).show();
+
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, ReservarActivity.class);
+                    intent.putExtra(ReservarActivity.EXTRA_POSITION, getAdapterPosition());
+                    context.startActivity(intent);
+
                 }
             });
 
@@ -123,14 +131,32 @@ public class CardContentFragment extends Fragment {
                 public void onClick(View v) {
                     Snackbar.make(v, "Compartir estacionamiento",
                             Snackbar.LENGTH_LONG).show();
+                    Context context = v.getContext();
+                    Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                    //Seteo el tipo de send Intent
+                    sendIntent.setType("text/plain");
+
+                    // Always use string resources for UI text.
+                    String title = "Compartir con:";
+                    // Create intent to show the chooser dialog
+                    Intent chooser = Intent.createChooser(sendIntent, title);
+
+                    sendIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                            //TODO CAMBIaR A UN TEXTO COHERENTE
+                            "Descagar la App \"Donde estaciono?\" y podras reservar en: ");
+
+                    // Verify the original intent will resolve to at least one activity
+                    if (sendIntent.resolveActivity(context.getPackageManager()) != null) {
+                        context.startActivity(chooser);
+                    }
                 }
             });
         }
     }
 
-    /**
-     * Adapter to display recycler view.
-     */
+    /**********************************************************************************************
+     *******************************Adapter to display recycler view.*******************************
+     **********************************************************************************************/
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of Card in RecyclerView.
         private static final int LENGTH = 18;
@@ -152,8 +178,8 @@ public class CardContentFragment extends Fragment {
             //TODO Remplazarlos resources por peticiones al sv para no iterar tanto
             int i = 0;
             for(Estacionamiento e : listaEstContentAdapter){
-                mPlaces[i] = e.getNombreEstacionamiento().substring(8); //Substring para sacar "NOMBRE:"
-                mPlaceDesc[i] = e.getHorarios().substring(10); //Substring para sacar el "HORARIOS:"
+                mPlaces[i] = e.getNombreEstacionamiento();
+                mPlaceDesc[i] = e.getHorarios();
                 i++;
             }
             TypedArray a = resources.obtainTypedArray(R.array.places_picture);

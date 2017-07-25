@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.Utils.ConstantsNavigatorView;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CardContentFragment cardFragment;
     private  TileContentFragment tileFragment;
 
+    private ViewPager tabsViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Genero el movimiento entre fragments
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
+        tabsViewPager = viewPager;
+
         //Genero las Tabs
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setText("Mapa"));
@@ -53,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabs.addTab(tabs.newTab().setText("Donde estacionaste"));
         //Le seteo el movimiento entre taps con los fragments
         tabs.setupWithViewPager(viewPager);
+
 
         // Create Navigation drawer and inflate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -82,11 +88,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Adapter adapter = new Adapter(getSupportFragmentManager());
         mapFragment = new ListContentFragment();//Creo el fragmento del mapa
         cardFragment = new CardContentFragment();//Creo el fragmento de la lista de estacionamientos
-        tileFragment = new TileContentFragment();//Creo el 3er fragmento - Sin uso especifico
+        tileFragment = new TileContentFragment();//Creo el 3er fragmento - Lista reservas
 
         adapter.addFragment(mapFragment, "Mapa");
         adapter.addFragment(cardFragment, "Estacionamientos");
-        adapter.addFragment(tileFragment, "Donde estacionaste");
+        adapter.addFragment(tileFragment, "Reservas");
         viewPager.setAdapter(adapter);
     }
 
@@ -140,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.btnMenuReservasUsuario:{
                 System.out.println("CLICKEO RESERVAS");
+                tabsViewPager.setCurrentItem(3);
                 item.setChecked(false);
                 break;
             }

@@ -921,7 +921,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                         String msg = getResources().getString(R.string.errorProducidoIntenteNuevamente);
                         Log.v(TAG,msg);
                     }finally {
-
                         dialogTest.dismiss();
                     }
                 }

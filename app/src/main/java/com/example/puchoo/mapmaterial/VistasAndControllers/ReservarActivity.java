@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
+import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.ListContentFragment;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
@@ -28,11 +31,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by Nahuel SG on 12/02/2017.
  */
 
 public class ReservarActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String EXTRA_POSITION = "position";
     private TextView nombre, direccion;
     private Button botonConfirmar;
     private int position;
@@ -44,13 +50,18 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_reservar);
 
         //TODO refactorizar: mejorar el manejo para obtener el objeto Estacionamiento (quizás pasarlo en el Intent)
-        position = getIntent().getIntExtra("indice", 0);
-        estacionamientoReserva = ListarLugaresActivity.Estacionamientos[position];
+        position = getIntent().getIntExtra(EXTRA_POSITION, 0);
+        try {
+            estacionamientoReserva = ( EstacionamientoDAO.getInstance().listarEstacionamientos(getBaseContext()) ).get(position);
+        } catch (EstacionamientoException e) {
+            String msgLog = "Hubo un error al crear el archivo con la lista de listaEstacionamientos.";
+            Log.v(TAG,msgLog);
+        }
 
         nombre = (TextView) findViewById(R.id.tv_nombreEstac_reservar);
-        nombre.setText(estacionamientoReserva.getNombreEstacionamiento());
+        nombre.setText("Nombre: "+ estacionamientoReserva.getNombreEstacionamiento());
         direccion = (TextView) findViewById(R.id.tv_direccionEstac_reservar);
-        direccion.setText(estacionamientoReserva.getDireccionEstacionamiento());
+        direccion.setText("Dirección: "+ estacionamientoReserva.getDireccionEstacionamiento());
         botonConfirmar = (Button) findViewById(R.id.button_confirmar_reserva);
         botonConfirmar.setOnClickListener(this);
     }

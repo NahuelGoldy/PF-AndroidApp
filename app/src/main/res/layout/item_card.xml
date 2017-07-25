@@ -32,7 +32,8 @@
             tools:text="@string/item_desc"
             android:ellipsize="end"
             android:singleLine="true"
-            android:layout_above="@+id/reserva_button" />
+            android:layout_above="@+id/reserva_button"
+            android:textStyle="normal|italic" />
 
         <Button
             android:id="@+id/reserva_button"

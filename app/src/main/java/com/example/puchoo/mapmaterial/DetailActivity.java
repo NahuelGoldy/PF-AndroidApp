@@ -22,44 +22,70 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
+import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
+import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
+
+import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Provides UI for the Detail page with Collapsing Toolbar.
  */
 public class DetailActivity extends AppCompatActivity {
 
+    /** Lista de listaEstacionamientos */
+    private ArrayList<Estacionamiento> listaEstacionamientos;
+
     public static final String EXTRA_POSITION = "position";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Buscamos la lista de estacionamientos
+        try {
+            listaEstacionamientos = EstacionamientoDAO.getInstance().listarEstacionamientos(getBaseContext());
+        } catch (EstacionamientoException e1) {
+            String msgLog = "Hubo un error al crear el archivo con la lista de listaEstacionamientos.";
+            Log.v(TAG,msgLog);
+        }
+
         setContentView(R.layout.activity_detail);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeButtonEnabled(true);
+
         // Set Collapsing Toolbar layout to the screen
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+
         // Set title of Detail page
         // collapsingToolbar.setTitle(getString(R.string.item_title));
 
-        int postion = getIntent().getIntExtra(EXTRA_POSITION, 0);
-        Resources resources = getResources();
-        String[] places = resources.getStringArray(R.array.places);
-        collapsingToolbar.setTitle(places[postion % places.length]);
+        int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
+        Estacionamiento estacionamiento = listaEstacionamientos.get(position);
 
-        String[] placeDetails = resources.getStringArray(R.array.place_details);
+        collapsingToolbar.setTitle(estacionamiento.getNombreEstacionamiento().substring(8));
+
         TextView placeDetail = (TextView) findViewById(R.id.place_detail);
-        placeDetail.setText(placeDetails[postion % placeDetails.length]);
+        placeDetail.setText(estacionamiento.getTarifaEstacionamiento() + "\n"
+                + estacionamiento.getHorarios() + "\n"
+                + "CAPACIDAD MAXIMA: "+ estacionamiento.getCapacidad() + "\n"
+                + "TELEFONO: " + estacionamiento.getTelefono());
 
-        String[] placeLocations = resources.getStringArray(R.array.place_locations);
         TextView placeLocation =  (TextView) findViewById(R.id.place_location);
-        placeLocation.setText(placeLocations[postion % placeLocations.length]);
+        placeLocation.setText(estacionamiento.getDireccionEstacionamiento());
 
-        TypedArray placePictures = resources.obtainTypedArray(R.array.places_picture);
+        TypedArray placePictures = getResources().obtainTypedArray(R.array.places_picture);
         ImageView placePicutre = (ImageView) findViewById(R.id.image);
-        placePicutre.setImageDrawable(placePictures.getDrawable(postion % placePictures.length()));
+        placePicutre.setImageDrawable(placePictures.getDrawable(position % placePictures.length()));
 
         placePictures.recycle();
     }

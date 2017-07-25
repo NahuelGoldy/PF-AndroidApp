@@ -454,6 +454,4 @@ public class EstacionamientoDAO {
         String jsonEstac = gson.toJson(listEstac);
         return jsonEstac;
     }
-
-
 }
