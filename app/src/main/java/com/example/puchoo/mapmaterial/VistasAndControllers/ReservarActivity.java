@@ -12,12 +12,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
+import com.example.puchoo.mapmaterial.Dao.ReservaDAO;
 import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.ListContentFragment;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
 import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.AlarmEstacionamientoReceiver;
+import com.example.puchoo.mapmaterial.Utils.ConstantsEstacionamientoService;
+import com.example.puchoo.mapmaterial.Utils.ConstantsNavigatorView;
 import com.example.puchoo.mapmaterial.Utils.ConstantsNotificaciones;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -54,7 +57,7 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
         try {
             estacionamientoReserva = ( EstacionamientoDAO.getInstance().listarEstacionamientos(getBaseContext()) ).get(position);
         } catch (EstacionamientoException e) {
-            String msgLog = "Hubo un error al crear el archivo con la lista de listaEstacionamientos.";
+            String msgLog = "Hubo un error al leer de listaEstacionamientos. - ReservarActivity";
             Log.v(TAG,msgLog);
         }
 
@@ -64,15 +67,25 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
         direccion.setText("Dirección: "+ estacionamientoReserva.getDireccionEstacionamiento());
         botonConfirmar = (Button) findViewById(R.id.button_confirmar_reserva);
         botonConfirmar.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == botonConfirmar.getId()) {
+
             agregarAlarma(estacionamientoReserva, position);
             agregarAListaReservas(estacionamientoReserva);
             //generar reserva
+
             //intent a la lista o OnBackPressed?
+
+            //TODO Acomodar con try-cach cuando se mande al servidor la reserva
+            ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = false;
+            ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = false;
+            ConstantsNavigatorView.ENABLE_INDICE_MENU_ALARMA = true;
+            ConstantsEstacionamientoService.HORA_RESERVA = Calendar.getInstance().getTime();
+
             super.onBackPressed();
         }
     }
@@ -87,22 +100,8 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
         df = new SimpleDateFormat("HH:mm:ss");
         String hora= df.format(c.getTime());
         ReservaMock res = new ReservaMock(direccionEstacionamiento, nombreEstacionamiento, fecha, hora);
-        List<ReservaMock> reservasViejasList;
 
-        //leer desde SharedPreferences -> el string guardado es un json
-        String listaReservasJson = PreferenceManager.getDefaultSharedPreferences(this).getString("listaReservas", "");
-        if(listaReservasJson.equals("")){
-            reservasViejasList = new ArrayList<ReservaMock>();
-        }
-        else{
-            //obtener la lista de Resultados desde el Json
-            Type type = new TypeToken<List<ReservaMock>>() {}.getType();
-            reservasViejasList = gson.fromJson(listaReservasJson, type);
-        }
-        reservasViejasList.add(res);
-        listaReservasJson = gson.toJson(reservasViejasList);
-        //volver a persistir en SharedPreferences la lista actualizada
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("listaReservas", listaReservasJson).apply();
+        ReservaDAO.getInstance().guardarReservasSharedPref(res, this.getBaseContext());
     }
 
 

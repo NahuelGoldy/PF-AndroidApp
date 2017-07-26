@@ -63,6 +63,7 @@
     <string name="action_estacionar">Estacionar aca</string>
     <string name="btnAbrirEnNavigator">Navegar al destino</string>
     <string name="btnMarcarSalida">Marcar salida del estacionamiento</string>
+    <string name="btnReservarInfoWindows">Reservar Aqui</string>
     <string name="btnAceptar">Aceptar</string>
     <string name="btnCancelar">Cancelar</string>
     <string name="btnIrAlEstacionamiento">Ir al estacionamiento.</string>

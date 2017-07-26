@@ -70,6 +70,7 @@ public class TileContentFragment extends Fragment implements AdapterView.OnItemC
         listaReservas = gson.fromJson(jsonReservasViejas, type);
 
         if(listaReservas!=null && listaReservas.size()>0){
+
             //ordeno la lista por fecha
             Collections.sort(listaReservas, new Comparator<ReservaMock>() {
                 public int compare(ReservaMock res1, ReservaMock res2) {
@@ -88,5 +89,6 @@ public class TileContentFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //TODO hacer que se puede eliminar la reserva aqui mismos o en un LongClick
+
     }
 }

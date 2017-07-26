@@ -10,6 +10,8 @@ public class ReservaMock {
     private String fechaReservado;
     private String horaReservado;
 
+    public ReservaMock(){}
+
     public ReservaMock(String dir, String nomb, String fecha, String hora){
         direccionEstacionamientoReservado = dir;
         nombreEstacionamientoReservado = nomb;

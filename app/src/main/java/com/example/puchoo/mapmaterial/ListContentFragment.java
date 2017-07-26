@@ -52,6 +52,7 @@ import com.example.puchoo.mapmaterial.Utils.ConstantsPermissionLocation;
 import com.example.puchoo.mapmaterial.Utils.FetchAddressIntentService;
 import com.example.puchoo.mapmaterial.Utils.GeofenceTransitionsIntentService;
 import com.example.puchoo.mapmaterial.VistasAndControllers.InfoWindowsAdapter;
+import com.example.puchoo.mapmaterial.VistasAndControllers.ReservarActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Result;
@@ -71,6 +72,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -231,6 +233,23 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     /**-------------------------------------------------------------------*/
 
     /**
+     * Setea el icono de cuando esta un vehiculo estacionado ahi
+     * @param markerEstacionamiento
+     */
+    public void setIconMarkerVehiculoEstacionado(Marker markerEstacionamiento){
+        markerEstacionamiento.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento_dondeestaciono));
+    }
+
+    /**
+     * Setea el icono normal de los marcadores de Estacionamientos
+     * @param markerEstacionamiento
+     */
+    public void setIconMarkerVehiculoNoEstacionado(Marker markerEstacionamiento){
+
+        markerEstacionamiento.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento));
+    }
+
+    /**
      *  Busca un Marker por su posicion dentro del Map-mapaMarcadores
      * @param posicion
      * @return retorna el Marker o Null, si no lo encuentra
@@ -252,13 +271,15 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
      * @param latLng Posicion
      * @param title  Titulo
      * @param idIcon id del icono que va a tener
+     * @param estacionamientoTag estacionamiento al cual hace referencia el marker
      */
-    private void addMarker(LatLng latLng, String title, int idIcon) {
+    private void addMarker(LatLng latLng, String title, int idIcon, Estacionamiento estacionamientoTag) {
         Marker marker = googleMap.addMarker(new MarkerOptions()
                 .position(latLng) //Pongo el lugar
                 .title(title));//Le meto titulo
         marker.setIcon(BitmapDescriptorFactory.fromResource(idIcon));
         marker.setVisible(true);
+        marker.setTag(estacionamientoTag);
         mapaMarcadores.put(marker.getId(),marker);
     }
 
@@ -356,7 +377,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
         //Cambia el icono al comun de todos lso estacionamientos
         if(marcadorSalida.getPosition().equals(markerUltimoEstacionamiento.getPosition()) && !estCalle.getEnLaCalle()) {
-            marcadorSalida.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento));
+            setIconMarkerVehiculoNoEstacionado(marcadorSalida);
         }
         //Si estaciono en la calle remuevo el marker cuando se va
         if(estCalle.getEnLaCalle()){
@@ -376,7 +397,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             addMarker(
                     estIterador.getPosicionEstacionamiento(),
                     (estIterador.getNombreEstacionamiento()).substring(8),
-                    R.drawable.marker_estacionamiento
+                    R.drawable.marker_estacionamiento, estIterador
             );
         }
     }
@@ -399,7 +420,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             }else {
                 estCalle.setEnLaCalle(false);
                 //Seteo un icono distinto al marker del estacionamiento donde el tipo estaciono
-                markerEstacionamiento.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento_dondeestaciono));
+                setIconMarkerVehiculoEstacionado(markerEstacionamiento);
             }
 
             startAddressFetchService();
@@ -433,7 +454,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 */
                 Marker marcadorAux = buscarMarker(ultimoEst.getCoordenadas());
                 if(marcadorAux != null) {
-                    marcadorAux.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_estacionamiento_dondeestaciono));
+                    setIconMarkerVehiculoEstacionado(marcadorAux);
                 }
                 markerUltimoEstacionamiento = agregarMarcadorEstacionamiento(ultimoEst);
                 //agregarAlarma(markerUltimoEstacionamiento);
@@ -850,6 +871,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     @Override
     public void onInfoWindowClick(final Marker marker) {
         marcadorSelected = marker;
+        final String msgReservar = getResources().getString(R.string.btnReservarInfoWindows);
         final String msgSalidaEstacionamiento = getResources().getString(R.string.btnMarcarSalida);
         final String msgEstacionarAqui = getResources().getString(R.string.menuOptEstacionarAqui);
         final String msgNavegar = getResources().getString(R.string.btnAbrirEnNavigator);
@@ -873,17 +895,18 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         Button btnCancelar = (Button) dialogTest.findViewById(R.id.btnCancelar);
         btnAbrirNavigator.setText(msgNavegar);
 
+        Marker markerAux = buscarMarker(new LatLng(loc.getLatitude(),loc.getLongitude()));
+        if(marcadorSelected.equals(markerAux)){
+            btnSalidaEntrada.setText(msgReservar);
 
-        if(lugarEstacionamientoGuardado == false){
-            btnSalidaEntrada.setText(msgEstacionarAqui);
-            btnSalidaEntrada.setEnabled(true);
+        }else if(lugarEstacionamientoGuardado == false){
+                btnSalidaEntrada.setText(msgEstacionarAqui);
+                btnSalidaEntrada.setEnabled(true); }
+            else{
+                btnSalidaEntrada.setText(msgSalidaEstacionamiento);
+                btnSalidaEntrada.setEnabled(false);
+            }
 
-        }
-        else{
-            btnSalidaEntrada.setText(msgSalidaEstacionamiento);
-            btnSalidaEntrada.setEnabled(false);
-
-        }
         btnCancelar.setText(msgCancelar);
         /** Listener de la opcion de navegar */
         btnAbrirNavigator.setOnClickListener(new View.OnClickListener() {
@@ -893,6 +916,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 dialogTest.dismiss();
             }
         });
+
 
         if(lugarEstacionamientoGuardado == true && marker.getPosition().equals(markerUltimoEstacionamiento.getPosition())){
             btnSalidaEntrada.setEnabled(true);
@@ -905,7 +929,29 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         btnSalidaEntrada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /** Se ejecuta si el vehiculo no esta estacionado */
+                if(btnSalidaEntrada.getText().equals(msgReservar)){
+
+                    if (! (ConstantsEstacionamientoService.HORA_RESERVA == null)){
+                        Date horaActual = Calendar.getInstance().getTime();
+                        Long horaReservaMasQuinceMinutos = ( ConstantsEstacionamientoService.HORA_RESERVA.getTime()+ (15*60*1000) );
+                        if(horaActual.getTime() < horaReservaMasQuinceMinutos){
+                            dialogTest.dismiss();
+                            Toast.makeText(getContext(),"Usted ya tiene una reserva echa",Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+
+                    int posEstacionamientoEnLista = listaEstacionamientos.indexOf(marcadorSelected.getTag());
+
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, ReservarActivity.class);
+                    intent.putExtra(ReservarActivity.EXTRA_POSITION, posEstacionamientoEnLista);
+                    context.startActivity(intent);
+                    dialogTest.dismiss();
+                }
+                /*
+                /** Se ejecuta si el vehiculo no esta estacionado
+
                 if(btnSalidaEntrada.getText().equals(msgEstacionarAqui) && lugarEstacionamientoGuardado == false){
                     Log.v(TAG_MENU,"Estacionando en ubicacion actual");
                     try {
@@ -913,7 +959,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                         lugarEstacionamientoGuardado = true;
                         btnSalidaEntrada.setText(msgSalidaEstacionamiento);
 
-                        //TODO Setear enable o disable segun corresponda los botones del menu desplegable
                         ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = true;
                         ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = false;
                         ConstantsNavigatorView.ENABLE_INDICE_MENU_ALARMA = true;
@@ -923,7 +968,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                     }finally {
                         dialogTest.dismiss();
                     }
-                }
+                }*/
                 else {
                     /** Se ejecuta si el vehiculo se encuentra actualmente estacionado */
                     if(btnSalidaEntrada.getText().equals(msgSalidaEstacionamiento) && lugarEstacionamientoGuardado == true) {
@@ -949,8 +994,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                             String msg = getResources().getString(R.string.errorProducidoIntenteNuevamente);
                             Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
                         }
-
-
                     }
                 }
             }

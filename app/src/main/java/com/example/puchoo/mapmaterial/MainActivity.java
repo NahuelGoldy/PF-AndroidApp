@@ -119,12 +119,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch(item.getItemId()){
             case R.id.btnMenuEstacionarAqui:{
                 System.out.println("CLICKEO ESTACIONAR AQUI");
+                tabsViewPager.setCurrentItem(0);
                 mapFragment.estacionarAqui();
                 item.setChecked(false); //Para que no quede como "clikeado" - No funciono igual
                 break;
             }
             case R.id.btnMenuVerDondeEstacione:{
                 System.out.println("CLICKEO VER ESTACIONAMIENTO");
+                tabsViewPager.setCurrentItem(0);
                 mapFragment.verDondeEstaciono();
                 item.setChecked(false);
                 break;
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.btnMenuReservasUsuario:{
                 System.out.println("CLICKEO RESERVAS");
-                tabsViewPager.setCurrentItem(3);
+                tabsViewPager.setCurrentItem(2);
                 item.setChecked(false);
                 break;
             }

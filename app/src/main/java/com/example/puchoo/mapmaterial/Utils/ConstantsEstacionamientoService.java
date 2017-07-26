@@ -2,6 +2,9 @@ package com.example.puchoo.mapmaterial.Utils;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
+import java.util.Date;
+
+
 /**
  * Created by Agustin on 01/30/2017.
  */
@@ -18,5 +21,7 @@ public final class ConstantsEstacionamientoService {
     public static final Integer GEOFENCE_EXPIRATION_DURATION_TIME = 5000;
     /* Indica el icono a usar de la notificacion , TODO - Cambiarlo por algo mejor */
     public static final Integer ICONO_NOTIFICACION_GEOFENCE = com.google.android.gms.R.drawable.common_google_signin_btn_icon_dark;
+
+    public static Date HORA_RESERVA = null;
 
 }
