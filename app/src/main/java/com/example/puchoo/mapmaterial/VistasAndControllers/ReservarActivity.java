@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -84,7 +85,7 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
             ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = false;
             ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = false;
             ConstantsNavigatorView.ENABLE_INDICE_MENU_ALARMA = true;
-            ConstantsEstacionamientoService.HORA_RESERVA = Calendar.getInstance().getTime();
+            //El primer getTime() me da el Date y el segundo me da los Milis
 
             super.onBackPressed();
         }
@@ -102,6 +103,10 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
         ReservaMock res = new ReservaMock(direccionEstacionamiento, nombreEstacionamiento, fecha, hora);
 
         ReservaDAO.getInstance().guardarReservasSharedPref(res, this.getBaseContext());
+
+        try { ConstantsEstacionamientoService.HORA_RESERVA = df.parse(hora).getTime(); }
+        catch (ParseException e) {  }
+        
     }
 
 

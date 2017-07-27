@@ -51,6 +51,7 @@ import com.example.puchoo.mapmaterial.Utils.ConstantsNotificaciones;
 import com.example.puchoo.mapmaterial.Utils.ConstantsPermissionLocation;
 import com.example.puchoo.mapmaterial.Utils.FetchAddressIntentService;
 import com.example.puchoo.mapmaterial.Utils.GeofenceTransitionsIntentService;
+import com.example.puchoo.mapmaterial.VistasAndControllers.DialogErrorReserva;
 import com.example.puchoo.mapmaterial.VistasAndControllers.InfoWindowsAdapter;
 import com.example.puchoo.mapmaterial.VistasAndControllers.ReservarActivity;
 import com.google.android.gms.common.ConnectionResult;
@@ -70,6 +71,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -932,11 +934,16 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 if(btnSalidaEntrada.getText().equals(msgReservar)){
 
                     if (! (ConstantsEstacionamientoService.HORA_RESERVA == null)){
-                        Date horaActual = Calendar.getInstance().getTime();
-                        Long horaReservaMasQuinceMinutos = ( ConstantsEstacionamientoService.HORA_RESERVA.getTime()+ (15*60*1000) );
+                        Date horaActual = getHoraActual();
+                        Long horaReservaMasQuinceMinutos = ( ConstantsEstacionamientoService.HORA_RESERVA + (900000) );
+
+                        System.out.println("##########################################");
+                        System.out.println(horaActual.getTime());
+                        System.out.println(horaReservaMasQuinceMinutos);
+                        System.out.println("##########################################");
                         if(horaActual.getTime() < horaReservaMasQuinceMinutos){
                             dialogTest.dismiss();
-                            Toast.makeText(getContext(),"Usted ya tiene una reserva echa",Toast.LENGTH_LONG).show();
+                            new DialogErrorReserva(getContext());
                             return;
                         }
                     }
@@ -1009,6 +1016,20 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         //AlertDialog dialog= builder.create();
         //Mostrarlo
         //dialog.show();
+    }
+
+    /**
+     * Me da la otra actual en el formato correcto para compararla
+     * @return horaActual Formato correcto
+     */
+    private Date getHoraActual() {
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        Date horaActual = null;
+        try {
+            //formateo la hora y la vuelvo a parsear, porque si se la trato en la reserva
+            horaActual = df.parse( df.format(Calendar.getInstance().getTime()) );
+        } catch (ParseException e) {        }
+        return horaActual;
     }
 
 

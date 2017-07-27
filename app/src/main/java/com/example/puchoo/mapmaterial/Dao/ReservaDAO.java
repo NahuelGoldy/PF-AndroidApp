@@ -12,6 +12,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -74,7 +76,7 @@ public class ReservaDAO {
             reservasViejasList = gson.fromJson(listaReservasJson, type);
         }
 
-        return reservasViejasList;
+        return ordenarListaReserva(reservasViejasList);
     }
 
     public void actualiarReservasSharedPref(ArrayList<ReservaMock> reservasNuevas, Context context){
@@ -101,6 +103,23 @@ public class ReservaDAO {
         }
     }
 
+    /**
+     * Ordena la lista de reservas con la mas nueva primero
+     */
+    private ArrayList<ReservaMock> ordenarListaReserva(ArrayList<ReservaMock> listaReservas){
+
+        Collections.sort(listaReservas, new Comparator<ReservaMock>() {
+            public int compare(ReservaMock res1, ReservaMock res2) {
+                int comp = res2.getFechaReservado().compareTo(res1.getFechaReservado());
+                if(comp == 0){
+                    return res2.getHoraReservado().compareTo(res1.getHoraReservado());
+                }
+                else return comp;
+            }
+        });
+
+        return listaReservas;
+    }
 
 
 }

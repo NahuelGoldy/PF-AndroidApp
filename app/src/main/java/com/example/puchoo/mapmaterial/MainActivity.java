@@ -26,7 +26,7 @@ import com.example.puchoo.mapmaterial.Utils.ConstantsNavigatorView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, TabLayout.OnTabSelectedListener {
 
     /** Booleano que sirve para identificar si pulsó dos veces para salir */
     boolean doubleBackToExitPressedOnce = false;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabs.addTab(tabs.newTab().setText("Donde estacionaste"));
         //Le seteo el movimiento entre taps con los fragments
         tabs.setupWithViewPager(viewPager);
-
+        tabs.setOnTabSelectedListener(this);
 
         // Create Navigation drawer and inflate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -159,6 +159,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Closing drawer on item click
         mDrawerLayout.closeDrawers();
         return true;
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        if(tab.getPosition() == 2){
+            tileFragment.refreshList();
+        }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
     }
 
     static class Adapter extends FragmentPagerAdapter {

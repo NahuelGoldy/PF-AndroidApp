@@ -22,6 +22,6 @@ public final class ConstantsEstacionamientoService {
     /* Indica el icono a usar de la notificacion , TODO - Cambiarlo por algo mejor */
     public static final Integer ICONO_NOTIFICACION_GEOFENCE = com.google.android.gms.R.drawable.common_google_signin_btn_icon_dark;
 
-    public static Date HORA_RESERVA = null;
+    public static Long HORA_RESERVA = null;
 
 }

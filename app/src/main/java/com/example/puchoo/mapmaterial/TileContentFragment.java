@@ -4,38 +4,28 @@ package com.example.puchoo.mapmaterial;
  * Created by Puchoo on 10/04/2017.
  */
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.Chronometer;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextClock;
 import android.widget.TextView;
 
+import com.example.puchoo.mapmaterial.Dao.ReservaDAO;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
+import com.example.puchoo.mapmaterial.Utils.ConstantsEstacionamientoService;
 import com.example.puchoo.mapmaterial.Utils.ReservaMockAdapter;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+import java.util.Date;
 
 /**
  * Provides UI for the view with Cards.
@@ -52,35 +42,22 @@ public class TileContentFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        initReserva();
 
         View view = inflater.inflate(R.layout.activity_listar_reservas, null);
 
         titulo = (TextView) view.findViewById(R.id.textViewTituloUltimasReservas);
         listView = (ListView) view.findViewById(R.id.listView_ultimas_reservas);
+
         poblarListaReservas(this.getContext());
         listView.setOnItemClickListener(this);
+
         return view;
     }
 
     private void poblarListaReservas(Context context) {
-        gson = new Gson();
-        String jsonReservasViejas = PreferenceManager.getDefaultSharedPreferences(context).getString("listaReservas", "");
-        listaReservas = new ArrayList<>();
-        Type type = new TypeToken<List<ReservaMock>>() {}.getType();
-        listaReservas = gson.fromJson(jsonReservasViejas, type);
 
         if(listaReservas!=null && listaReservas.size()>0){
-
-            //ordeno la lista por fecha
-            Collections.sort(listaReservas, new Comparator<ReservaMock>() {
-                public int compare(ReservaMock res1, ReservaMock res2) {
-                    int comp = res2.getFechaReservado().compareTo(res1.getFechaReservado());
-                    if(comp == 0){
-                        return res2.getHoraReservado().compareTo(res1.getHoraReservado());
-                    }
-                    else return comp;
-                }
-            });
             resAdapter = new ReservaMockAdapter(this.getContext(), listaReservas);
             listView.setAdapter(resAdapter);
         }
@@ -90,5 +67,35 @@ public class TileContentFragment extends Fragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //TODO hacer que se puede eliminar la reserva aqui mismos o en un LongClick
 
+    }
+
+    private void initReserva(){
+        listaReservas = ReservaDAO.getInstance().getReservaSharedPref(this.getContext());
+        if(!listaReservas.isEmpty()){
+            //ordeno la lista por fecha
+            if(ConstantsEstacionamientoService.HORA_RESERVA == null) {
+                SimpleDateFormat df = new SimpleDateFormat("dd / MMMM / yyyy");
+                try {
+                    ReservaMock ultReserva = listaReservas.get(0);
+                    Date fechaUltimaReserva = df.parse(ultReserva.getFechaReservado());
+                    if (fechaUltimaReserva.getDay() == new Date().getDay()) {
+                        df = new SimpleDateFormat("HH:mm:ss");
+                        Date horaUltimaReserva = df.parse(ultReserva.getHoraReservado());
+
+                        ConstantsEstacionamientoService.HORA_RESERVA = horaUltimaReserva.getTime();
+                    }
+                } catch (ParseException e) {
+                    String msg = "Error en parsear fecha/hora";
+                    Log.v("TileContentFragment", msg);
+                }
+            }
+        }
+    }
+
+    public void refreshList(){
+        if(listaReservas != null) {
+            initReserva();
+            poblarListaReservas(getContext());
+        }
     }
 }
