@@ -57,7 +57,7 @@ public class DialogErrorReserva implements View.OnClickListener {
         }
         else if(v.getId() == R.id.btnCancelarReserva) {
             Toast.makeText(context,"Se cancelo su reserva en: "+ "\n"+
-                    reserva.getNombreEstacionamientoReservado() ,Toast.LENGTH_LONG);
+                    reserva.getNombreEstacionamientoReservado() ,Toast.LENGTH_LONG).show();
             ReservaDAO.getInstance().borrarReservaSharedPref(reserva,context);
             ConstantsEstacionamientoService.HORA_RESERVA = null;
             dialogTest.dismiss();

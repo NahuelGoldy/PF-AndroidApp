@@ -65,7 +65,7 @@ public class ReservaDAO {
         this.context = context;
         ArrayList<ReservaMock> reservasViejasList;
         String listaReservasJson = PreferenceManager.getDefaultSharedPreferences(this.context)
-                .getString("listaReservas","");
+                .getString(STRING_SHARED_PREF,"");
 
         if(listaReservasJson.equals("")){
             reservasViejasList = new ArrayList<ReservaMock>();
@@ -97,9 +97,20 @@ public class ReservaDAO {
 
         reservasViejasList = getReservaSharedPref(context);
 
+        System.out.println("###################################################");
+        System.out.println(reservasViejasList);
+
+
         if (!reservasViejasList.equals("")){
-            reservasViejasList.remove(reserva);
-            actualiarReservasSharedPref(reservasViejasList, context);
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            //if(reservasViejasList.remove(reserva)){
+                reservasViejasList.remove(reserva);
+                System.out.println(reserva);
+                System.out.println(reservasViejasList);
+                System.out.println("###################################################");
+
+                actualiarReservasSharedPref(reservasViejasList, context);
+            //}
         }
     }
 

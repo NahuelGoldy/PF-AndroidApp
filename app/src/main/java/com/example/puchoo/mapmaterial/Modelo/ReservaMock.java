@@ -1,5 +1,7 @@
 package com.example.puchoo.mapmaterial.Modelo;
 
+import java.util.Objects;
+
 /**
  * Created by Nahuel SG on 12/02/2017.
  */
@@ -49,5 +51,20 @@ public class ReservaMock {
 
     public void setHoraReservado(String horaReservado) {
         this.horaReservado = horaReservado;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        ReservaMock reservaComparacion = (ReservaMock) obj;
+        if (this.getDireccionEstacionamientoReservado().equals(reservaComparacion.getDireccionEstacionamientoReservado())) {
+            if (this.getNombreEstacionamientoReservado().equals(reservaComparacion.getNombreEstacionamientoReservado())){
+                if (this.getFechaReservado().equals(reservaComparacion.getFechaReservado())){
+                    if (this.getHoraReservado().equals(reservaComparacion.getHoraReservado())){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

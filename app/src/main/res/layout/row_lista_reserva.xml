@@ -54,4 +54,10 @@
         </LinearLayout>
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="match_parent"
+        app:srcCompat="@color/button_grey"
+        android:id="@+id/imageView"
+        android:layout_height="2dp" />
+
 </LinearLayout>

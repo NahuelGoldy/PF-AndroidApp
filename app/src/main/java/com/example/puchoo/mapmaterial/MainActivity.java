@@ -164,7 +164,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         if(tab.getPosition() == 2){
-            tileFragment.refreshList();
+            if(tileFragment.adapterReservas != null) {
+                tileFragment.adapterReservas.notifyDataSetChanged();
+            }
         }
     }
 

@@ -51,7 +51,7 @@ import com.example.puchoo.mapmaterial.Utils.ConstantsNotificaciones;
 import com.example.puchoo.mapmaterial.Utils.ConstantsPermissionLocation;
 import com.example.puchoo.mapmaterial.Utils.FetchAddressIntentService;
 import com.example.puchoo.mapmaterial.Utils.GeofenceTransitionsIntentService;
-import com.example.puchoo.mapmaterial.Utils.ValidadorHoras;
+import com.example.puchoo.mapmaterial.Utils.ValidadorReservas;
 import com.example.puchoo.mapmaterial.VistasAndControllers.DialogErrorReserva;
 import com.example.puchoo.mapmaterial.VistasAndControllers.InfoWindowsAdapter;
 import com.example.puchoo.mapmaterial.VistasAndControllers.ReservarActivity;
@@ -72,10 +72,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -229,6 +227,9 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             enfocarMapaEnUbicacion(ubicacionActual, 16f);
         }
         else enfocarMapaEnUbicacion(ubicacionActual, 16f);
+
+        //Setea la constanste si es que hay registro de reservas previas
+        ValidadorReservas.getInstance().initConstansHoras(getContext());
     }
 
     /**-------------------------------------------------------------------*/
@@ -901,7 +902,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         Marker markerAux = buscarMarker(new LatLng(loc.getLatitude(),loc.getLongitude()));
         if(marcadorSelected.equals(markerAux)){
             btnSalidaEntrada.setText(msgReservar);
-
         }else if(lugarEstacionamientoGuardado == false){
                 btnSalidaEntrada.setText(msgEstacionarAqui);
                 btnSalidaEntrada.setEnabled(true); }
@@ -924,9 +924,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         if(lugarEstacionamientoGuardado == true && marker.getPosition().equals(markerUltimoEstacionamiento.getPosition())){
             btnSalidaEntrada.setEnabled(true);
         }
-        else{
-            //btnSalidaEntrada.setEnabled(false);
-        }
 
         /** Listener de la opcion de marcar salida del estacionamiento */
         btnSalidaEntrada.setOnClickListener(new View.OnClickListener() {
@@ -935,12 +932,14 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 if(btnSalidaEntrada.getText().equals(msgReservar)){
 
                     if (! (ConstantsEstacionamientoService.HORA_RESERVA == null)){
-                        if(ValidadorHoras.getInstance().validarReservaActiva()){
+                        if(ValidadorReservas.getInstance().validarReservaActiva()){
                             dialogTest.dismiss();
                             new DialogErrorReserva(getContext());
                             return;
                         }
+                    } else {
 
+                        //TODO AGREGAR PARAMETRO PARA QUE EL SV SEPA QUE NO SE ENCONTRO ARCHIVO
                     }
 
                     int posEstacionamientoEnLista = listaEstacionamientos.indexOf(marcadorSelected.getTag());
