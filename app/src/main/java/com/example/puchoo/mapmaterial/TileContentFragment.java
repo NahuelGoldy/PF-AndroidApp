@@ -42,7 +42,7 @@ public class TileContentFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        initReserva();
+        initReservas();
 
         View view = inflater.inflate(R.layout.activity_listar_reservas, null);
 
@@ -69,7 +69,7 @@ public class TileContentFragment extends Fragment implements AdapterView.OnItemC
 
     }
 
-    private void initReserva(){
+    private void initReservas(){
         listaReservas = ReservaDAO.getInstance().getReservaSharedPref(this.getContext());
         if(!listaReservas.isEmpty()){
             //ordeno la lista por fecha
@@ -94,7 +94,7 @@ public class TileContentFragment extends Fragment implements AdapterView.OnItemC
 
     public void refreshList(){
         if(listaReservas != null) {
-            initReserva();
+            initReservas();
             poblarListaReservas(getContext());
         }
     }

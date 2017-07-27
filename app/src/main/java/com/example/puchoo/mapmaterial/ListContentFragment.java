@@ -51,6 +51,7 @@ import com.example.puchoo.mapmaterial.Utils.ConstantsNotificaciones;
 import com.example.puchoo.mapmaterial.Utils.ConstantsPermissionLocation;
 import com.example.puchoo.mapmaterial.Utils.FetchAddressIntentService;
 import com.example.puchoo.mapmaterial.Utils.GeofenceTransitionsIntentService;
+import com.example.puchoo.mapmaterial.Utils.ValidadorHoras;
 import com.example.puchoo.mapmaterial.VistasAndControllers.DialogErrorReserva;
 import com.example.puchoo.mapmaterial.VistasAndControllers.InfoWindowsAdapter;
 import com.example.puchoo.mapmaterial.VistasAndControllers.ReservarActivity;
@@ -934,18 +935,12 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 if(btnSalidaEntrada.getText().equals(msgReservar)){
 
                     if (! (ConstantsEstacionamientoService.HORA_RESERVA == null)){
-                        Date horaActual = getHoraActual();
-                        Long horaReservaMasQuinceMinutos = ( ConstantsEstacionamientoService.HORA_RESERVA + (900000) );
-
-                        System.out.println("##########################################");
-                        System.out.println(horaActual.getTime());
-                        System.out.println(horaReservaMasQuinceMinutos);
-                        System.out.println("##########################################");
-                        if(horaActual.getTime() < horaReservaMasQuinceMinutos){
+                        if(ValidadorHoras.getInstance().validarReservaActiva()){
                             dialogTest.dismiss();
                             new DialogErrorReserva(getContext());
                             return;
                         }
+
                     }
 
                     int posEstacionamientoEnLista = listaEstacionamientos.indexOf(marcadorSelected.getTag());
@@ -1016,20 +1011,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         //AlertDialog dialog= builder.create();
         //Mostrarlo
         //dialog.show();
-    }
-
-    /**
-     * Me da la otra actual en el formato correcto para compararla
-     * @return horaActual Formato correcto
-     */
-    private Date getHoraActual() {
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-        Date horaActual = null;
-        try {
-            //formateo la hora y la vuelvo a parsear, porque si se la trato en la reserva
-            horaActual = df.parse( df.format(Calendar.getInstance().getTime()) );
-        } catch (ParseException e) {        }
-        return horaActual;
     }
 
 
