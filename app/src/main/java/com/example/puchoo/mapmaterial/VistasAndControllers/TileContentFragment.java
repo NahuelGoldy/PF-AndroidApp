@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial;
+package com.example.puchoo.mapmaterial.VistasAndControllers;
 
 /**
  * Created by Puchoo on 10/04/2017.
@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.puchoo.mapmaterial.Dao.ReservaDAO;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
+import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.ConstantsEstacionamientoService;
 import com.example.puchoo.mapmaterial.Utils.ReservaMockAdapter;
 import com.example.puchoo.mapmaterial.VistasAndControllers.DialogBorrarReserva;

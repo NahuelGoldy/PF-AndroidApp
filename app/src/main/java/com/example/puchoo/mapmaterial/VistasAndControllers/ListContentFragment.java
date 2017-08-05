@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial;
+package com.example.puchoo.mapmaterial.VistasAndControllers;
 
 /**
  * Created by Puchoo on 10/04/2017.
@@ -42,6 +42,7 @@ import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.Exceptions.UbicacionVehiculoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Modelo.UbicacionVehiculoEstacionado;
+import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.AddressResultReceiver;
 import com.example.puchoo.mapmaterial.Utils.AlarmEstacionamientoReceiver;
 import com.example.puchoo.mapmaterial.Utils.ConstantsAddresses;

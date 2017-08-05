@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.example.puchoo.mapmaterial.Dao.UbicacionVehiculoEstacionadoDAO;
 import com.example.puchoo.mapmaterial.Exceptions.UbicacionVehiculoException;
-import com.example.puchoo.mapmaterial.ListContentFragment;
+import com.example.puchoo.mapmaterial.VistasAndControllers.ListContentFragment;
 import com.example.puchoo.mapmaterial.Modelo.UbicacionVehiculoEstacionado;
 import com.example.puchoo.mapmaterial.R;
 import com.google.android.gms.maps.model.Marker;

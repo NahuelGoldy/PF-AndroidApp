@@ -9,4 +9,12 @@
     </style>
     <style name="AppTheme" parent="AppTheme.Base">
     </style>
+
+    <style
+        name="Theme.Splash"
+        parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/cover_estac</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>
