@@ -17,7 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.puchoo.mapmaterial.Modelo.Usuario;
 import com.example.puchoo.mapmaterial.R;
+import com.example.puchoo.mapmaterial.Utils.ValidadorRegistro;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -118,11 +120,10 @@ public class RegistroActivity extends AppCompatActivity {
 
         signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(RegistroActivity.this,
-                R.style.AppTheme);
-        progressDialog.setIndeterminate(true);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        //progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creado Cuenta...");
-        progressDialog.show();
+
 
         String name = nameText.getText().toString();
         String apellido = apellidoText.getText().toString();
@@ -136,18 +137,11 @@ public class RegistroActivity extends AppCompatActivity {
         String email = emailText.getText().toString();
         String password = passwordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
+        Usuario nuevoUsuario = new Usuario();
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+        //TODO VALIDAR QUE SE PUEDA HACER EL REGISTRO
+        new ValidadorRegistro(progressDialog, nuevoUsuario,this).execute();
+
     }
 
 
@@ -291,6 +285,11 @@ public class RegistroActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
 }

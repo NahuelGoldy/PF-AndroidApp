@@ -2,10 +2,8 @@ package com.example.puchoo.mapmaterial.VistasAndControllers;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.R;
+import com.example.puchoo.mapmaterial.Utils.ValidadorLogin;
 
 /**
  * Created by Puchoo on 08/08/2017.
@@ -68,26 +67,18 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        //progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Autenticando...");
+
 
         String email = emailText.getText().toString();
         String password = passwordText.getText().toString();
 
-        // TODO: Implement your own authentication logic here.
+        // TODO: Implemetar validacion dentro de ValidadorLogin
+        new ValidadorLogin(progressDialog,email,password, this).execute();
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+
     }
 
 
@@ -115,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Login fallido", Toast.LENGTH_LONG).show();
 
         loginButton.setEnabled(true);
     }
@@ -127,14 +118,14 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailText.setError("enter a valid email address");
+            emailText.setError("ingrese un email valido");
             valid = false;
         } else {
             emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            passwordText.setError("between 4 and 10 alphanumeric characters");
+            passwordText.setError("de 4 a 10 caracteres alfanumericos");
             valid = false;
         } else {
             passwordText.setError(null);

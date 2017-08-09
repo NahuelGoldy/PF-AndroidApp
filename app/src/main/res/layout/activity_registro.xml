@@ -24,12 +24,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:focusableInTouchMode="true"
+            >
             <EditText android:id="@+id/input_email_registro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="Email" />
+                android:hint="Email"
+                android:focusableInTouchMode="true"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
@@ -125,7 +128,8 @@
             android:checked="true"
             android:checkMark="@drawable/ic_collapse_00009"
             android:layout_weight="1"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_marginTop="1dp"/>
 
         <!--  Modelo Label -->
         <android.support.design.widget.TextInputLayout

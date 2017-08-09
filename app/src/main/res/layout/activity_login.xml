@@ -23,12 +23,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
             <EditText android:id="@+id/input_email_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="Email" />
+                android:hint="Email"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
@@ -36,12 +41,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
             <EditText android:id="@+id/input_password_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="Contraseña"/>
+                android:hint="Contraseña"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
