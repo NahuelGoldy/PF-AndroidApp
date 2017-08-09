@@ -24,10 +24,12 @@ public class DialogBorrarReserva implements View.OnClickListener {
     private final Dialog dialogTest;
     private Context context;
     private ReservaMock reserva;
+    private TileContentFragment.ContentAdapter contentAdapter;
 
-    public DialogBorrarReserva(Context context, ReservaMock reserva) {
+    public DialogBorrarReserva(Context context, ReservaMock reserva, TileContentFragment.ContentAdapter ContentAdapter) {
         this.reserva = reserva;
         this.context = context;
+        this.contentAdapter = ContentAdapter;
         dialogTest = new Dialog(context); // Context, this, etc.
         dialogTest.setContentView(R.layout.custom_info_window_borrar_reserva);
         dialogTest.setTitle(msgTituloDialog);
@@ -55,6 +57,9 @@ public class DialogBorrarReserva implements View.OnClickListener {
         if (v.getId() == R.id.btnBorrarReserva){
             ReservaDAO.getInstance().borrarReservaSharedPref(reserva,context);
             dialogTest.dismiss();
+
+            //Notifico al Adapter que le saque data
+            this.contentAdapter.notifyDataSetChanged();
             Toast.makeText(context,"Se borro el registro de su reserva",Toast.LENGTH_LONG).show();
 
         }  else if(v.getId() == R.id.btnConservarReserva){

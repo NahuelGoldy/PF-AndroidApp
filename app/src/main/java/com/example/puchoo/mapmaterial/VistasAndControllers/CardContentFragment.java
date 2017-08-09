@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial;
+package com.example.puchoo.mapmaterial.VistasAndControllers;
 
 /**
  * Created by Puchoo on 10/04/2017.
@@ -16,24 +16,18 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
+import com.example.puchoo.mapmaterial.Dao.FavoritosDAO;
 import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
-import com.example.puchoo.mapmaterial.VistasAndControllers.ReservarActivity;
+import com.example.puchoo.mapmaterial.R;
 
 import java.util.ArrayList;
 
@@ -83,8 +77,11 @@ public class CardContentFragment extends Fragment {
         public ImageView picture;
         public TextView name;
         public TextView description;
-        public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
+        public final ArrayList<Estacionamiento> listaEstHolder;
+        public ViewHolder(LayoutInflater inflater, final ViewGroup parent, ArrayList<Estacionamiento> listaEstacionamiento) {
             super(inflater.inflate(R.layout.item_card, parent, false));
+            this.listaEstHolder = listaEstacionamiento;
+
             picture = (ImageView) itemView.findViewById(R.id.card_image);
             name = (TextView) itemView.findViewById(R.id.card_title);
             description = (TextView) itemView.findViewById(R.id.card_text);
@@ -120,6 +117,7 @@ public class CardContentFragment extends Fragment {
             favoriteImageButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
+                    FavoritosDAO.getInstance().guardarFavoritoSharedPref(listaEstHolder.get(getAdapterPosition()),parent.getContext());
                     Snackbar.make(v, "Estacionamiento agreado a Favoritos",
                             Snackbar.LENGTH_LONG).show();
                 }
@@ -195,7 +193,7 @@ public class CardContentFragment extends Fragment {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent,listaEstContentAdapter);
         }
 
         @Override

@@ -6,6 +6,8 @@
     <string name="navigation_recordar_estacionamiento">Estacionar aquí</string>
     <string name="navigation_encontrar_estacionamiento">Donde estacioné?</string>
 
+    <string name="resgistrate"> <u>¿No tienes una cuenta? Crea una.</u></string>
+    <string name="logeate"><u>¿Ya estas registrado? Logeate</u></string>
 
     <!-- Strings del servicio de mapa y ubicacion -->
     <string name="service_not_available">El servicio de busqueda de direcciones no esta disponible actualmente.</string>

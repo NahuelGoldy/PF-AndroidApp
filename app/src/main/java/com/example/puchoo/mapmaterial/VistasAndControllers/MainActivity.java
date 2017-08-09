@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial;
+package com.example.puchoo.mapmaterial.VistasAndControllers;
 
 
 import android.os.Handler;
@@ -18,9 +18,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.ConstantsNavigatorView;
 
 import java.util.ArrayList;

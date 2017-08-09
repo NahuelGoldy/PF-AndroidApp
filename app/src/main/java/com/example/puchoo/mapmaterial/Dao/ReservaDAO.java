@@ -97,18 +97,11 @@ public class ReservaDAO {
 
         reservasViejasList = getReservaSharedPref(context);
 
-        System.out.println("###################################################");
-        System.out.println(reservasViejasList);
 
 
         if (!reservasViejasList.equals("")){
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
             //if(reservasViejasList.remove(reserva)){
                 reservasViejasList.remove(reserva);
-                System.out.println(reserva);
-                System.out.println(reservasViejasList);
-                System.out.println("###################################################");
-
                 actualiarReservasSharedPref(reservasViejasList, context);
             //}
         }
@@ -131,6 +124,5 @@ public class ReservaDAO {
 
         return listaReservas;
     }
-
 
 }

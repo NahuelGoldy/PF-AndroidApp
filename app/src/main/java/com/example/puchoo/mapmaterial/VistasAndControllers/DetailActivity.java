@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.puchoo.mapmaterial;
+package com.example.puchoo.mapmaterial.VistasAndControllers;
 
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
+import com.example.puchoo.mapmaterial.R;
 
 import java.util.ArrayList;
 

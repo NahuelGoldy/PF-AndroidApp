@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <ImageView android:src="@drawable/a_avator"
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal" />
+
+        <!-- Email Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_email_registro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Email" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Password Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_password_registro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Contraseña"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <!--  Patente Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText android:id="@+id/input_patente_registro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:hint="Patente (AAA000 / AA000AA)" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--  Display Opcions Label -->
+        <CheckedTextView
+            android:text="Datos Personales (Opcionales)"
+            android:textColor="#b7b7b7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/desplegable_datospersonales_registro"
+            android:gravity="center"
+            android:checkMark="@drawable/ic_collapse_00009"
+            android:layout_weight="1"
+            android:textSize="18sp" />
+
+        <!--  Name Label -->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/name_registro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText android:id="@+id/input_name_registro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:hint="Nombre" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--  Apellido Label -->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/apellido_registro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_apellido_registro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:hint="Apellido" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--  Telefono Label -->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tel_registro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_tel_registro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:hint="Telefono" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--  Display Opcions Label -->
+        <CheckedTextView
+            android:text="Datos Vehiculo (Opcionales)"
+            android:textColor="#b7b7b7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/desplegable_datosvehiculo_registro"
+            android:gravity="center"
+            android:checked="true"
+            android:checkMark="@drawable/ic_collapse_00009"
+            android:layout_weight="1"
+            android:textSize="18sp" />
+
+        <!--  Modelo Label -->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/modelo_registro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText android:id="@+id/input_modelo_registro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:hint="Modelo" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--  Año Label -->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/año_registro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText android:id="@+id/input_año_registro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="Año" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--  Color Label -->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/color_registro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText android:id="@+id/input_color_registro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:hint="Color" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <!-- Signup Button -->
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_signup_registro"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:text="Creat Cuenta"/>
+
+        <TextView android:id="@+id/link_login_registro"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/logeate"
+            android:gravity="center"
+            android:textSize="16dip"/>
+
+    </LinearLayout>
+</ScrollView>

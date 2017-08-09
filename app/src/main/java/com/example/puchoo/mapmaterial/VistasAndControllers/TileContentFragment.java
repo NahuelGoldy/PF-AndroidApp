@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial;
+package com.example.puchoo.mapmaterial.VistasAndControllers;
 
 /**
  * Created by Puchoo on 10/04/2017.
@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.puchoo.mapmaterial.Dao.ReservaDAO;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
+import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.ConstantsEstacionamientoService;
 import com.example.puchoo.mapmaterial.Utils.ReservaMockAdapter;
 import com.example.puchoo.mapmaterial.VistasAndControllers.DialogBorrarReserva;
@@ -47,16 +48,17 @@ public class TileContentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
+        final RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
 
         /** Cargo la lista de estacionamientos para luego hacer la lista**/
         initReservas();
 
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext(),listaReservas);
+        final ContentAdapter adapter = new ContentAdapter(recyclerView.getContext(),listaReservas);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         return recyclerView;
     }
 
@@ -65,7 +67,8 @@ public class TileContentFragment extends Fragment {
         public TextView direcc;
         public TextView fecha;
         public TextView hora;
-        public ViewHolder(LayoutInflater inflater, final ViewGroup parent, final ArrayList<ReservaMock> listaReservaHolder) {
+        public ViewHolder(LayoutInflater inflater, final ViewGroup parent,
+                          final ArrayList<ReservaMock> listaReservaHolder, final ContentAdapter Adapter) {
             super(inflater.inflate(R.layout.row_lista_reserva, parent, false));
                 name = (TextView) itemView.findViewById(R.id.tv_nombreEstac_reserva_lista);
                 direcc = (TextView) itemView.findViewById(R.id.tv_direccEstac_reserva_lista);
@@ -75,13 +78,13 @@ public class TileContentFragment extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new DialogBorrarReserva(v.getContext(),listaReservaHolder.get(getAdapterPosition()));
+                       new DialogBorrarReserva(v.getContext(),listaReservaHolder.get(getAdapterPosition()),Adapter);
                     }
                 });
             }
     }
 
-    public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder>{
         // Set numbers of Card in RecyclerView.
         private static int LENGTH = 10;
 
@@ -102,7 +105,6 @@ public class TileContentFragment extends Fragment {
                     LENGTH = 10; //Si la lista no es vacia seteo en 10 la cant de items
                 }
             }
-
             /** Inicialiacion de variables**/
             listaReservasAdapter = listaReservas;
             names = new String[listaReservasAdapter.size()];
@@ -113,8 +115,8 @@ public class TileContentFragment extends Fragment {
             if(!listaReservas.isEmpty()){
                 int i = 0;
                 for(ReservaMock r : listaReservasAdapter){
-                    names[i] = r.getNombreEstacionamientoReservado();
-                    direccs[i] = r.getDireccionEstacionamientoReservado();
+                    names[i] = "NOMBRE: "+r.getNombreEstacionamientoReservado();
+                    direccs[i] ="DIRECCION: "+ r.getDireccionEstacionamientoReservado();
                     fechas[i] = r.getFechaReservado();
                     horas[i] = r.getHoraReservado();
                     i++;
@@ -124,7 +126,7 @@ public class TileContentFragment extends Fragment {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent, listaReservasAdapter);
+            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent, listaReservasAdapter, this);
         }
 
         @Override
@@ -141,6 +143,7 @@ public class TileContentFragment extends Fragment {
         public int getItemCount() {
             return LENGTH;
         }
+
     }
 
     private void initReservas(){

@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:largeHeap="true">
-        <activity android:name=".MainActivity">
+
+        <activity
+            android:name=".VistasAndControllers.LaunchManager">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,7 +28,34 @@
         </activity>
 
         <activity
-            android:name=".DetailActivity"
+            android:name=".VistasAndControllers.MainActivity"
+            android:label="Main" >
+            <intent-filter>
+                <action android:name="MainActivity" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".VistasAndControllers.LoginActivity"
+            android:label="Login" >
+            <intent-filter>
+                <action android:name="LoginActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".VistasAndControllers.RegistroActivity"
+            android:label="Registro" >
+            <intent-filter>
+                <action android:name="RegistroActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".VistasAndControllers.DetailActivity"
             android:label="Detail" >
             <intent-filter>
                 <action android:name="DetailActivity" />

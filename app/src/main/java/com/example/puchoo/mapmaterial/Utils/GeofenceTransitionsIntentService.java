@@ -12,7 +12,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.puchoo.mapmaterial.ListContentFragment;
+import com.example.puchoo.mapmaterial.VistasAndControllers.ListContentFragment;
 import com.example.puchoo.mapmaterial.R;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
