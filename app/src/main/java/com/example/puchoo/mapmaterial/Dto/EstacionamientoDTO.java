@@ -1,5 +1,6 @@
 package com.example.puchoo.mapmaterial.Dto;
 
+import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 
@@ -33,8 +34,8 @@ public class EstacionamientoDTO {
     private Boolean eliminado;
     @SerializedName("capacidad")
     private int capacidad;
-    @SerializedName("image")
-    private byte[] image;
+  //  @SerializedName("image")
+    private byte[] image2;
 
     public EstacionamientoDTO() {}
 
@@ -135,14 +136,35 @@ public class EstacionamientoDTO {
     }
 
     public byte[] getImage() {
-        return image;
+        return image2;
     }
 
     public void setImage(byte[] image) {
-        this.image = image;
+        this.image2 = image;
     }
 
     public LatLng getCoords(){
         return new LatLng(this.posicionLatitud, this.posicionLongitud);
+    }
+
+
+    public Estacionamiento toEstacionamiento(){
+        Estacionamiento est = new Estacionamiento();
+        est.setIdEstacionamiento(this.idEstacionamiento);
+        est.setNombreEstacionamiento(this.nombreEstacionamiento);
+        est.setDireccionEstacionamiento(this.direccionEstacionamiento);
+        est.setAceptaTarjetas(this.aceptaTarjetas);
+        est.setTelefono(this.telefono);
+        est.setCapacidad(this.capacidad);
+        est.setEsTechado(this.esTechado);
+        est.setHorarios(this.horarios);
+        LatLng latLng = new LatLng(this.posicionLatitud,this.posicionLongitud);
+        est.setPosicionEstacionamiento(latLng);
+
+//        est.setImagen(this.image);
+
+        est.setEliminado(this.eliminado);
+
+        return est;
     }
 }

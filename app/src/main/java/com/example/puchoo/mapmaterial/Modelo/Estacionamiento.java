@@ -7,6 +7,7 @@ package com.example.puchoo.mapmaterial.Modelo;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Estacionamiento {
+    private int idEstacionamiento;
     private String nombreEstacionamiento;
     private String direccionEstacionamiento;
     private LatLng posicionEstacionamiento;
@@ -114,4 +115,12 @@ public class Estacionamiento {
     public byte[] getImagen() { return imagen; }
 
     public void setImagen(byte[] imagen) { this.imagen = imagen; }
+
+    public int getIdEstacionamiento() {
+        return idEstacionamiento;
+    }
+
+    public void setIdEstacionamiento(int idEstacionamiento) {
+        this.idEstacionamiento = idEstacionamiento;
+    }
 }

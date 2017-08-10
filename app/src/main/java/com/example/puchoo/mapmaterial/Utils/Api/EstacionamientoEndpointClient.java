@@ -1,11 +1,17 @@
 package com.example.puchoo.mapmaterial.Utils.Api;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.puchoo.mapmaterial.Dto.EstacionamientoDTO;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,26 +23,45 @@ import retrofit2.Response;
 
 public class EstacionamientoEndpointClient {
 
-    ArrayList<Estacionamiento> list;
+    ArrayList<EstacionamientoDTO> list;
 
     //TODO aca habria que ver si devolver la entidad Estacionamiento o EstacionamientoDTO !!!
     // ver como se maneja eso con la deserializacion del json y la info
 
-    public Estacionamiento getEstacionamientoById(int id) throws Exception {
+    public EstacionamientoDTO getEstacionamientoById(int id) throws Exception {
         ApiEndpointInterface apiInterface = ApiClient.getClient().create(ApiEndpointInterface.class);
-        Call<Estacionamiento> estacionamiento = apiInterface.getEstacionamientoById(id);
+        Call<EstacionamientoDTO> estacionamiento = apiInterface.getEstacionamientoById(id);
         return estacionamiento.execute().body();
     }
 
-    public List<Estacionamiento> getAllEstacionamientos() throws Exception {
+    public  List<Estacionamiento> getAllEstacionamientos() throws IOException {
+        ApiEndpointInterface apiInterface = ApiClient.getClient().create(ApiEndpointInterface.class);
+        Call<List<EstacionamientoDTO>> call = apiInterface.getAllEstacionamientos();
+
+        list = (ArrayList<EstacionamientoDTO>) call.execute().body();
+
+
+        List<Estacionamiento> listEstacionamiento = new ArrayList<Estacionamiento>();
+
+        for (EstacionamientoDTO estacionamientoDTO : list){
+
+            listEstacionamiento.add(estacionamientoDTO.toEstacionamiento());
+
+        }
+
+        return listEstacionamiento;
+
+    }
+
+    public List<Estacionamiento> getAllEstacionamientosAsync() throws Exception {
 
        list = new ArrayList<>();
 
         ApiEndpointInterface apiInterface = ApiClient.getClient().create(ApiEndpointInterface.class);
-        Call<List<Estacionamiento>> call = apiInterface.getAllEstacionamientos();
-        call.enqueue(new Callback<List<Estacionamiento>>() {
+        Call<List<EstacionamientoDTO>> call = apiInterface.getAllEstacionamientos();
+        call.enqueue(new Callback<List<EstacionamientoDTO>>() {
                 @Override
-                public void onResponse(Call<List<Estacionamiento>> asyncCall, Response<List<Estacionamiento>> response) {
+                public void onResponse(Call<List<EstacionamientoDTO>> asyncCall, Response<List<EstacionamientoDTO>> response) {
                     try{
                         list.addAll(response.body());
                     }
@@ -47,10 +72,18 @@ public class EstacionamientoEndpointClient {
                 }
 
                 @Override
-                public void onFailure(Call<List<Estacionamiento>> call, Throwable t) {
+                public void onFailure(Call<List<EstacionamientoDTO>> call, Throwable t) {
                     Log.d("onFailure", t.toString());
                 }
             });
-        return list;
+        List<Estacionamiento> listEstacionamiento = new ArrayList<Estacionamiento>();
+
+        for (EstacionamientoDTO estacionamientoDTO : list){
+
+            listEstacionamiento.add(estacionamientoDTO.toEstacionamiento());
+
+        }
+
+        return listEstacionamiento;
     }
 }

@@ -9,6 +9,7 @@ import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,8 +44,7 @@ import com.example.puchoo.mapmaterial.Exceptions.UbicacionVehiculoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Modelo.UbicacionVehiculoEstacionado;
 import com.example.puchoo.mapmaterial.R;
-import com.example.puchoo.mapmaterial.Utils.Api.ApiClient;
-import com.example.puchoo.mapmaterial.Utils.Api.ApiEndpointInterface;
+import com.example.puchoo.mapmaterial.Utils.Api.EstacionamientoEndpointClient;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsAddresses;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsEstacionamientoService;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNavigatorView;
@@ -54,6 +54,7 @@ import com.example.puchoo.mapmaterial.Utils.Receivers.AddressResultReceiver;
 import com.example.puchoo.mapmaterial.Utils.Receivers.AlarmEstacionamientoReceiver;
 import com.example.puchoo.mapmaterial.Utils.Services.FetchAddressIntentService;
 import com.example.puchoo.mapmaterial.Utils.Services.GeofenceTransitionsIntentService;
+import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorPedidoEstacionamiento;
 import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorReservas;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.ReservarActivity;
 import com.example.puchoo.mapmaterial.VistasAndControllers.DialogErrorReserva;
@@ -81,10 +82,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Provides UI for the view with List.
@@ -156,7 +153,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     /** Boton que permite switchear entre la lista de lugares y el mapa */
     FloatingActionButton fab;
 
-    /** Lista de listaEstacionamientos para marcar en el mapa */
     //private Estacionamiento[] listaEstacionamientos;
     private ArrayList<Estacionamiento> listaEstacionamientos;
 
@@ -191,19 +187,38 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
         String msgLog;
 
+        ProgressDialog progressDialog = new ProgressDialog(this.getContext());
+        progressDialog.setIndeterminate(true);
+        progressDialog.setTitle("Descargando....");
+        progressDialog.setMessage("Aguande un instante, mientras se descargan los estacionamientos...");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+
+        new ValidadorPedidoEstacionamiento(progressDialog,this).execute();
+
+        /*
         try {
 
             //TODO aca se llamaría a la API
 
-            estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
-            listaEstacionamientos = estacionamientoDAO.listarEstacionamientos(getActivity());
+
+           // estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
+
+            //setListaEstacionamientos((ArrayList<Estacionamiento>) new EstacionamientoEndpointClient().getAllEstacionamientos());
+
+            //estacionamientoDAO.listarEstacionamientos(getActivity());
             //listaEstacionamientos = estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
             //listaEstacionamientos = estacionamientoDAO.llenarEstacionamientos(getActivity());
         }
         catch (EstacionamientoException e1) {
             msgLog = "Hubo un error al crear el archivo con la lista de listaEstacionamientos.";
             Log.v(TAG,msgLog);
+        } catch (Exception e) {
+            msgLog = "Hubo un error al traer los estacionamientos.";
+            Log.v(TAG,msgLog);
+            e.printStackTrace();
         }
+        */
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -227,7 +242,10 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             googleMap.setMyLocationEnabled(true);
             googleMap.setOnInfoWindowClickListener(this);
             googleMap.setInfoWindowAdapter(ventanaInfo);
-            marcarEstacionamientos();
+
+            /** Marca los estacionamientos **/
+            //marcarEstacinamientos();
+
             estCalle = cargarUltimoEstacionamiento(ID_USUARIO_ACTUAL);
             enfocarMapaEnUbicacion(ubicacionActual, 16f);
         }
@@ -399,16 +417,20 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         ConstantsNavigatorView.ENABLE_INDICE_MENU_ALARMA = false;
     }
 
-    private void marcarEstacionamientos(){
+    public void marcarEstacionamientos(){
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         Estacionamiento estIterador;
-        for(int i = 0; i< listaEstacionamientos.size(); i++){
-            estIterador = listaEstacionamientos.get(i);
+        for(int i = 0; i< getListaEstacionamientos().size(); i++){
+            estIterador = getListaEstacionamientos().get(i);
             addMarker(
                     estIterador.getPosicionEstacionamiento(),
                     (estIterador.getNombreEstacionamiento()).substring(8),
                     R.drawable.marker_estacionamiento, estIterador
             );
         }
+
     }
 
     private void estacionarEnParque(LatLng position) throws UbicacionVehiculoException {
@@ -947,7 +969,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                         //TODO AGREGAR PARAMETRO PARA QUE EL SV SEPA QUE NO SE ENCONTRO ARCHIVO
                     }
 
-                    int posEstacionamientoEnLista = listaEstacionamientos.indexOf(marcadorSelected.getTag());
+                    int posEstacionamientoEnLista = getListaEstacionamientos().indexOf(marcadorSelected.getTag());
 
                     Context context = v.getContext();
                     Intent intent = new Intent(context, ReservarActivity.class);
@@ -1053,4 +1075,16 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     @Override
     public void onMapLongClick(LatLng latLng) {    }
 
+    /** Lista de listaEstacionamientos para marcar en el mapa */
+    public ArrayList<Estacionamiento> getListaEstacionamientos() {
+        return listaEstacionamientos;
+    }
+
+    public void setListaEstacionamientos(ArrayList<Estacionamiento> listaEstacionamientos) {
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        this.listaEstacionamientos = listaEstacionamientos;
+    }
 }

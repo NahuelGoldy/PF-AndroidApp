@@ -1,5 +1,6 @@
 package com.example.puchoo.mapmaterial.Utils.Api;
 
+import com.example.puchoo.mapmaterial.Dto.EstacionamientoDTO;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 
 import java.util.List;
@@ -17,11 +18,11 @@ public interface ApiEndpointInterface {
 
     @Headers({ "Accept: application/json" })
     @GET("parques/{id}")
-    Call<Estacionamiento> getEstacionamientoById(@Path("id") int parkId);
+    Call<EstacionamientoDTO> getEstacionamientoById(@Path("id") int parkId);
 
     @Headers({ "Accept: application/json" })
     @GET("parques/all")
-    Call<List<Estacionamiento>> getAllEstacionamientos();
+    Call<List<EstacionamientoDTO>> getAllEstacionamientos();
 
 //    Ejemplo de como seria un POST para crear una nueva entidad (Reserva, Usuario, lo que sea)
 //    @POST("usuarios")
