@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        //progressDialog.setIndeterminate(true);
+        progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Autenticando...");
 
 

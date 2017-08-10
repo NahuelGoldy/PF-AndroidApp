@@ -302,7 +302,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 .position(estacionamiento.getCoordenadas())
                 .title(estacionamiento.getTitulo()));
 
-        marker.setIcon(BitmapDescriptorFactory.defaultMarker(ConstantsEstacionamientoService.MARCADOR_ESTACIONAMIENTO_CALLE));
+        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_auto_estacionado_calle));
         /* Agrego el objeto estacionamiento al marcador */
         marker.setTag(estacionamiento);
 

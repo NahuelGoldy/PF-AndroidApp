@@ -1,5 +1,6 @@
 package com.example.puchoo.mapmaterial.Utils.Constants;
 
+import com.example.puchoo.mapmaterial.R;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.Date;
 
 public final class ConstantsEstacionamientoService {
     /* Indica el icono a usar del marcador de la calle, TODO - Cambiarlo por algo mejor */
-    public static final float MARCADOR_ESTACIONAMIENTO_CALLE = BitmapDescriptorFactory.HUE_YELLOW;
+    public static final float MARCADOR_ESTACIONAMIENTO_CALLE = R.drawable.marker_auto_estacionado_calle;
     /* Indica el radio de las geofences */
     public static final Integer GEOFENCE_RADIUS_IN_METERS = 100;
     /* Indica el tiempo de permanencia en milisegundos que la persona tiene que estar en el geofence para activar la notificacion */

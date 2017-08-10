@@ -119,7 +119,7 @@ public class RegistroActivity extends AppCompatActivity {
         signupButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        //progressDialog.setIndeterminate(true);
+        progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creado Cuenta...");
 
 
