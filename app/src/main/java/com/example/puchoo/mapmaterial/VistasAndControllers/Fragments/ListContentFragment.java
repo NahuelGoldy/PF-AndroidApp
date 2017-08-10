@@ -43,6 +43,8 @@ import com.example.puchoo.mapmaterial.Exceptions.UbicacionVehiculoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Modelo.UbicacionVehiculoEstacionado;
 import com.example.puchoo.mapmaterial.R;
+import com.example.puchoo.mapmaterial.Utils.Api.ApiClient;
+import com.example.puchoo.mapmaterial.Utils.Api.ApiEndpointInterface;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsAddresses;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsEstacionamientoService;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNavigatorView;
@@ -79,6 +81,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Provides UI for the view with List.
@@ -185,14 +191,9 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
         String msgLog;
 
-        //Aca hago el primer try para intentar leer el archivo que tiene la lista de estacionamientos
-        //Si no existe, lo creo, lo lleno (harcodeado..!) y lo leo
-
         try {
-            /** Levanto la lista de estacionamientos de archivo/nube/db **/
-            /** Cambiarlo en algun momento **/
 
-            //TODO aca se llamaría a la API (en EstacionamientoEndpointClient....)
+            //TODO aca se llamaría a la API
 
             estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
             listaEstacionamientos = estacionamientoDAO.listarEstacionamientos(getActivity());
