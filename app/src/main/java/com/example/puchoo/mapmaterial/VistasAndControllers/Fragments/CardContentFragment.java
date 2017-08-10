@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.VistasAndControllers;
+package com.example.puchoo.mapmaterial.VistasAndControllers.Fragments;
 
 /**
  * Created by Puchoo on 10/04/2017.
@@ -28,6 +28,8 @@ import com.example.puchoo.mapmaterial.Dao.FavoritosDAO;
 import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.R;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.DetailActivity;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.ReservarActivity;
 
 import java.util.ArrayList;
 

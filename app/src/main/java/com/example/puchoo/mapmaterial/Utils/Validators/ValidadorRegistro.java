@@ -1,10 +1,10 @@
-package com.example.puchoo.mapmaterial.Utils;
+package com.example.puchoo.mapmaterial.Utils.Validators;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import com.example.puchoo.mapmaterial.Modelo.Usuario;
-import com.example.puchoo.mapmaterial.VistasAndControllers.RegistroActivity;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.RegistroActivity;
 
 /**
  * Created by Puchoo on 08/08/2017.

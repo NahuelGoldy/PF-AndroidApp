@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.VistasAndControllers;
+package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -16,10 +16,11 @@ import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
 import com.example.puchoo.mapmaterial.R;
-import com.example.puchoo.mapmaterial.Utils.AlarmEstacionamientoReceiver;
-import com.example.puchoo.mapmaterial.Utils.ConstantsEstacionamientoService;
-import com.example.puchoo.mapmaterial.Utils.ConstantsNavigatorView;
-import com.example.puchoo.mapmaterial.Utils.ConstantsNotificaciones;
+import com.example.puchoo.mapmaterial.Utils.Receivers.AlarmEstacionamientoReceiver;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsEstacionamientoService;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNavigatorView;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNotificaciones;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;

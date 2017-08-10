@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.Utils;
+package com.example.puchoo.mapmaterial.Utils.Services;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -12,7 +12,8 @@ import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.puchoo.mapmaterial.VistasAndControllers.ListContentFragment;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsEstacionamientoService;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
 import com.example.puchoo.mapmaterial.R;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;

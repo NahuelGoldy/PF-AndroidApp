@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.VistasAndControllers;
+package com.example.puchoo.mapmaterial.VistasAndControllers.Fragments;
 
 /**
  * Created by Puchoo on 10/04/2017.
@@ -43,19 +43,19 @@ import com.example.puchoo.mapmaterial.Exceptions.UbicacionVehiculoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Modelo.UbicacionVehiculoEstacionado;
 import com.example.puchoo.mapmaterial.R;
-import com.example.puchoo.mapmaterial.Utils.AddressResultReceiver;
-import com.example.puchoo.mapmaterial.Utils.AlarmEstacionamientoReceiver;
-import com.example.puchoo.mapmaterial.Utils.ConstantsAddresses;
-import com.example.puchoo.mapmaterial.Utils.ConstantsEstacionamientoService;
-import com.example.puchoo.mapmaterial.Utils.ConstantsNavigatorView;
-import com.example.puchoo.mapmaterial.Utils.ConstantsNotificaciones;
-import com.example.puchoo.mapmaterial.Utils.ConstantsPermissionLocation;
-import com.example.puchoo.mapmaterial.Utils.FetchAddressIntentService;
-import com.example.puchoo.mapmaterial.Utils.GeofenceTransitionsIntentService;
-import com.example.puchoo.mapmaterial.Utils.ValidadorReservas;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsAddresses;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsEstacionamientoService;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNavigatorView;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNotificaciones;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsPermissionLocation;
+import com.example.puchoo.mapmaterial.Utils.Receivers.AddressResultReceiver;
+import com.example.puchoo.mapmaterial.Utils.Receivers.AlarmEstacionamientoReceiver;
+import com.example.puchoo.mapmaterial.Utils.Services.FetchAddressIntentService;
+import com.example.puchoo.mapmaterial.Utils.Services.GeofenceTransitionsIntentService;
+import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorReservas;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.ReservarActivity;
 import com.example.puchoo.mapmaterial.VistasAndControllers.DialogErrorReserva;
 import com.example.puchoo.mapmaterial.VistasAndControllers.InfoWindowsAdapter;
-import com.example.puchoo.mapmaterial.VistasAndControllers.ReservarActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Result;
@@ -191,6 +191,9 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         try {
             /** Levanto la lista de estacionamientos de archivo/nube/db **/
             /** Cambiarlo en algun momento **/
+
+            //TODO aca se llamaría a la API (en EstacionamientoEndpointClient....)
+
             estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
             listaEstacionamientos = estacionamientoDAO.listarEstacionamientos(getActivity());
             //listaEstacionamientos = estacionamientoDAO.inicializarListaEstacionamientos(getActivity());

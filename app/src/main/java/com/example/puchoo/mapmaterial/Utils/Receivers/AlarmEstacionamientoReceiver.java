@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.Utils;
+package com.example.puchoo.mapmaterial.Utils.Receivers;
 
 import android.app.AlarmManager;
 import android.app.NotificationManager;
@@ -11,7 +11,8 @@ import android.util.Log;
 
 import com.example.puchoo.mapmaterial.Dao.UbicacionVehiculoEstacionadoDAO;
 import com.example.puchoo.mapmaterial.Exceptions.UbicacionVehiculoException;
-import com.example.puchoo.mapmaterial.VistasAndControllers.ListContentFragment;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNotificaciones;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
 import com.example.puchoo.mapmaterial.Modelo.UbicacionVehiculoEstacionado;
 import com.example.puchoo.mapmaterial.R;
 import com.google.android.gms.maps.model.Marker;

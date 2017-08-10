@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name=".VistasAndControllers.MainActivity"
+            android:name=".VistasAndControllers.Activities.MainActivity"
             android:label="¿Donde Estaciono?" >
             <intent-filter>
                 <action android:name="MainActivity" />
@@ -37,7 +37,7 @@
         </activity>
 
         <activity
-            android:name=".VistasAndControllers.LoginActivity"
+            android:name=".VistasAndControllers.Activities.LoginActivity"
             android:label="Login" >
             <intent-filter>
                 <action android:name="LoginActivity" />
@@ -46,7 +46,7 @@
         </activity>
 
         <activity
-            android:name=".VistasAndControllers.RegistroActivity"
+            android:name=".VistasAndControllers.Activities.RegistroActivity"
             android:label="Registro" >
             <intent-filter>
                 <action android:name="RegistroActivity" />
@@ -55,7 +55,7 @@
         </activity>
 
         <activity
-            android:name=".VistasAndControllers.DetailActivity"
+            android:name=".VistasAndControllers.Activities.DetailActivity"
             android:label="Detail" >
             <intent-filter>
                 <action android:name="DetailActivity" />
@@ -63,7 +63,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".VistasAndControllers.ReservarActivity"
+            android:name=".VistasAndControllers.Activities.ReservarActivity"
             android:label="Reservar" >
             <intent-filter>
                 <action android:name="ReservarActivity" />

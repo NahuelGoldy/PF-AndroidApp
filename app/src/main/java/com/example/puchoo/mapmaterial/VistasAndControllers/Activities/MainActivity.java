@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.VistasAndControllers;
+package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 
 import android.os.Handler;
@@ -21,7 +21,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.R;
-import com.example.puchoo.mapmaterial.Utils.ConstantsNavigatorView;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNavigatorView;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.CardContentFragment;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.TileContentFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private ListContentFragment mapFragment;
     private CardContentFragment cardFragment;
-    private  TileContentFragment tileFragment;
+    private TileContentFragment tileFragment;
 
     private ViewPager tabsViewPager;
 

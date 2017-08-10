@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.example.puchoo.mapmaterial.Dao.ReservaDAO;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
 import com.example.puchoo.mapmaterial.R;
-import com.example.puchoo.mapmaterial.Utils.ConstantsEstacionamientoService;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsEstacionamientoService;
 
 /**
  * Created by Puchoo on 26/07/2017.

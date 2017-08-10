@@ -1,15 +1,13 @@
-package com.example.puchoo.mapmaterial.VistasAndControllers;
+package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.media.MediaCodec;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.PointerIcon;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
@@ -19,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.Modelo.Usuario;
 import com.example.puchoo.mapmaterial.R;
-import com.example.puchoo.mapmaterial.Utils.ValidadorRegistro;
+import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorRegistro;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

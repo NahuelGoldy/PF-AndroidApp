@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.VistasAndControllers;
+package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 import android.content.Intent;
 import android.location.Location;
@@ -12,7 +12,8 @@ import android.widget.ListView;
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
-import com.example.puchoo.mapmaterial.Utils.EstacionamientoAdapter;
+import com.example.puchoo.mapmaterial.Utils.Adapters.EstacionamientoAdapter;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
 
 import java.util.Arrays;
 

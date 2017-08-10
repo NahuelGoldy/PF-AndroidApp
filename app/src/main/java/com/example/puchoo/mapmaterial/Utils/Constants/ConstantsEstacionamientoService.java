@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.Utils;
+package com.example.puchoo.mapmaterial.Utils.Constants;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 

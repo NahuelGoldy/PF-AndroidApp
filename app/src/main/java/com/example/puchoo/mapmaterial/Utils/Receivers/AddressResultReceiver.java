@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.Utils;
+package com.example.puchoo.mapmaterial.Utils.Receivers;
 
 import android.os.Bundle;
 import android.os.Handler;

@@ -1,15 +1,11 @@
 package com.example.puchoo.mapmaterial.VistasAndControllers;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.widget.DrawerLayout;
-import android.view.Gravity;
-import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.R;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.LoginActivity;
 
 /**
  * Created by Puchoo on 08/08/2017.

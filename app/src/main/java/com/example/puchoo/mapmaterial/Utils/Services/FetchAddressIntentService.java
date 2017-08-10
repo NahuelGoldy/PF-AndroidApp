@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.Utils;
+package com.example.puchoo.mapmaterial.Utils.Services;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.R;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsAddresses;
 
 import java.io.IOException;
 import java.util.ArrayList;

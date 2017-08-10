@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.Utils;
+package com.example.puchoo.mapmaterial.Utils.Constants;
 
 /**
  * Created by Agustin on 02/04/2017.

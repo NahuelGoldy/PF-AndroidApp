@@ -17,6 +17,7 @@ public class Estacionamiento {
     private boolean aceptaTarjetas;
     private Boolean eliminado;
     private int capacidad;
+    private byte[] imagen;
 
     public Estacionamiento(){
         this.eliminado = false;
@@ -109,4 +110,8 @@ public class Estacionamiento {
     public int getCapacidad(){
         return this.capacidad;
     }
+
+    public byte[] getImagen() { return imagen; }
+
+    public void setImagen(byte[] imagen) { this.imagen = imagen; }
 }

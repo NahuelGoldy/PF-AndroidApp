@@ -1,11 +1,11 @@
-package com.example.puchoo.mapmaterial.Utils;
+package com.example.puchoo.mapmaterial.Utils.Validators;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-import com.example.puchoo.mapmaterial.VistasAndControllers.LoginActivity;
-import com.example.puchoo.mapmaterial.VistasAndControllers.MainActivity;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.LoginActivity;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.MainActivity;
 
 
 /**

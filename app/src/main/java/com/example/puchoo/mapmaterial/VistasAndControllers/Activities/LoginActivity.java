@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.VistasAndControllers;
+package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.R;
-import com.example.puchoo.mapmaterial.Utils.ValidadorLogin;
+import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorLogin;
 
 /**
  * Created by Puchoo on 08/08/2017.

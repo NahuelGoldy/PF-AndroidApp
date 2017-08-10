@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.puchoo.mapmaterial.VistasAndControllers;
+package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 import android.content.res.Resources;
 import android.content.res.TypedArray;

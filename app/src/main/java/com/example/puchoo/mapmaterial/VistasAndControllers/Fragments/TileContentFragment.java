@@ -1,37 +1,26 @@
-package com.example.puchoo.mapmaterial.VistasAndControllers;
+package com.example.puchoo.mapmaterial.VistasAndControllers.Fragments;
 
 /**
  * Created by Puchoo on 10/04/2017.
  */
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.puchoo.mapmaterial.Dao.ReservaDAO;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
 import com.example.puchoo.mapmaterial.R;
-import com.example.puchoo.mapmaterial.Utils.ConstantsEstacionamientoService;
-import com.example.puchoo.mapmaterial.Utils.ReservaMockAdapter;
+import com.example.puchoo.mapmaterial.Utils.Adapters.ReservaMockAdapter;
 import com.example.puchoo.mapmaterial.VistasAndControllers.DialogBorrarReserva;
-import com.example.puchoo.mapmaterial.VistasAndControllers.DialogErrorReserva;
-import com.google.gson.Gson;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 
 /**
  * Provides UI for the view with Cards.

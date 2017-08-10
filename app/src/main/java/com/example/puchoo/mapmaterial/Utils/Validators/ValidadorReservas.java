@@ -1,10 +1,11 @@
-package com.example.puchoo.mapmaterial.Utils;
+package com.example.puchoo.mapmaterial.Utils.Validators;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.example.puchoo.mapmaterial.Dao.ReservaDAO;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
+import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsEstacionamientoService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
