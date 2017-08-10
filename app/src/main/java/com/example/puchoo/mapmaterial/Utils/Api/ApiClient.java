@@ -7,14 +7,14 @@ package com.example.puchoo.mapmaterial.Utils.Api;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-class ApiClient {
+public class ApiClient {
 
     private static Retrofit retrofit = null;
 
     //TODO cambiar el Path cuando tengamos la url de la API!
     private static String BASE_URL = "http://localhost:8080";
 
-    static Retrofit getClient() {
+    public static Retrofit getClient() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
