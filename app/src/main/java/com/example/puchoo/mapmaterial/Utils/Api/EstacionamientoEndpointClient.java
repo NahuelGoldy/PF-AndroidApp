@@ -35,30 +35,29 @@ public class EstacionamientoEndpointClient {
     }
 
     public  List<Estacionamiento> getAllEstacionamientos() throws IOException {
-        ApiEndpointInterface apiInterface = ApiClient.getClient().create(ApiEndpointInterface.class);
-        Call<List<EstacionamientoDTO>> call = apiInterface.getAllEstacionamientos();
+        List<Estacionamiento> listEstacionamiento = new ArrayList<>();
+        String token = null;
+        //TODO setear el token
 
+        ApiEndpointInterface apiInterface = ApiClient.getClient().create(ApiEndpointInterface.class);
+        Call<List<EstacionamientoDTO>> call = apiInterface.getAllEstacionamientos(token);
         list = (ArrayList<EstacionamientoDTO>) call.execute().body();
 
-
-        List<Estacionamiento> listEstacionamiento = new ArrayList<Estacionamiento>();
-
         for (EstacionamientoDTO estacionamientoDTO : list){
-
             listEstacionamiento.add(estacionamientoDTO.toEstacionamiento());
-
         }
 
         return listEstacionamiento;
-
     }
 
     public List<Estacionamiento> getAllEstacionamientosAsync() throws Exception {
 
        list = new ArrayList<>();
+        String token = null;
+        //TODO setear el token
 
         ApiEndpointInterface apiInterface = ApiClient.getClient().create(ApiEndpointInterface.class);
-        Call<List<EstacionamientoDTO>> call = apiInterface.getAllEstacionamientos();
+        Call<List<EstacionamientoDTO>> call = apiInterface.getAllEstacionamientos(token);
         call.enqueue(new Callback<List<EstacionamientoDTO>>() {
                 @Override
                 public void onResponse(Call<List<EstacionamientoDTO>> asyncCall, Response<List<EstacionamientoDTO>> response) {
