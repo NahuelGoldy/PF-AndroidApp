@@ -196,36 +196,18 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
         new ValidadorPedidoEstacionamiento(progressDialog,this).execute();
 
-        /*
-        try {
-
-            //TODO aca se llamaría a la API
-
-
-           // estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
-
-            //setListaEstacionamientos((ArrayList<Estacionamiento>) new EstacionamientoEndpointClient().getAllEstacionamientos());
-
-            //estacionamientoDAO.listarEstacionamientos(getActivity());
-            //listaEstacionamientos = estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
-            //listaEstacionamientos = estacionamientoDAO.llenarEstacionamientos(getActivity());
-        }
-        catch (EstacionamientoException e1) {
-            msgLog = "Hubo un error al crear el archivo con la lista de listaEstacionamientos.";
-            Log.v(TAG,msgLog);
-        } catch (Exception e) {
-            msgLog = "Hubo un error al traer los estacionamientos.";
-            Log.v(TAG,msgLog);
-            e.printStackTrace();
-        }
-        */
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mMapView.getMapAsync(this);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+            mMapView.getMapAsync(this);
+        }
 
         return rootView;
     }
@@ -1081,10 +1063,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     }
 
     public void setListaEstacionamientos(ArrayList<Estacionamiento> listaEstacionamientos) {
-        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+
         this.listaEstacionamientos = listaEstacionamientos;
     }
 }

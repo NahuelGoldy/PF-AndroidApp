@@ -9,6 +9,7 @@ import com.example.puchoo.mapmaterial.Exceptions.FileSaverException;
 import com.example.puchoo.mapmaterial.Exceptions.UbicacionVehiculoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.R;
+import com.example.puchoo.mapmaterial.Utils.Api.EstacionamientoEndpointClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -111,7 +112,7 @@ public class EstacionamientoDAO {
         String msg;
         try{
             /** TODO en un futuro levantar la lista desde la nube */
-            Estacionamiento[] estacionamientosList = this.listarEstacionamientosHarcodeados();
+            ArrayList<Estacionamiento> estacionamientosList = (ArrayList<Estacionamiento>) new EstacionamientoEndpointClient().getAllEstacionamientos();
             jsonString = this.generarJsonDesdeArray(estacionamientosList);
             fileSaver.usarEscrituraInterna(true);
             fileSaver.guardarArchivo(jsonString,LISTA_ESTACIONAMIENTOS_FILENAME,context);
@@ -306,149 +307,13 @@ public class EstacionamientoDAO {
         return Estacionamientos;
     }
 
-    private Estacionamiento[] listarEstacionamientosHarcodeados(){
-        Estacionamiento[] Estacionamientos = new Estacionamiento[12];
-        Estacionamientos[0] = new Estacionamiento();
-        Estacionamientos[0].setDireccionEstacionamiento("DIRECCIÓN: Belgrano 2964");
-        Estacionamientos[0].setNombreEstacionamiento("NOMBRE: El Estacionamiento de la Terminal");
-        Estacionamientos[0].setHorarios("HORARIOS: Lun-Dom abierto las 24hs");
-        Estacionamientos[0].setTarifaEstacionamiento("TARIFA: $30/hs");
-        Estacionamientos[0].setPosicionEstacionamiento(new LatLng(-31.642296, -60.700448));
-        Estacionamientos[0].setTelefono("456-7893");
-        Estacionamientos[0].setEsTechado(true);
-        Estacionamientos[0].setAceptaTarjetas(true);
-        Estacionamientos[0].setCapacidad(80);
-
-        Estacionamientos[1] = new Estacionamiento();
-        Estacionamientos[1].setDireccionEstacionamiento("DIRECCIÓN: Rivadavia 3176");
-        Estacionamientos[1].setNombreEstacionamiento("NOMBRE: Estacionamiento Rivadavia");
-        Estacionamientos[1].setHorarios("HORARIOS: Lun-Dom de 7hs a 21hs");
-        Estacionamientos[1].setTarifaEstacionamiento("TARIFA: $15/hs");
-        Estacionamientos[1].setPosicionEstacionamiento(new LatLng(-31.639896, -60.702384));
-        Estacionamientos[1].setTelefono("456-1234");
-        Estacionamientos[1].setEsTechado(false);
-        Estacionamientos[1].setAceptaTarjetas(false);
-        Estacionamientos[1].setCapacidad(45);
-
-        Estacionamientos[2] = new Estacionamiento();
-        Estacionamientos[2].setDireccionEstacionamiento("DIRECCIÓN: La Rioja y 25 de Mayo");
-        Estacionamientos[2].setNombreEstacionamiento("NOMBRE: GARAGE MONTeCoRLO");
-        Estacionamientos[2].setHorarios("HORARIOS: Lun-Vie abierto las 24hs, Sáb de 9hs a 18hs");
-        Estacionamientos[2].setTarifaEstacionamiento("TARIFA: $25/hs");
-        Estacionamientos[2].setPosicionEstacionamiento(new LatLng(-31.646182, -60.705633));
-        Estacionamientos[2].setTelefono("432-1987");
-        Estacionamientos[2].setEsTechado(true);
-        Estacionamientos[2].setAceptaTarjetas(false);
-        Estacionamientos[2].setCapacidad(60);
-
-        Estacionamientos[3] = new Estacionamiento();
-        Estacionamientos[3].setDireccionEstacionamiento("DIRECCIÓN: 9 de Julio 2083");
-        Estacionamientos[3].setNombreEstacionamiento("NOMBRE: Garage y Lavadero Sarsotti");
-        Estacionamientos[3].setHorarios("HORARIOS: Lun-Vie de 8hs a 20hs, Sáb de 9hs a 18hs");
-        Estacionamientos[3].setTarifaEstacionamiento("TARIFA: $20/hs");
-        Estacionamientos[3].setPosicionEstacionamiento(new LatLng(-31.651290, -60.710682));
-        Estacionamientos[3].setTelefono("458-2757");
-        Estacionamientos[3].setEsTechado(true);
-        Estacionamientos[3].setAceptaTarjetas(false);
-        Estacionamientos[3].setCapacidad(50);
-
-        Estacionamientos[4] = new Estacionamiento();
-        Estacionamientos[4].setDireccionEstacionamiento("DIRECCIÓN: Lisandro de la Torre y 1 de Mayo");
-        Estacionamientos[4].setNombreEstacionamiento("NOMBRE: Playón Lisandro de la Torre");
-        Estacionamientos[4].setHorarios("HORARIOS: Lun-Vie de 8hs a 19hs, Sáb de 10hs a 17hs");
-        Estacionamientos[4].setTarifaEstacionamiento("TARIFA: $20/hs");
-        Estacionamientos[4].setPosicionEstacionamiento(new LatLng(-31.651290, -60.710671));
-        Estacionamientos[4].setTelefono("456-2084");
-        Estacionamientos[4].setEsTechado(false);
-        Estacionamientos[4].setAceptaTarjetas(false);
-        Estacionamientos[4].setCapacidad(35);
-
-        Estacionamientos[5] = new Estacionamiento();
-        Estacionamientos[5].setDireccionEstacionamiento("DIRECCIÓN: San Lorenzo 2565");
-        Estacionamientos[5].setNombreEstacionamiento("NOMBRE: Cocheras San Lorenzo");
-        Estacionamientos[5].setHorarios("HORARIOS: Lun-Vie de 7:30hs a 20hs");
-        Estacionamientos[5].setTarifaEstacionamiento("TARIFA: $10/hs");
-        Estacionamientos[5].setPosicionEstacionamiento(new LatLng(-31.643693, -60.716726));
-        Estacionamientos[5].setTelefono("342 504-4287");
-        Estacionamientos[5].setEsTechado(true);
-        Estacionamientos[5].setAceptaTarjetas(false);
-        Estacionamientos[5].setCapacidad(15);
-
-        Estacionamientos[6] = new Estacionamiento();
-        Estacionamientos[6].setDireccionEstacionamiento("DIRECCIÓN: 25 de Mayo 2657");
-        Estacionamientos[6].setNombreEstacionamiento("NOMBRE: Estacionamiento 25 de Mayo");
-        Estacionamientos[6].setHorarios("HORARIOS: Lun-Vie de 7:30hs a 21hs");
-        Estacionamientos[6].setTarifaEstacionamiento("TARIFA: $20/hs");
-        Estacionamientos[6].setPosicionEstacionamiento(new LatLng(-31.645223, -60.705428));
-        Estacionamientos[6].setTelefono("491-0897");
-        Estacionamientos[6].setEsTechado(true);
-        Estacionamientos[6].setAceptaTarjetas(true);
-        Estacionamientos[6].setCapacidad(40);
-
-        Estacionamientos[7] = new Estacionamiento();
-        Estacionamientos[7].setDireccionEstacionamiento("DIRECCIÓN: 25 de Mayo 3219");
-        Estacionamientos[7].setNombreEstacionamiento("NOMBRE: Estacionamiento Boneo");
-        Estacionamientos[7].setHorarios("HORARIOS: Lun-Vie de 8hs a 14hs y 16hs a 21hs");
-        Estacionamientos[7].setTarifaEstacionamiento("TARIFA: $25/hs");
-        Estacionamientos[7].setPosicionEstacionamiento(new LatLng(-31.638824, -60.703545));
-        Estacionamientos[7].setTelefono("435-9789");
-        Estacionamientos[7].setEsTechado(false);
-        Estacionamientos[7].setAceptaTarjetas(false);
-        Estacionamientos[7].setCapacidad(25);
-
-        Estacionamientos[8] = new Estacionamiento();
-        Estacionamientos[8].setDireccionEstacionamiento("DIRECCIÓN: Dique 1, Puerto");
-        Estacionamientos[8].setNombreEstacionamiento("NOMBRE: Estacionamiento Casino Santa Fe");
-        Estacionamientos[8].setHorarios("HORARIOS: Abierto las 24hs");
-        Estacionamientos[8].setTarifaEstacionamiento("TARIFA: $25/hs");
-        Estacionamientos[8].setPosicionEstacionamiento(new LatLng(-31.649029, -60.701377));
-        Estacionamientos[8].setTelefono("450-1444");
-        Estacionamientos[8].setEsTechado(false);
-        Estacionamientos[8].setAceptaTarjetas(true);
-        Estacionamientos[8].setCapacidad(100);
-
-        Estacionamientos[9] = new Estacionamiento();
-        Estacionamientos[9].setDireccionEstacionamiento("DIRECCIÓN: Francisco Miguens 180");
-        Estacionamientos[9].setNombreEstacionamiento("NOMBRE: Estacionamiento del Puerto");
-        Estacionamientos[9].setHorarios("HORARIOS: Abierto las 24hs");
-        Estacionamientos[9].setTarifaEstacionamiento("TARIFA: $30/hs");
-        Estacionamientos[9].setPosicionEstacionamiento(new LatLng(-31.647216, -60.700394));
-        Estacionamientos[9].setTelefono("450-9513");
-        Estacionamientos[9].setEsTechado(true);
-        Estacionamientos[9].setAceptaTarjetas(true);
-        Estacionamientos[9].setCapacidad(200);
-
-        Estacionamientos[10] = new Estacionamiento();
-        Estacionamientos[10].setDireccionEstacionamiento("DIRECCIÓN: Patricio Cullen 6150");
-        Estacionamientos[10].setNombreEstacionamiento("NOMBRE: Lo de Luisito");
-        Estacionamientos[10].setHorarios("HORARIOS: Lun-Vie de 14hs a 22hs");
-        Estacionamientos[10].setTarifaEstacionamiento("TARIFA: a voluntad");
-        Estacionamientos[10].setPosicionEstacionamiento(new LatLng(-31.616724, -60.674654));
-        Estacionamientos[10].setTelefono("3424412838");
-        Estacionamientos[10].setEsTechado(false);
-        Estacionamientos[10].setAceptaTarjetas(false);
-        Estacionamientos[10].setCapacidad(30);
-
-        Estacionamientos[11] = new Estacionamiento();
-        Estacionamientos[11].setDireccionEstacionamiento("DIRECCIÓN: Rivadavia 3154");
-        Estacionamientos[11].setNombreEstacionamiento("NOMBRE: Metroparking");
-        Estacionamientos[11].setHorarios("HORARIOS: Abierto las 24hs");
-        Estacionamientos[11].setTarifaEstacionamiento("TARIFA: $20/hs");
-        Estacionamientos[11].setPosicionEstacionamiento(new LatLng(-31.640081, -60.702387));
-        Estacionamientos[11].setTelefono("456-9090");
-        Estacionamientos[11].setEsTechado(true);
-        Estacionamientos[11].setAceptaTarjetas(false);
-        Estacionamientos[11].setCapacidad(75);
-
-        return Estacionamientos;
-    }
 
 
-    private String generarJsonDesdeArray(Estacionamiento[] estacionamientosList) {
+    private String generarJsonDesdeArray(ArrayList<Estacionamiento> estacionamientosList) {
         //Generar JSON a partir de un ArrayList
         List<Estacionamiento> listEstac = new ArrayList<Estacionamiento>();
-        for (int i=0; i<estacionamientosList.length; i++){
-            listEstac.add(estacionamientosList[i]);
+        for (int i=0; i<estacionamientosList.size(); i++){
+            listEstac.add(estacionamientosList.get(i));
         }
         Gson gson = new Gson();
         String jsonEstac = gson.toJson(listEstac);

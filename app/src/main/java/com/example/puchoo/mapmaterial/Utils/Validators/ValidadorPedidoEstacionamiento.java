@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Utils.Api.EstacionamientoEndpointClient;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
@@ -38,14 +39,13 @@ public class ValidadorPedidoEstacionamiento extends AsyncTask<Void,Void,Void> {
     protected Void doInBackground(Void... params) {
 
         try {
-            listaEstacionamiento = (ArrayList<Estacionamiento>) new EstacionamientoEndpointClient().getAllEstacionamientos();
+            listaEstacionamiento = EstacionamientoDAO.getInstance().listarEstacionamientos(this.listContentFragment.getContext());
 
-            System.out.println("#####################################################");
-            System.out.println("#####################################################");
-            System.out.println("BACKGROUND!!!!");
-            System.out.println(listaEstacionamiento);
-            System.out.println("#####################################################");
-            System.out.println("#####################################################");
+            /** Si no hay nada en local pidel a la api**/
+            if(listaEstacionamiento.isEmpty()){
+                listaEstacionamiento = (ArrayList<Estacionamiento>) new EstacionamientoEndpointClient().getAllEstacionamientos();
+            }
+
 
         } catch (Exception e) {
 
