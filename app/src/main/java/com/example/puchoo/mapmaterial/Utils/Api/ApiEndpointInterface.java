@@ -7,6 +7,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
 
@@ -22,7 +23,7 @@ public interface ApiEndpointInterface {
 
     @Headers({ "Accept: application/json" })
     @GET("parques/all")
-    Call<List<EstacionamientoDTO>> getAllEstacionamientos();
+    Call<List<EstacionamientoDTO>> getAllEstacionamientos(@Header("Authorization") String token);
 
 //    Ejemplo de como seria un POST para crear una nueva entidad (Reserva, Usuario, lo que sea)
 //    @POST("usuarios")

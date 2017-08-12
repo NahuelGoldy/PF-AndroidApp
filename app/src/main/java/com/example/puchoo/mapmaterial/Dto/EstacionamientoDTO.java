@@ -34,8 +34,8 @@ public class EstacionamientoDTO {
     private Boolean eliminado;
     @SerializedName("capacidad")
     private int capacidad;
-  //  @SerializedName("image")
-    private byte[] image2;
+    @SerializedName("image")
+    private String image;
 
     public EstacionamientoDTO() {}
 
@@ -135,12 +135,12 @@ public class EstacionamientoDTO {
         this.capacidad = capacidad;
     }
 
-    public byte[] getImage() {
-        return image2;
+    public String getImage() {
+        return image;
     }
 
-    public void setImage(byte[] image) {
-        this.image2 = image;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public LatLng getCoords(){
@@ -160,9 +160,7 @@ public class EstacionamientoDTO {
         est.setHorarios(this.horarios);
         LatLng latLng = new LatLng(this.posicionLatitud,this.posicionLongitud);
         est.setPosicionEstacionamiento(latLng);
-
-//        est.setImagen(this.image);
-
+        est.setImagen(this.image.getBytes());
         est.setEliminado(this.eliminado);
 
         return est;
