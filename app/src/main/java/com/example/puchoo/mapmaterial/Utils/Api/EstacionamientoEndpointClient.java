@@ -1,17 +1,14 @@
 package com.example.puchoo.mapmaterial.Utils.Api;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.puchoo.mapmaterial.Dto.EstacionamientoDTO;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
+import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +33,7 @@ public class EstacionamientoEndpointClient {
 
     public  List<Estacionamiento> getAllEstacionamientos() throws IOException {
         List<Estacionamiento> listEstacionamiento = new ArrayList<>();
-        String token = null;
+        String token = "Bearer " + SesionManager.getInstance().getTokenUsuario();
         //TODO setear el token
 
         ApiEndpointInterface apiInterface = ApiClient.getClient().create(ApiEndpointInterface.class);
