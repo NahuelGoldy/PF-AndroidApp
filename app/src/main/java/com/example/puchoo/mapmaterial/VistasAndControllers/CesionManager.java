@@ -6,7 +6,7 @@ package com.example.puchoo.mapmaterial.VistasAndControllers;
 
 public class CesionManager {
 
-    private CesionManager instance;
+    private static CesionManager instance;
     private Long tokenUsuario;
     private Boolean actualiarBD = false;
 
@@ -14,7 +14,7 @@ public class CesionManager {
 
     }
 
-    public CesionManager getInstance(){
+    public static CesionManager getInstance(){
         if (instance == null){
             instance = new CesionManager();
         }
