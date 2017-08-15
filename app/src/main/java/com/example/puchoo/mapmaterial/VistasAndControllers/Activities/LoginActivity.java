@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         // TODO: Implemetar validacion dentro de ValidadorLogin
         new ValidadorLogin(progressDialog,email,password, this).execute();
 
+        //TODO revisar: aca se setea el token??
 
     }
 

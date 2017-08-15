@@ -7,7 +7,7 @@ package com.example.puchoo.mapmaterial.VistasAndControllers;
 public class SesionManager {
 
     private static SesionManager instance;
-    private String tokenUsuario = "";
+    private String tokenUsuario;
     private Boolean actualizarBD = false;
 
     private SesionManager(){
