@@ -1,4 +1,4 @@
-package com.example.puchoo.mapmaterial.VistasAndControllers;
+package com.example.puchoo.mapmaterial.Utils.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
