@@ -48,6 +48,7 @@ import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsEstacionamientoSe
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNavigatorView;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNotificaciones;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsPermissionLocation;
+import com.example.puchoo.mapmaterial.Utils.Helpers.MapaHelper;
 import com.example.puchoo.mapmaterial.Utils.Receivers.AddressResultReceiver;
 import com.example.puchoo.mapmaterial.Utils.Receivers.AlarmEstacionamientoReceiver;
 import com.example.puchoo.mapmaterial.Utils.Services.FetchAddressIntentService;
@@ -55,7 +56,7 @@ import com.example.puchoo.mapmaterial.Utils.Services.GeofenceTransitionsIntentSe
 import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorPedidoEstacionamiento;
 import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorReservas;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.ReservarActivity;
-import com.example.puchoo.mapmaterial.VistasAndControllers.DialogErrorReserva;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Modals.DialogErrorReserva;
 import com.example.puchoo.mapmaterial.Utils.Adapters.InfoWindowsAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -73,6 +74,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -187,8 +189,8 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
         ProgressDialog progressDialog = new ProgressDialog(this.getContext());
         progressDialog.setIndeterminate(true);
-        progressDialog.setTitle("Descargando....");
-        progressDialog.setMessage("Aguande un instante, mientras se descargan los estacionamientos...");
+        progressDialog.setTitle("Cargando....");
+        progressDialog.setMessage("Aguarde un instante mientras se cargan los estacionamientos...");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
 
@@ -227,6 +229,9 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             /** Marca los estacionamientos **/
             //marcarEstacinamientos();
 
+            //TODO SACAR ESTO DE ACA (ponerlo donde corresponde)
+            Polyline polyline = googleMap.addPolyline(MapaHelper.dibujarCallesEstacionamientoMedido());
+
             estCalle = cargarUltimoEstacionamiento(ID_USUARIO_ACTUAL);
             enfocarMapaEnUbicacion(ubicacionActual, 16f);
         }
@@ -237,7 +242,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     }
 
     /**-------------------------------------------------------------------*/
-    /**                      Metodos de Markes                            */
+    /**                      Metodos de Markers                            */
     /**-------------------------------------------------------------------*/
 
     /**
@@ -336,7 +341,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
 
     /**-------------------------------------------------------------------*/
-    /**                  Metodos de Estacionamietos                       */
+    /**                  Metodos de Estacionamientos                       */
     /**-------------------------------------------------------------------*/
 
     /**

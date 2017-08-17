@@ -18,7 +18,7 @@ import com.example.puchoo.mapmaterial.Dao.ReservaDAO;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
 import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.Adapters.ReservaMockAdapter;
-import com.example.puchoo.mapmaterial.VistasAndControllers.DialogBorrarReserva;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Modals.DialogBorrarReserva;
 
 import java.util.ArrayList;
 

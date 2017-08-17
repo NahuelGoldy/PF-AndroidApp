@@ -7,8 +7,8 @@ import android.util.Log;
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Utils.Api.EstacionamientoEndpointClient;
-import com.example.puchoo.mapmaterial.VistasAndControllers.CesionManager;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
+import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,7 @@ public class ValidadorPedidoEstacionamiento extends AsyncTask<Void,Void,Void> {
 
         try {
 
-            if (!CesionManager.getInstance().getActualiarBD()) {
+            if (!SesionManager.getInstance().getActualizarBD()) {
                 listaEstacionamiento = EstacionamientoDAO.getInstance().listarEstacionamientos(this.listContentFragment.getContext());
             } else{
                 listaEstacionamiento = (ArrayList<Estacionamiento>) new EstacionamientoEndpointClient().getAllEstacionamientos();
