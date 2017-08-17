@@ -75,6 +75,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -230,14 +231,20 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             //marcarEstacinamientos();
 
             //TODO SACAR ESTO DE ACA (ponerlo donde corresponde)
-            Polyline polyline = googleMap.addPolyline(MapaHelper.dibujarCallesEstacionamientoMedido());
+            ArrayList<PolylineOptions> polylineOptionsList = MapaHelper.dibujarCallesEstacionamientoMedidoProhibido();
+            for(PolylineOptions segmento : polylineOptionsList){
+                //tip: guardar las polylines en un arraylist, para cuando haya que guardarlas
+                //tip2: para lo anterior, convendria hacer MapaHelper singleton?
+                Polyline polyline = googleMap.addPolyline(segmento);
+                //polyline.remove();
+            }
 
             estCalle = cargarUltimoEstacionamiento(ID_USUARIO_ACTUAL);
             enfocarMapaEnUbicacion(ubicacionActual, 16f);
         }
         else enfocarMapaEnUbicacion(ubicacionActual, 16f);
 
-        //Setea la constanste si es que hay registro de reservas previas
+        //Setea la constante si es que hay registro de reservas previas
         ValidadorReservas.getInstance().initConstansHoras(getContext());
     }
 
