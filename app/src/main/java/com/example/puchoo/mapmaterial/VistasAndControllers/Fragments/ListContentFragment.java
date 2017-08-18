@@ -227,15 +227,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             /** Marca los estacionamientos **/
             marcarEstacionamientos();
 
-            //TODO SACAR ESTO DE ACA (ponerlo donde corresponde)
-            ArrayList<PolylineOptions> polylineOptionsList = MapaHelper.dibujarCallesEstacionamientoMedidoProhibido();
-            for(PolylineOptions segmento : polylineOptionsList){
-                //tip: guardar las polylines en un arraylist, para cuando haya que guardarlas
-                //tip2: para lo anterior, convendria hacer MapaHelper singleton?
-                Polyline polyline = googleMap.addPolyline(segmento);
-                //polyline.remove();
-            }
-
             estCalle = cargarUltimoEstacionamiento(ID_USUARIO_ACTUAL);
             enfocarMapaEnUbicacion(ubicacionActual, 16f);
         }
@@ -249,6 +240,30 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     /**-------------------------------------------------------------------*/
     /**                      Metodos de Markers                            */
     /**-------------------------------------------------------------------*/
+
+    /**
+     * dibuja las zonas habilitadas y prohibidas para estacionar
+     */
+    public void dibujarZonasParqimetros(){
+        googleMap.clear();
+
+        ArrayList<PolylineOptions> polylineOptionsList = MapaHelper.dibujarCallesEstacionamientoMedidoProhibido();
+        for(PolylineOptions segmento : polylineOptionsList){
+            //tip: guardar las polylines en un arraylist, para cuando haya que guardarlas
+            //tip2: para lo anterior, convendria hacer MapaHelper singleton?
+            Polyline polyline = googleMap.addPolyline(segmento);
+            //polyline.remove();
+        }
+
+    }
+
+    /**
+     * dibuja los marcadores de los estacionamientos pagos
+     */
+    public void dibujarEstacionamientos(){
+        googleMap.clear();
+        marcarEstacionamientos();
+    }
 
     /**
      * Setea el icono de cuando esta un vehiculo estacionado ahi

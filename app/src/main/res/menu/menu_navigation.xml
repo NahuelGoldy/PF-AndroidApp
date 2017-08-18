@@ -13,7 +13,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
             android:icon="@drawable/icn_globe"
@@ -33,10 +34,11 @@
             android:id="@+id/btnMenuFavoritos"/>
             />
         <item
-            android:icon="@drawable/icn_menu_alarma"
+            android:id="@+id/btnMenuDibujar"
+            android:icon="@drawable/icn_globe"
             android:tint="@color/button_grey"
-            android:title="Alarma"
-            android:id="@+id/btnMenuAlarma"/>
+            android:title="Dibujar Zonas Estacionamiento Medido"
+            app:actionLayout="@layout/switch_item" />
             />
     </group>
     <item android:title="Usuario">
