@@ -1,6 +1,7 @@
 package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 
+import android.app.ProgressDialog;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNavigatorView;
+import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorPedidoEstacionamiento;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.CardContentFragment;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.TileContentFragment;
@@ -97,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.addFragment(cardFragment, "Estacionamientos");
         adapter.addFragment(tileFragment, "Reservas");
         viewPager.setAdapter(adapter);
+
+
     }
 
 

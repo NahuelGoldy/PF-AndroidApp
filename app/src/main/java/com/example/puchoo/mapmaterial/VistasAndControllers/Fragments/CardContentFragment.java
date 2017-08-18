@@ -30,6 +30,7 @@ import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.DetailActivity;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.ReservarActivity;
+import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,10 @@ import static android.content.ContentValues.TAG;
 public class CardContentFragment extends Fragment {
 
     /** Lista de listaEstacionamientos */
-    private ArrayList<Estacionamiento> listaEstacionamientos;
+    private ArrayList<Estacionamiento> listaEstacionamientos = new ArrayList<>();
+
+    /** Adapter**/
+    ContentAdapter adapter;
 
     /** Dao que almacena ubicacion de listaEstacionamientos */
     private static final EstacionamientoDAO estacionamientoDAO = EstacionamientoDAO.getInstance();
@@ -53,9 +57,10 @@ public class CardContentFragment extends Fragment {
                 R.layout.recycler_view, container, false);
 
         /** Cargo la lista de estacionamientos para luego hacer las Card**/
-        cargarEstacionamientos();
+        //cargarEstacionamientos();
+        listaEstacionamientos = SesionManager.getInstance().getListaEstacionamientos();
 
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext(),listaEstacionamientos);
+        adapter = new ContentAdapter(recyclerView.getContext(),listaEstacionamientos);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -66,8 +71,9 @@ public class CardContentFragment extends Fragment {
         try {
             /** Levanto la lista de estacionamientos de archivo/nube/db **/
             /** Cambiarlo en algun momento **/
-            estacionamientoDAO.inicializarListaEstacionamientos(getActivity());
-            listaEstacionamientos = estacionamientoDAO.listarEstacionamientos(getActivity());
+            estacionamientoDAO.inicializarListaEstacionamientos(getContext());
+            listaEstacionamientos = estacionamientoDAO.listarEstacionamientos(getContext());
+            System.out.print(listaEstacionamientos);
         }
         catch (EstacionamientoException e1) {
             String msgLog = "Hubo un error al crear el archivo con la lista de listaEstacionamientos.";
@@ -159,7 +165,7 @@ public class CardContentFragment extends Fragment {
      **********************************************************************************************/
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of Card in RecyclerView.
-        private static final int LENGTH = 18;
+        private static int LENGTH = 18;
 
         private final String[] mPlaces;
         private final String[] mPlaceDesc;
@@ -174,6 +180,16 @@ public class CardContentFragment extends Fragment {
             mPlaces = new String[listaEstContentAdapter.size()];
             mPlaceDesc = new String[listaEstContentAdapter.size()];
             mPlacePictures = new Drawable[listaEstContentAdapter.size()];
+
+            if(listaEstContentAdapter.isEmpty()){
+                LENGTH = 0; //Si la lista es vacia seteo en 0 el la cant de items
+            } else {
+                if(listaEstContentAdapter.size() < 10){
+                    LENGTH = listaEstContentAdapter.size();
+                } else {
+                    LENGTH = 18; //Si la lista no es vacia seteo en 10 la cant de items
+                }
+            }
 
             //TODO Remplazarlos resources por peticiones al sv para no iterar tanto
             int i = 0;
@@ -200,14 +216,21 @@ public class CardContentFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
-            holder.name.setText(mPlaces[position % mPlaces.length]);
-            holder.description.setText(mPlaceDesc[position % mPlaceDesc.length]);
+            if(mPlaceDesc.length != 0) {
+                holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
+                holder.name.setText(mPlaces[position % mPlaces.length]);
+                holder.description.setText(mPlaceDesc[position % mPlaceDesc.length]);
+            }
         }
 
         @Override
         public int getItemCount() {
             return LENGTH;
         }
+    }
+
+    public void cargarEstacionamientos(ArrayList<Estacionamiento> listaEstacionamientos){
+        this.listaEstacionamientos = listaEstacionamientos;
+        adapter.notifyDataSetChanged();
     }
 }

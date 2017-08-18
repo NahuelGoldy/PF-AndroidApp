@@ -58,6 +58,7 @@ import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorReservas;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.ReservarActivity;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Modals.DialogErrorReserva;
 import com.example.puchoo.mapmaterial.Utils.Adapters.InfoWindowsAdapter;
+import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Result;
@@ -177,6 +178,8 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
     /** Codigo de request de permiso para cargar el mapa*/
     private ConstantsPermissionLocation ConstantePermisos;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.maps_content_fragment, container, false);
@@ -188,16 +191,10 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
         String msgLog;
 
-        ProgressDialog progressDialog = new ProgressDialog(this.getContext());
-        progressDialog.setIndeterminate(true);
-        progressDialog.setTitle("Cargando....");
-        progressDialog.setMessage("Aguarde un instante mientras se cargan los estacionamientos...");
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
 
+        listaEstacionamientos = SesionManager.getInstance().getListaEstacionamientos();
 
-        new ValidadorPedidoEstacionamiento(progressDialog,this).execute();
-
+       // new ValidadorPedidoEstacionamiento(progressDialog,this).execute();
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -228,7 +225,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             googleMap.setInfoWindowAdapter(ventanaInfo);
 
             /** Marca los estacionamientos **/
-            //marcarEstacinamientos();
+            marcarEstacionamientos();
 
             //TODO SACAR ESTO DE ACA (ponerlo donde corresponde)
             ArrayList<PolylineOptions> polylineOptionsList = MapaHelper.dibujarCallesEstacionamientoMedidoProhibido();
@@ -246,6 +243,7 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
         //Setea la constante si es que hay registro de reservas previas
         ValidadorReservas.getInstance().initConstansHoras(getContext());
+
     }
 
     /**-------------------------------------------------------------------*/

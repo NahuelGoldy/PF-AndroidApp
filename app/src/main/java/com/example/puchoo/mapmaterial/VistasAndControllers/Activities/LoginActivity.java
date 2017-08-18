@@ -16,6 +16,7 @@ import com.example.puchoo.mapmaterial.Dto.LoginDTO;
 import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.Api.LoginEndpointClient;
 import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorLogin;
+import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorPedidoEstacionamiento;
 import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 
 import java.io.IOException;
@@ -31,6 +32,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView signupLink;
     private EditText emailText, passwordText;
+
+    /**Dialog**/
+    ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton.setEnabled(false);
 
-        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Autenticando...");
         progressDialog.setCanceledOnTouchOutside(false);
@@ -89,12 +93,14 @@ public class LoginActivity extends AppCompatActivity {
         new ValidadorLogin(progressDialog,email,password, this).execute();
 
         //TODO revisar: aca se setea el token??
+        /*
         try {
             LoginDTO dto = new LoginEndpointClient().login();
             SesionManager.getInstance().setTokenUsuario(dto.getToken());
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
     }
 
 
@@ -117,8 +123,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
+
+        progressDialog.setTitle("Cargando....");
+        progressDialog.setMessage("Aguarde un instante mientras se cargan los estacionamientos...");
+
+        new ValidadorPedidoEstacionamiento(this, progressDialog).execute();
+
         loginButton.setEnabled(true);
-        finish();
     }
 
     public void onLoginFailed() {

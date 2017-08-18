@@ -94,6 +94,7 @@ public class TileContentFragment extends Fragment {
                     LENGTH = 10; //Si la lista no es vacia seteo en 10 la cant de items
                 }
             }
+
             /** Inicialiacion de variables**/
             listaReservasAdapter = listaReservas;
             names = new String[listaReservasAdapter.size()];
