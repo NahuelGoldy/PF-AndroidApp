@@ -14,9 +14,7 @@ public class ApiClient {
 
     private static Retrofit retrofit = null;
 
-    //TODO cambiar el Path cuando tengamos la url de la API!
-    //private static String BASE_URL = "http://virachogaming.ddns.net:9000/";
-    private static String BASE_URL = "http://virachogaming.ddns.net:9000/tpFinalBackend-0.1.0/";
+    private static String BASE_URL = "http://dondeestaciono.cloudapp.net:8080/";
 
 
 

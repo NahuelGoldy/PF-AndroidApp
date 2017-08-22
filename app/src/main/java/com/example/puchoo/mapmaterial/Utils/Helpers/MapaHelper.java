@@ -14,15 +14,6 @@ public class MapaHelper {
 
         ArrayList<PolylineOptions> polylineOptionsList = new ArrayList<>();
 
-        //TODO setear todas las coordenadas posta
-//        polylineOptionsList.add(new PolylineOptions()
-//                                        .add(new LatLng(-31.645863, -60.705607), new LatLng(-31.644648, -60.705277))
-//                                        //.add(new LatLng(-31, -60), new LatLng(-31, -60))
-//                                        //.add(new LatLng(-31, -60), new LatLng(-31, -60))
-//                                        .width(5)
-//                                        .color(Color.RED)
-//        );
-
         polylineOptionsList.add(new PolylineOptions()
                 .add(new LatLng(-31.660354, -60.709826), new LatLng(-31.659477, -60.708946))
                 .add(new LatLng(-31.659477, -60.708946), new LatLng(-31.659139, -60.708270))

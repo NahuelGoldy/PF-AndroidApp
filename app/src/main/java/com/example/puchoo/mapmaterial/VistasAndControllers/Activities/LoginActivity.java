@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.puchoo.mapmaterial.Dto.CredencialesLoginDTO;
 import com.example.puchoo.mapmaterial.Dto.LoginDTO;
 import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.Api.LoginEndpointClient;
@@ -88,10 +89,10 @@ public class LoginActivity extends AppCompatActivity {
         // TODO: Implemetar validacion dentro de ValidadorLogin
         new ValidadorLogin(progressDialog,email,password, this).execute();
 
-        //TODO revisar: aca se setea el token??
         try {
-            LoginDTO dto = new LoginEndpointClient().login();
-            SesionManager.getInstance().setTokenUsuario(dto.getToken());
+            //se llama a login en la API
+            //este metodo ya setea el token
+            new LoginEndpointClient().login(new CredencialesLoginDTO(email, password));
         } catch (IOException e) {
             e.printStackTrace();
         }

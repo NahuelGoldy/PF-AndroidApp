@@ -33,8 +33,8 @@ public class EstacionamientoEndpointClient {
 
     public  List<Estacionamiento> getAllEstacionamientos() throws IOException {
         List<Estacionamiento> listEstacionamiento = new ArrayList<>();
+
         String token = "Bearer " + SesionManager.getInstance().getTokenUsuario();
-        //TODO setear el token
 
         ApiEndpointInterface apiInterface = ApiClient.getClient().create(ApiEndpointInterface.class);
         Call<List<EstacionamientoDTO>> call = apiInterface.getAllEstacionamientos(token);
