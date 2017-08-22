@@ -1,12 +1,17 @@
 package com.example.puchoo.mapmaterial.Utils.Validators;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Utils.Api.EstacionamientoEndpointClient;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.LoginActivity;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.MainActivity;
+import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.CardContentFragment;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
 import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 
@@ -18,15 +23,14 @@ import java.util.ArrayList;
 
 public class ValidadorPedidoEstacionamiento extends AsyncTask<Void,Void,Void> {
 
-    private final ListContentFragment listContentFragment;
+    private Activity loginActivity;
     private ProgressDialog progress;
     private static final String TAG = "ValidadorPedEst";
     private ArrayList<Estacionamiento> listaEstacionamiento;
 
-    public ValidadorPedidoEstacionamiento(ProgressDialog progress, ListContentFragment listContentFragment){
-        this.progress = progress;
-        this.listContentFragment = listContentFragment;
-
+    public ValidadorPedidoEstacionamiento(Activity loginActivity, ProgressDialog progressDialog){
+        this.loginActivity = loginActivity;
+        this.progress= progressDialog;
     }
 
     @Override
@@ -42,14 +46,21 @@ public class ValidadorPedidoEstacionamiento extends AsyncTask<Void,Void,Void> {
         try {
 
             if (!SesionManager.getInstance().getActualizarBD()) {
-                listaEstacionamiento = EstacionamientoDAO.getInstance().listarEstacionamientos(this.listContentFragment.getContext());
+                listaEstacionamiento = EstacionamientoDAO.getInstance().listarEstacionamientos(loginActivity);
+
             } else{
-                listaEstacionamiento = (ArrayList<Estacionamiento>) new EstacionamientoEndpointClient().getAllEstacionamientos();
+                /** Inicializa los estacionamientos desde la api**/
+                EstacionamientoDAO.getInstance().inicializarListaEstacionamientos(loginActivity);
+                listaEstacionamiento = EstacionamientoDAO.getInstance().listarEstacionamientos(loginActivity);
             }
-            /** Si no hay nada en local pidel a la api**/
+            /** Si no hay nada en local pide a la api**/
             if(listaEstacionamiento.isEmpty()){
-                listaEstacionamiento = (ArrayList<Estacionamiento>) new EstacionamientoEndpointClient().getAllEstacionamientos();
+                EstacionamientoDAO.getInstance().inicializarListaEstacionamientos(loginActivity);
+                listaEstacionamiento = EstacionamientoDAO.getInstance().listarEstacionamientos(loginActivity);
             }
+
+            Intent intent = new Intent(loginActivity.getApplicationContext(), MainActivity.class);
+            loginActivity.startActivity(intent);
 
         } catch (Exception e) {
 
@@ -63,12 +74,15 @@ public class ValidadorPedidoEstacionamiento extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected void onPostExecute(Void unused){
-
+        //ejecuta cuando termina
         if (listaEstacionamiento != null){
-            listContentFragment.setListaEstacionamientos(listaEstacionamiento);
-            listContentFragment.marcarEstacionamientos();
+
+            SesionManager.getInstance().setListaEstacionamientos(listaEstacionamiento);
+
+            loginActivity.finish();
+
         }
         progress.dismiss();
-        //ejecuta cuando termina
+
     }
 }

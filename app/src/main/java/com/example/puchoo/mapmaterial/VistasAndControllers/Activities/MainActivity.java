@@ -1,6 +1,8 @@
 package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 
+import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNavigatorView;
+import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorPedidoEstacionamiento;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.CardContentFragment;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.TileContentFragment;
@@ -97,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.addFragment(cardFragment, "Estacionamientos");
         adapter.addFragment(tileFragment, "Reservas");
         viewPager.setAdapter(adapter);
+
+
     }
 
 
@@ -139,11 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 item.setChecked(false);
                 break;
             }
-            case R.id.btnMenuAlarma:{
-                System.out.println("CLICKEO ALARMA");
-                item.setChecked(false);
-                break;
-            }
             case R.id.btnMenuPreferenciasUsuario:{
                 System.out.println("CLICKEO PREFERENCIAS");
                 item.setChecked(false);
@@ -153,6 +153,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 System.out.println("CLICKEO RESERVAS");
                 tabsViewPager.setCurrentItem(2);
                 item.setChecked(false);
+                break;
+            }
+            case R.id.btnMenuDibujar:{
+                System.out.println("CLICKEO DIBUJAR");
+                if(item.isChecked()){
+                    mapFragment.dibujarZonasParqimetros();
+                    item.setChecked(false);
+
+                }else {
+                    mapFragment.dibujarEstacionamientos();
+                    item.setChecked(true);
+                }
                 break;
             }
             default:{

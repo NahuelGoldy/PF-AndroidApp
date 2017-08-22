@@ -17,6 +17,8 @@ public class ValidadorLogin extends AsyncTask<Void,Void,Void> {
     private ProgressDialog progress;
     private String email,pass;
 
+    Boolean valido = false;
+
     public ValidadorLogin(ProgressDialog progress, String email, String pass, LoginActivity loginActivity){
         this.progress = progress;
         this.email = email;
@@ -33,17 +35,11 @@ public class ValidadorLogin extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        Boolean valido = true;
+         valido = true;
 
         //TODO VALIDAR QUE SEA UN USER
 
-        if(valido){
-            Intent intent = new Intent(loginActivity.getApplicationContext(), MainActivity.class);
-            loginActivity.startActivity(intent);
-            loginActivity.finish();
-        } else {
-            loginActivity.onLoginFailed();
-        }
+
 
         return null;
     }
@@ -51,7 +47,11 @@ public class ValidadorLogin extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void unused){
         progress.dismiss();
-
+        if(valido){
+            loginActivity.onLoginSuccess();
+        } else {
+            loginActivity.onLoginFailed();
+        }
         //ejecuta cuando termina
     }
 

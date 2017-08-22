@@ -32,7 +32,7 @@ public class EstacionamientoDAO {
     private static final int MODO_PERSISTENCIA_MIXTA = 2;  // Los datos se almacenan en la api rest y en local
     private static final int MODO_PERSISTENCIA_LOCAL = 1;  // Los datos se almacenan solamente en la bdd local
     private static final int MODO_PERSISTENCIA_REMOTA = 0; // Los datos se almacenan solamente en la nube
-    private static int MODO_PERSISTENCIA_CONFIGURADA = MODO_PERSISTENCIA_MIXTA; // Como default es mixta
+    private static int MODO_PERSISTENCIA_CONFIGURADA = MODO_PERSISTENCIA_LOCAL; // Como default es mixta
     private static boolean usarApiRest = false; // default true
     private static final FileSaverHelper fileSaver = FileSaverHelper.getInstance(); // Clase que se encarga del almacenamiento local
     private static final String TAG = "EstacionamientoDAO";
@@ -111,8 +111,8 @@ public class EstacionamientoDAO {
         String jsonString;
         String msg;
         try{
-            /** TODO en un futuro levantar la lista desde la nube */
-            ArrayList<Estacionamiento> estacionamientosList = (ArrayList<Estacionamiento>) new EstacionamientoEndpointClient().getAllEstacionamientos();
+            ArrayList<Estacionamiento> estacionamientosList =
+                    (ArrayList<Estacionamiento>) new EstacionamientoEndpointClient().getAllEstacionamientos();
             jsonString = this.generarJsonDesdeArray(estacionamientosList);
             fileSaver.usarEscrituraInterna(true);
             fileSaver.guardarArchivo(jsonString,LISTA_ESTACIONAMIENTOS_FILENAME,context);

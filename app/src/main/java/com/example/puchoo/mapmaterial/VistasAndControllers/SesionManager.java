@@ -1,5 +1,9 @@
 package com.example.puchoo.mapmaterial.VistasAndControllers;
 
+import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
+
+import java.util.ArrayList;
+
 /**
  * Created by Puchoo on 11/08/2017.
  */
@@ -9,6 +13,7 @@ public class SesionManager {
     private static SesionManager instance;
     private String tokenUsuario;
     private Boolean actualizarBD = false;
+    private ArrayList<Estacionamiento> listaEstacionamientos;
 
     private SesionManager(){
 
@@ -44,4 +49,11 @@ public class SesionManager {
     }
 
 
+    public ArrayList<Estacionamiento> getListaEstacionamientos() {
+        return listaEstacionamientos;
+    }
+
+    public void setListaEstacionamientos(ArrayList<Estacionamiento> listaEstacionamientos) {
+        this.listaEstacionamientos = listaEstacionamientos;
+    }
 }
