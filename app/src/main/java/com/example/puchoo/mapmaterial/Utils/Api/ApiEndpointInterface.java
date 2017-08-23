@@ -3,9 +3,11 @@ package com.example.puchoo.mapmaterial.Utils.Api;
 import com.example.puchoo.mapmaterial.Dto.CredencialesLoginDTO;
 import com.example.puchoo.mapmaterial.Dto.EstacionamientoDTO;
 import com.example.puchoo.mapmaterial.Dto.LoginDTO;
+import com.example.puchoo.mapmaterial.Modelo.Usuario;
 
 import java.util.List;
 
+import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -31,6 +33,10 @@ public interface ApiEndpointInterface {
     @Headers({ "Accept: application/json", "Content-Type: application/json" })
     @POST("login")
     Call<LoginDTO> login(@Body CredencialesLoginDTO credenciales);
+
+    @Headers({ "Accept: application/json", "Content-Type: application/json" })
+    @POST("registro")
+    Call<Response> registro(@Body Usuario user);
 
 //    @Headers({ "Accept: application/json" })
 //    @POST("login")

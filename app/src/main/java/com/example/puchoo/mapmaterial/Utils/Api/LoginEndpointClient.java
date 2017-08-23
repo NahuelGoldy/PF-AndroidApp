@@ -2,6 +2,7 @@ package com.example.puchoo.mapmaterial.Utils.Api;
 
 import com.example.puchoo.mapmaterial.Dto.CredencialesLoginDTO;
 import com.example.puchoo.mapmaterial.Dto.LoginDTO;
+import com.example.puchoo.mapmaterial.Modelo.Usuario;
 import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 
 import java.io.IOException;
@@ -19,6 +20,11 @@ public class LoginEndpointClient {
         SesionManager.getInstance().setTokenUsuario(login.getToken());
 
         return;
+    }
+
+    public void registro(Usuario user){
+
+
     }
 
 }

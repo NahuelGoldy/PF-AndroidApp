@@ -160,7 +160,8 @@ public class EstacionamientoDTO {
         est.setHorarios(this.horarios);
         LatLng latLng = new LatLng(this.posicionLatitud,this.posicionLongitud);
         est.setPosicionEstacionamiento(latLng);
-        est.setImagen(this.image.getBytes());
+        if(this.image != null){
+            est.setImagen(this.image.getBytes());}
         est.setEliminado(this.eliminado);
 
         return est;

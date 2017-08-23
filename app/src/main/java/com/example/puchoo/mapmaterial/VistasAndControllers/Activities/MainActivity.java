@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(item.isChecked()){
                     mapFragment.dibujarZonasParqimetros();
                     item.setChecked(false);
-
                 }else {
                     mapFragment.dibujarEstacionamientos();
                     item.setChecked(true);

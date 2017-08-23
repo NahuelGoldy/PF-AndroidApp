@@ -118,6 +118,7 @@ public class EstacionamientoDAO {
             fileSaver.guardarArchivo(jsonString,LISTA_ESTACIONAMIENTOS_FILENAME,context);
         }
         catch (Exception e){
+            e.printStackTrace();
             msg = "Error al crear/guardar la lista de Estacionamientos.";
             Log.v(TAG,msg);
             throw new EstacionamientoException(msg);

@@ -4,8 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.example.puchoo.mapmaterial.Dto.CredencialesLoginDTO;
+import com.example.puchoo.mapmaterial.Utils.Api.LoginEndpointClient;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.LoginActivity;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.MainActivity;
+
+import java.io.IOException;
 
 
 /**
@@ -37,10 +41,11 @@ public class ValidadorLogin extends AsyncTask<Void,Void,Void> {
     protected Void doInBackground(Void... params) {
          valido = true;
 
-        //TODO VALIDAR QUE SEA UN USER
-
-
-
+        try {
+            new LoginEndpointClient().login(new CredencialesLoginDTO(email, pass));
+        } catch (IOException e) {
+            valido = false;
+        }
         return null;
     }
 
