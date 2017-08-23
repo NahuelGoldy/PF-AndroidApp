@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //SetEnable el boton de Alarma del Nav
         navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(true);
         //SetEnale el btn ver donde estacione
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setEnabled(false);
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setEnabled(true);
         /*
             TODO Habilitar o desabilitar el boton estacionar aqui
          */

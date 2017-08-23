@@ -35,7 +35,7 @@
             />
         <item
             android:id="@+id/btnMenuDibujar"
-            android:icon="@drawable/icn_globe"
+            android:icon="@drawable/icn_notif"
             android:tint="@color/button_grey"
             android:title="Dibujar Zonas Estacionamiento Medido"
             app:actionLayout="@layout/switch_item" />
