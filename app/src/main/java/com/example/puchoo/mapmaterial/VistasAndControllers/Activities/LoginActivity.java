@@ -12,15 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.puchoo.mapmaterial.Dto.CredencialesLoginDTO;
-import com.example.puchoo.mapmaterial.Dto.LoginDTO;
 import com.example.puchoo.mapmaterial.R;
-import com.example.puchoo.mapmaterial.Utils.Api.LoginEndpointClient;
 import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorLogin;
 import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorPedidoEstacionamiento;
-import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
-
-import java.io.IOException;
 
 /**
  * Created by Puchoo on 08/08/2017.

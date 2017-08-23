@@ -1,13 +1,11 @@
 package com.example.puchoo.mapmaterial.Utils.Validators;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.example.puchoo.mapmaterial.Dto.CredencialesLoginDTO;
-import com.example.puchoo.mapmaterial.Utils.Api.LoginEndpointClient;
+import com.example.puchoo.mapmaterial.Utils.Api.AuthenticationEndpointClient;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.LoginActivity;
-import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.MainActivity;
 
 import java.io.IOException;
 
@@ -42,7 +40,7 @@ public class ValidadorLogin extends AsyncTask<Void,Void,Void> {
          valido = true;
 
         try {
-            new LoginEndpointClient().login(new CredencialesLoginDTO(email, pass));
+            new AuthenticationEndpointClient().login(new CredencialesLoginDTO(email, pass));
         } catch (IOException e) {
             valido = false;
         }
