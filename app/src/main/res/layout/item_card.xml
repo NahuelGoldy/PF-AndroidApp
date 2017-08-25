@@ -18,8 +18,7 @@
             android:id="@+id/card_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/card_image_height"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/img_parque_default" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/card_text"

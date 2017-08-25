@@ -18,12 +18,13 @@ public class AuthenticationEndpointClient {
         //ejecuto llamada a la API
         LoginDTO login = call.execute().body();
         //seteo el token proveniente en la respuesta
-        SesionManager.getInstance().setTokenUsuario(login.getToken());
+        if(login != null){
+            SesionManager.getInstance().setTokenUsuario(login.getToken());}
 
         return;
     }
 
-    public void registro(Usuario user) throws IOException {
+    public ResultadoRegistroDTO registro(Usuario user) throws IOException {
         ApiEndpointInterface apiInterface = ApiClient.getClient().create(ApiEndpointInterface.class);
         Call<ResultadoRegistroDTO> call = apiInterface.registro(user);
 
@@ -31,7 +32,7 @@ public class AuthenticationEndpointClient {
         ResultadoRegistroDTO result = call.execute().body();
 
         //TODO hacer algo con el resultado?
-        return;
+        return result;
     }
 
 }

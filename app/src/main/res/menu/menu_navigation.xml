@@ -26,20 +26,19 @@
             android:tint="@color/button_grey"
             android:title="Ver donde estacione"
             android:id="@+id/btnMenuVerDondeEstacione"/>
-            />
+
         <item
             android:icon="@drawable/ic_favorite_black_24dp"
             android:tint="@color/button_grey"
             android:title="Favoritos"
             android:id="@+id/btnMenuFavoritos"/>
-            />
+
         <item
             android:id="@+id/btnMenuDibujar"
             android:icon="@drawable/icn_notif"
             android:tint="@color/button_grey"
-            android:title="Dibujar Zonas Estacionamiento Medido"
-            app:actionLayout="@layout/switch_item" />
-            />
+            android:title="Dibujar Zonas Estacionamiento Medido"/>
+             <!-- app:actionLayout="@layout/switch_item" -->
     </group>
     <item android:title="Usuario">
         <menu>

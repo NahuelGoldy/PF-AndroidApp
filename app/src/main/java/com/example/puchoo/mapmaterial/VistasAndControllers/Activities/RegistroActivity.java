@@ -1,11 +1,13 @@
 package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +47,7 @@ public class RegistroActivity extends AppCompatActivity {
     private String COLOR_DESPLEGABLE_ICONO = "#b7b7b7";
     private Boolean expandidoPersonales,expandidoVehiculo;
     private TextInputLayout name,apellido,telefono,modelo,anio,color;
+    private Boolean pregunto = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,11 +124,9 @@ public class RegistroActivity extends AppCompatActivity {
             return;
         }
 
-        signupButton.setEnabled(false);
-
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creado Cuenta...");
+        progressDialog.setMessage("Creando Cuenta...");
         progressDialog.setCanceledOnTouchOutside(false);
 
 
@@ -142,10 +143,49 @@ public class RegistroActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.setNombreUsuario(name);        nuevoUsuario.setApellidoUsuario(apellido);
+        nuevoUsuario.setTelefono(telefono);        nuevoUsuario.setPatente(patente);
+        nuevoUsuario.setModelo(modelo);        nuevoUsuario.setAnio(anio);
+        nuevoUsuario.setColor(color);        nuevoUsuario.setEmail(email);
+        nuevoUsuario.setContraseña(password);
 
-        //TODO VALIDAR QUE SE PUEDA HACER EL REGISTRO
-        new ValidadorRegistro(progressDialog, nuevoUsuario,this).execute();
+        if(faltanCampos(nuevoUsuario)){
+            createAlertBuilder(progressDialog, nuevoUsuario, this);
+            pregunto = true;
+        } else {
+            //TODO VALIDAR QUE SE PUEDA HACER EL REGISTRO
+            new ValidadorRegistro(progressDialog, nuevoUsuario,this).execute();
+        }
 
+    }
+
+    private void createAlertBuilder(final ProgressDialog progressDialog, final Usuario nuevoUsuario, final RegistroActivity activity) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.dialogRegistroTitle)
+                .setCancelable(false)
+                .setMessage(R.string.dialogRegistroBody)
+                .setNegativeButton("No, gracias.", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        new ValidadorRegistro(progressDialog, nuevoUsuario, activity).execute();
+                    }
+                }).setPositiveButton("Si.", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private boolean faltanCampos(Usuario nuevoUsuario) {
+        if (pregunto){
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -156,7 +196,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login fallido", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Registro fallido", Toast.LENGTH_LONG).show();
 
         signupButton.setEnabled(true);
     }
@@ -164,18 +204,10 @@ public class RegistroActivity extends AppCompatActivity {
     public boolean validate() {
         boolean valid = true;
 
-        String name = nameText.getText().toString();
         String email = emailText.getText().toString();
         String telefono = telefonoText.getText().toString();
         String patente = patenteText.getText().toString();
         String password = passwordText.getText().toString();
-
-        if (name.isEmpty() || name.length() < 4) {
-            nameText.setError("al menos 4 caracteres");
-            valid = false;
-        } else {
-            nameText.setError(null);
-        }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailText.setError("ingrese un email valido");

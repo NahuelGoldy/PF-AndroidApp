@@ -4,6 +4,8 @@ package com.example.puchoo.mapmaterial.VistasAndControllers.Fragments;
  * Created by Puchoo on 10/04/2017.
  */
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +34,10 @@ import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.DetailActi
 import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.ReservarActivity;
 import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
@@ -163,9 +169,9 @@ public class CardContentFragment extends Fragment {
     /**********************************************************************************************
      *******************************Adapter to display recycler view.*******************************
      **********************************************************************************************/
-    public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of Card in RecyclerView.
-        private static int LENGTH = 18;
+        private int LENGTH = 18;
 
         private final String[] mPlaces;
         private final String[] mPlaceDesc;
@@ -184,11 +190,7 @@ public class CardContentFragment extends Fragment {
             if(listaEstContentAdapter.isEmpty()){
                 LENGTH = 0; //Si la lista es vacia seteo en 0 el la cant de items
             } else {
-                if(listaEstContentAdapter.size() < 10){
                     LENGTH = listaEstContentAdapter.size();
-                } else {
-                    LENGTH = 18; //Si la lista no es vacia seteo en 10 la cant de items
-                }
             }
 
             //TODO Remplazarlos resources por peticiones al sv para no iterar tanto
@@ -196,17 +198,28 @@ public class CardContentFragment extends Fragment {
             for(Estacionamiento e : listaEstContentAdapter){
                 mPlaces[i] = e.getNombreEstacionamiento();
                 mPlaceDesc[i] = e.getHorarios();
+
+                if (e.getImagen() == null){
+                    mPlacePictures[i] = getActivity().getDrawable(R.drawable.img_parque_default);
+                }
+
+                mPlacePictures[i] = getActivity().getDrawable(R.drawable.img_parque_default);
+
                 i++;
             }
-            TypedArray a = resources.obtainTypedArray(R.array.places_picture);
+        }
 
-            /** METODO TOTOALMENTE CROTO PARA PONER IMAGENES REPETIDAS A TODOS LOS ESTACIONAMIENTOS **/
-            for (int y=0,x = 0; x < mPlacePictures.length; x++,y++) {
-                mPlacePictures[x] = a.getDrawable(y);
-                if (x == (a.length()-1)){ y=0;}
-            }
+        private Bitmap drawable_from_url(String url) throws java.net.MalformedURLException, java.io.IOException {
+            Bitmap x;
 
-            a.recycle();
+            HttpURLConnection connection = (HttpURLConnection)new URL(url) .openConnection();
+            connection.setRequestProperty("User-agent","Mozilla/4.0");
+
+            connection.connect();
+            InputStream input = connection.getInputStream();
+
+            x = BitmapFactory.decodeStream(input);
+            return x;
         }
 
         @Override

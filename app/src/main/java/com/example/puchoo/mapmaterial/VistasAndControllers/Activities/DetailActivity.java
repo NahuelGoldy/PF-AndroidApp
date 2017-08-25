@@ -18,6 +18,7 @@ package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -84,10 +85,11 @@ public class DetailActivity extends AppCompatActivity {
         TextView placeLocation =  (TextView) findViewById(R.id.place_location);
         placeLocation.setText(estacionamiento.getDireccionEstacionamiento());
 
-        TypedArray placePictures = getResources().obtainTypedArray(R.array.places_picture);
-        ImageView placePicutre = (ImageView) findViewById(R.id.image);
-        placePicutre.setImageDrawable(placePictures.getDrawable(position % placePictures.length()));
+        //TypedArray placePictures = getResources().obtainTypedArray(R.array.places_picture);
 
-        placePictures.recycle();
+        ImageView placePicutre = (ImageView) findViewById(R.id.image);
+        placePicutre.setImageDrawable(getBaseContext().getDrawable(R.drawable.img_parque_default));
+
+        //placePictures.recycle();
     }
 }

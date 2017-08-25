@@ -79,7 +79,6 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
             //TODO Acomodar con try-cach cuando se mande al servidor la reserva
             ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = false;
             ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = false;
-            ConstantsNavigatorView.ENABLE_INDICE_MENU_ALARMA = true;
             //El primer getTime() me da el Date y el segundo me da los Milis
 
             super.onBackPressed();

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class SesionManager {
 
     private static SesionManager instance;
-    private String tokenUsuario;
+    private String tokenUsuario = null;
     private Boolean actualizarBD = false;
     private ArrayList<Estacionamiento> listaEstacionamientos;
 

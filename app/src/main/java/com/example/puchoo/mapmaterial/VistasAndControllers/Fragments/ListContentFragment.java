@@ -376,7 +376,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             //Configuro los botones del nav
             ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = true;
             ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = false;
-            ConstantsNavigatorView.ENABLE_INDICE_MENU_ALARMA = true;
         }catch (Exception e){
             String msg = getResources().getString(R.string.errorProducidoIntenteNuevamente);
             Log.v(TAG,msg);
@@ -420,19 +419,15 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
         estCalle = null;
         this.lugarEstacionamientoGuardado = false;
         ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = true;
-        ConstantsNavigatorView.ENABLE_INDICE_MENU_ALARMA = false;
     }
 
     public void marcarEstacionamientos(){
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         Estacionamiento estIterador;
         for(int i = 0; i< getListaEstacionamientos().size(); i++){
             estIterador = getListaEstacionamientos().get(i);
             addMarker(
                     estIterador.getPosicionEstacionamiento(),
-                    (estIterador.getNombreEstacionamiento()).substring(8),
+                    (estIterador.getNombreEstacionamiento()),
                     R.drawable.marker_estacionamiento, estIterador
             );
         }
@@ -503,7 +498,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
                 //TODO Setear eneable o disable los botones del menu lateral segun corresponda
                 ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = false;
                 ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = true;
-                ConstantsNavigatorView.ENABLE_INDICE_MENU_ALARMA = true;
 
             }
         }
@@ -1019,7 +1013,6 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
 
                             btnSalidaEntrada.setText(msgEstacionarAqui);
 
-                            ConstantsNavigatorView.ENABLE_INDICE_MENU_ALARMA = false;
                             ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = true;
                             ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = false;
                             dialogTest.dismiss();

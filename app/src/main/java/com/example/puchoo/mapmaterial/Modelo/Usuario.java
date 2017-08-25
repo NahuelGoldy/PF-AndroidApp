@@ -7,12 +7,12 @@ package com.example.puchoo.mapmaterial.Modelo;
 public class Usuario {
     private String email;
     private String contraseña;
-    private String nombre;
-    private String apellido;
-    private String telefono;
+    private String nombreUsuario;
+    private String apellidoUsuario;
+    private String nroTelefono;
     private String patente;
     private String modelo;
-    private String año;
+    private String anio;
     private String color;
 
     public Usuario (){}
@@ -34,28 +34,28 @@ public class Usuario {
         this.contraseña = contraseña;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getApellidoUsuario() {
+        return apellidoUsuario;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setApellidoUsuario(String apellidoUsuario) {
+        this.apellidoUsuario = apellidoUsuario;
     }
 
     public String getTelefono() {
-        return telefono;
+        return nroTelefono;
     }
 
     public void setTelefono(String telefono) {
-        this.telefono = telefono;
+        this.nroTelefono = telefono;
     }
 
     public String getPatente() {
@@ -74,12 +74,12 @@ public class Usuario {
         this.modelo = modelo;
     }
 
-    public String getAño() {
-        return año;
+    public String getAnio() {
+        return anio;
     }
 
-    public void setAño(String año) {
-        this.año = año;
+    public void setAnio(String anio) {
+        this.anio = anio;
     }
 
     public String getColor() {

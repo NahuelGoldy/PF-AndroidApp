@@ -20,6 +20,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.R;
@@ -68,13 +69,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Create Navigation drawer and inflate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_DIBUJAR).setActionView(new Switch(this));
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         mDrawerLayout.setDrawerListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         //SetEnable el boton de estacionar Aqui del Nav
         navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(true);
-        //SetEnable el boton de Alarma del Nav
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(true);
         //SetEnale el btn ver donde estacione
         navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setEnabled(true);
         /*
@@ -157,12 +158,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.btnMenuDibujar:{
                 System.out.println("CLICKEO DIBUJAR");
-                if(item.isChecked()){
+                if(!item.isChecked()){
                     mapFragment.dibujarZonasParqimetros();
-                    item.setChecked(false);
+                    ((Switch) item.getActionView()).toggle();
+                    item.setChecked(true);
                 }else {
                     mapFragment.dibujarEstacionamientos();
-                    item.setChecked(true);
+                    ((Switch) item.getActionView()).toggle();
+                    item.setChecked(false);
                 }
                 break;
             }
@@ -266,12 +269,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onDrawerOpened(View drawerView) {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        //SetEnable el boton de Alarma del Nav
-        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ALARMA).setEnabled(ConstantsNavigatorView.ENABLE_INDICE_MENU_ALARMA);
         //SetEnable el boton de estacionar Aqui del Nav
         navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_ESTACIONAR_AQUI).setEnabled(ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI);
         //SetNebale el btn ver donde estacione
         navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_VER_ESTACIONAMIENTO).setEnabled(ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO);
+        navigationView.getMenu().getItem(ConstantsNavigatorView.INDICE_MENU_DIBUJAR).setEnabled(ConstantsNavigatorView.ENABLE_INDICE_MENU_DIBUJAR);
     }
 
     @Override

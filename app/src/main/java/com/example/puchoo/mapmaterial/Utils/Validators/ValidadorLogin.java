@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import com.example.puchoo.mapmaterial.Dto.CredencialesLoginDTO;
 import com.example.puchoo.mapmaterial.Utils.Api.AuthenticationEndpointClient;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.LoginActivity;
+import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 
 import java.io.IOException;
 
@@ -41,6 +42,9 @@ public class ValidadorLogin extends AsyncTask<Void,Void,Void> {
 
         try {
             new AuthenticationEndpointClient().login(new CredencialesLoginDTO(email, pass));
+            if(SesionManager.getInstance().getTokenUsuario() == null){
+                valido = false;
+            }
         } catch (IOException e) {
             valido = false;
         }

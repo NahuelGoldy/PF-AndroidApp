@@ -11,7 +11,7 @@ public final class ConstantsNavigatorView {
     public static final Integer INDICE_MENU_ESTACIONAR_AQUI = 0;
     public static final Integer INDICE_MENU_VER_ESTACIONAMIENTO = 1;
     public static final Integer INDICE_MENU_FAVORITOS = 2;
-    public static final Integer INDICE_MENU_ALARMA = 3;
+    public static final Integer INDICE_MENU_DIBUJAR = 3;
     public static final Integer INDICE_MENU_RESERVAS = 4;
     public static final Integer INDICE_MENU_PREFERENCIAS = 5;
 
@@ -20,7 +20,7 @@ public final class ConstantsNavigatorView {
      **/
     public static boolean ENABLE_INDICE_MENU_ESTACIONAR_AQUI = true;
     public static boolean ENABLE_INDICE_MENU_FAVORITOS = true;
-    public static boolean ENABLE_INDICE_MENU_ALARMA = false;
+    public static boolean ENABLE_INDICE_MENU_DIBUJAR = true;
     public static boolean ENABLE_INDICE_MENU_RESERVAS = true;
     public static boolean ENABLE_INDICE_MENU_PREFERENCIAS = true;
     public static boolean ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = false;
@@ -32,7 +32,7 @@ public final class ConstantsNavigatorView {
     public static String MENU_ESTACIONAR_AQUI = "Estacionar Aquí";
     public static String MENU_VER_ESTACIONAMIENTO = "Ver donde estacione";
     public static String MENU_FAVORITOS = "Favoritos";
-    public static String MENU_ALARMA = "Alarma";
+    public static String MENU_DIBUJAR = "Dibujar";
     public static String MENU_RESERVAS = "Reservas";
     public static String MENU_PREFERENCIAS = "Preferencias";
 }
