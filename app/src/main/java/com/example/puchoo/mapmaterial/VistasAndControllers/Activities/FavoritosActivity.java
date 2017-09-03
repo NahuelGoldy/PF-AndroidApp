@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Dao.FavoritosDAO;
+import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.R;
 
@@ -117,7 +120,14 @@ public class FavoritosActivity extends AppCompatActivity {
                         ((ImageButton)v.findViewById(R.id.favorite_button)).setImageResource(R.drawable.ic_favorite);
                         //lo seteo como favorito
                         listaEstHolder.get(getAdapterPosition()).setFavorito(false);
-                        listaEstHolder.remove(getAdapterPosition());
+                        try {
+                            EstacionamientoDAO.getInstance().actualizarEstacionamiento(listaEstHolder.get(getAdapterPosition()),itemView.getContext());
+                            listaEstHolder.remove(getAdapterPosition());
+                        } catch (EstacionamientoException e) {
+                            String msg = itemView.getResources().getString(R.string.errorProducidoIntenteNuevamente);
+                            Log.v("Favoritos Activity",msg);
+                        }
+
                     } else {
                         Snackbar.make(v, "Estacionamiento retirado de  Favoritos",
                                 Snackbar.LENGTH_LONG).show();
