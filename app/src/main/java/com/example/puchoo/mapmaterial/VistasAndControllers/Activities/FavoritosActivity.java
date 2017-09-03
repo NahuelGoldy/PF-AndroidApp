@@ -1,13 +1,10 @@
 package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -212,13 +209,6 @@ public class FavoritosActivity extends AppCompatActivity {
                 holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
                 holder.name.setText(mPlaces[position % mPlaces.length]);
                 holder.description.setText(mPlaceDesc[position % mPlaceDesc.length]);
-
-                //Si es favorito, entonces pinta de rojo el boton
-                if(holder.listaEstHolder.get(position).isFavorito()) {
-                    holder.btnFavorito.setImageDrawable(getBaseContext().getDrawable(R.drawable.ic_favorite_red));
-                }else{
-                    holder.btnFavorito.setImageDrawable(getBaseContext().getDrawable(R.drawable.ic_favorite));
-                }
             }
         }
 

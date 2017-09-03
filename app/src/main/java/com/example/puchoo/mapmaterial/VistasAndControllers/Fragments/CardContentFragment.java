@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Dao.FavoritosDAO;
@@ -141,6 +142,13 @@ public class CardContentFragment extends Fragment {
                         ((ImageButton)v.findViewById(R.id.favorite_button)).setImageResource(R.drawable.ic_favorite_red);
                         //lo seteo como favorito
                         listaEstHolder.get(getAdapterPosition()).setFavorito(true);
+                        try {
+                            //Actualizo el estacionamiento con el favorito
+                            EstacionamientoDAO.getInstance().actualizarEstacionamiento(listaEstHolder.get(getAdapterPosition()),itemView.getContext());
+                        } catch (EstacionamientoException e) {
+                            String msg = itemView.getResources().getString(R.string.errorProducidoIntenteNuevamente);
+                            Log.v(TAG,msg);
+                        }
                     } else {
                         Snackbar.make(v, "Estacionamiento ya esta en Favoritos",
                                 Snackbar.LENGTH_LONG).show();
