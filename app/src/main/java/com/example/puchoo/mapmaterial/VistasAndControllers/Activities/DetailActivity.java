@@ -68,13 +68,11 @@ public class DetailActivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
-        // Set title of Detail page
-        // collapsingToolbar.setTitle(getString(R.string.item_title));
-
         int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
         Estacionamiento estacionamiento = listaEstacionamientos.get(position);
 
-        collapsingToolbar.setTitle(estacionamiento.getNombreEstacionamiento().substring(8));
+        // Set title of Detail page
+        collapsingToolbar.setTitle(estacionamiento.getNombreEstacionamiento());
 
         TextView placeDetail = (TextView) findViewById(R.id.place_detail);
         placeDetail.setText(estacionamiento.getTarifaEstacionamiento() + "\n"

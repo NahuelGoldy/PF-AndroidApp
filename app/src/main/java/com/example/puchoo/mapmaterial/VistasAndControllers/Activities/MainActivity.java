@@ -3,6 +3,7 @@ package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -143,6 +144,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.btnMenuFavoritos:{
                 System.out.println("CLICKEO FAVORITOS");
                 item.setChecked(false);
+                Intent intent = new Intent(getBaseContext(), FavoritosActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getBaseContext().startActivity(intent);
                 break;
             }
             case R.id.btnMenuPreferenciasUsuario:{

@@ -1,50 +1,38 @@
-package com.example.puchoo.mapmaterial.VistasAndControllers.Fragments;
+package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
-/**
- * Created by Puchoo on 10/04/2017.
- */
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Dao.FavoritosDAO;
-import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.R;
-import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.DetailActivity;
-import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.ReservarActivity;
-import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 
-
-import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
-
 /**
- * Provides UI for the view with Cards.
+ * Created by Puchoo on 02/09/2017.
  */
-public class CardContentFragment extends Fragment {
+
+public class FavoritosActivity extends AppCompatActivity {
 
     /** Lista de listaEstacionamientos */
     private ArrayList<Estacionamiento> listaEstacionamientos = new ArrayList<>();
@@ -53,38 +41,29 @@ public class CardContentFragment extends Fragment {
     ContentAdapter adapter;
 
     /** Dao que almacena ubicacion de listaEstacionamientos */
-    private static final EstacionamientoDAO estacionamientoDAO = EstacionamientoDAO.getInstance();
+    private static final FavoritosDAO estacionamientoDAO = FavoritosDAO.getInstance();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
-                R.layout.recycler_view, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_favoritos);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view_favoritos);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getBaseContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         /** Cargo la lista de estacionamientos para luego hacer las Card**/
         //cargarEstacionamientos();
-        listaEstacionamientos = SesionManager.getInstance().getListaEstacionamientos();
+        listaEstacionamientos = FavoritosDAO.getInstance().getFavoritosSharedPref(getBaseContext());
 
         adapter = new ContentAdapter(recyclerView.getContext(),listaEstacionamientos);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        return recyclerView;
+
+        ((Toolbar) findViewById(R.id.toolbar_favoritos)).setTitle("Estacionamientos Favoritos");
+
     }
 
-    private void cargarEstacionamientos() {
-        try {
-            /** Levanto la lista de estacionamientos de archivo/nube/db **/
-            /** Cambiarlo en algun momento **/
-            estacionamientoDAO.inicializarListaEstacionamientos(getContext());
-            listaEstacionamientos = estacionamientoDAO.listarEstacionamientos(getContext());
-            System.out.print(listaEstacionamientos);
-        }
-        catch (EstacionamientoException e1) {
-            String msgLog = "Hubo un error al crear el archivo con la lista de listaEstacionamientos.";
-            Log.v(TAG,msgLog);
-        }
-    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
@@ -100,7 +79,7 @@ public class CardContentFragment extends Fragment {
             name = (TextView) itemView.findViewById(R.id.card_title);
             description = (TextView) itemView.findViewById(R.id.card_text);
             btnFavorito = (ImageButton) itemView.findViewById(R.id.favorite_button);
-            btnFavorito.setImageDrawable(itemView.getContext().getDrawable(R.drawable.ic_favorite));
+            btnFavorito.setImageDrawable(itemView.getContext().getDrawable(R.drawable.ic_favorite_red));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,15 +113,16 @@ public class CardContentFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if(!listaEstHolder.get(getAdapterPosition()).isFavorito()) {
-                        FavoritosDAO.getInstance().guardarFavoritoSharedPref(listaEstHolder.get(getAdapterPosition()), parent.getContext());
-                        Snackbar.make(v, "Estacionamiento agreado a Favoritos",
+                        FavoritosDAO.getInstance().borrarFavoritoSharedPref(listaEstHolder.get(getAdapterPosition()), parent.getContext());
+                        Snackbar.make(v, "Estacionamiento retirado de Favoritos",
                                 Snackbar.LENGTH_LONG).show();
 
-                        ((ImageButton)v.findViewById(R.id.favorite_button)).setImageResource(R.drawable.ic_favorite_red);
+                        ((ImageButton)v.findViewById(R.id.favorite_button)).setImageResource(R.drawable.ic_favorite);
                         //lo seteo como favorito
-                        listaEstHolder.get(getAdapterPosition()).setFavorito(true);
+                        listaEstHolder.get(getAdapterPosition()).setFavorito(false);
+                        listaEstHolder.remove(getAdapterPosition());
                     } else {
-                        Snackbar.make(v, "Estacionamiento ya esta en Favoritos",
+                        Snackbar.make(v, "Estacionamiento retirado de  Favoritos",
                                 Snackbar.LENGTH_LONG).show();
                     }
                 }
@@ -201,7 +181,7 @@ public class CardContentFragment extends Fragment {
             if(listaEstContentAdapter.isEmpty()){
                 LENGTH = 0; //Si la lista es vacia seteo en 0 el la cant de items
             } else {
-                    LENGTH = listaEstContentAdapter.size();
+                LENGTH = listaEstContentAdapter.size();
             }
 
             //TODO Remplazarlos resources por peticiones al sv para no iterar tanto
@@ -211,26 +191,13 @@ public class CardContentFragment extends Fragment {
                 mPlaceDesc[i] = e.getHorarios();
 
                 if (e.getImagen() == null){
-                    mPlacePictures[i] = getActivity().getDrawable(R.drawable.img_parque_default);
+                    mPlacePictures[i] = getBaseContext().getDrawable(R.drawable.img_parque_default);
                 }
 
-                mPlacePictures[i] = getActivity().getDrawable(R.drawable.img_parque_default);
+                mPlacePictures[i] = getBaseContext().getDrawable(R.drawable.img_parque_default);
 
                 i++;
             }
-        }
-
-        private Bitmap drawable_from_url(String url) throws java.net.MalformedURLException, java.io.IOException {
-            Bitmap x;
-
-            HttpURLConnection connection = (HttpURLConnection)new URL(url) .openConnection();
-            connection.setRequestProperty("User-agent","Mozilla/4.0");
-
-            connection.connect();
-            InputStream input = connection.getInputStream();
-
-            x = BitmapFactory.decodeStream(input);
-            return x;
         }
 
         @Override
@@ -248,9 +215,9 @@ public class CardContentFragment extends Fragment {
 
                 //Si es favorito, entonces pinta de rojo el boton
                 if(holder.listaEstHolder.get(position).isFavorito()) {
-                    holder.btnFavorito.setImageDrawable(getActivity().getDrawable(R.drawable.ic_favorite_red));
+                    holder.btnFavorito.setImageDrawable(getBaseContext().getDrawable(R.drawable.ic_favorite_red));
                 }else{
-                    holder.btnFavorito.setImageDrawable(getActivity().getDrawable(R.drawable.ic_favorite));
+                    holder.btnFavorito.setImageDrawable(getBaseContext().getDrawable(R.drawable.ic_favorite));
                 }
             }
         }
@@ -259,10 +226,5 @@ public class CardContentFragment extends Fragment {
         public int getItemCount() {
             return LENGTH;
         }
-    }
-
-    public void cargarEstacionamientos(ArrayList<Estacionamiento> listaEstacionamientos){
-        this.listaEstacionamientos = listaEstacionamientos;
-        adapter.notifyDataSetChanged();
     }
 }

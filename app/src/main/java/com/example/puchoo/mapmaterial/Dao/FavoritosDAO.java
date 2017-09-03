@@ -84,7 +84,7 @@ public class FavoritosDAO {
         Log.v(TAG,msg);
     }
 
-    public void borrarEstacionamientoSharedPref(Estacionamiento estacionamiento, Context context){
+    public void borrarFavoritoSharedPref(Estacionamiento estacionamiento, Context context){
         this.context = context;
         ArrayList<Estacionamiento> favoritosViejosList;
 

@@ -19,6 +19,7 @@ public class Estacionamiento {
     private Boolean eliminado;
     private int capacidad;
     private byte[] imagen;
+    private boolean favorito;
 
     public Estacionamiento(){
         this.eliminado = false;
@@ -122,5 +123,13 @@ public class Estacionamiento {
 
     public void setIdEstacionamiento(int idEstacionamiento) {
         this.idEstacionamiento = idEstacionamiento;
+    }
+
+    public boolean isFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(boolean favorito) {
+        this.favorito = favorito;
     }
 }

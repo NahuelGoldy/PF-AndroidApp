@@ -130,13 +130,4 @@
             <item>Table Mountain is mountain and park locates in Cape Town, South Africa.</item>
         </string-array>
 
-        <array name="place_avator">
-            <item>@drawable/a_avator</item>
-            <item>@drawable/b_avator</item>
-            <item>@drawable/c_avator</item>
-            <item>@drawable/d_avator</item>
-            <item>@drawable/e_avator</item>
-            <item>@drawable/f_avator</item>
-        </array>
-
 </resources>
