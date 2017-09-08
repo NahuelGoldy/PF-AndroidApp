@@ -14,7 +14,7 @@ public class ApiClient {
 
     private static Retrofit retrofit = null;
 
-    private static String BASE_URL = "http://dondeestaciono.cloudapp.net:8080/";
+    private static String BASE_URL = "http://dondeestacionop.cloudapp.net:8080/";
 
 
 
