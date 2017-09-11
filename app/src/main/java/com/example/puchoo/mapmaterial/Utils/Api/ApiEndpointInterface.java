@@ -45,6 +45,6 @@ public interface ApiEndpointInterface {
     Call<ReservaDTO> crearReserva(@Header("Authorization") String token, @Path("id") int parkId, @Body DatosReservaDTO datosReserva);
 
     @Headers({ "Accept: application/json" })
-    @GET("reserva/parque/{id}")
+    @GET("reserva/all/parque/{id}")
     Call<List<ReservaDTO>> getAllReservas(@Header("Authorization") String token, @Path("id") int parkId);
 }
