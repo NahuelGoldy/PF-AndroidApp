@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
-        android:text="Donde estaciono? - Santa Fe"
+        android:text="Donde estaciono?"
         android:textColor="@android:color/holo_orange_dark"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="normal|bold"

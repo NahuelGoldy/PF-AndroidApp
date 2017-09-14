@@ -184,7 +184,6 @@ public class RegistroActivity extends AppCompatActivity {
         if (pregunto){
             return false;
         }
-
         return true;
     }
 

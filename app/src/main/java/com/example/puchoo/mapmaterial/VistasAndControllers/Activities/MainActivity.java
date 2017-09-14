@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tileFragment = new TileContentFragment();//Creo el 3er fragmento - Lista reservas
 
         adapter.addFragment(mapFragment, "Mapa");
-        adapter.addFragment(cardFragment, "Estacionamientos");
+        adapter.addFragment(cardFragment, "Parques");
         adapter.addFragment(tileFragment, "Reservas");
         viewPager.setAdapter(adapter);
 

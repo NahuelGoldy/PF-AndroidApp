@@ -155,6 +155,7 @@ public class EstacionamientoDTO {
         est.setDireccionEstacionamiento(this.direccionEstacionamiento);
         est.setAceptaTarjetas(this.aceptaTarjetas);
         est.setTelefono(this.telefono);
+        est.setTarifaEstacionamiento(this.tarifaEstacionamiento);
         est.setCapacidad(this.capacidad);
         est.setEsTechado(this.esTechado);
         est.setHorarios(this.horarios);
