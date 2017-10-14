@@ -9,7 +9,6 @@ import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,6 +42,7 @@ import com.example.puchoo.mapmaterial.Exceptions.UbicacionVehiculoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Modelo.UbicacionVehiculoEstacionado;
 import com.example.puchoo.mapmaterial.R;
+import com.example.puchoo.mapmaterial.Utils.Adapters.InfoWindowsAdapter;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsAddresses;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsEstacionamientoService;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNavigatorView;
@@ -53,11 +53,9 @@ import com.example.puchoo.mapmaterial.Utils.Receivers.AddressResultReceiver;
 import com.example.puchoo.mapmaterial.Utils.Receivers.AlarmEstacionamientoReceiver;
 import com.example.puchoo.mapmaterial.Utils.Services.FetchAddressIntentService;
 import com.example.puchoo.mapmaterial.Utils.Services.GeofenceTransitionsIntentService;
-import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorPedidoEstacionamiento;
 import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorReservas;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Activities.ReservarActivity;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Modals.DialogErrorReserva;
-import com.example.puchoo.mapmaterial.Utils.Adapters.InfoWindowsAdapter;
 import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -255,6 +253,13 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             //polyline.remove();
         }
 
+        ArrayList<PolylineOptions> polylineOptionsList2 = MapaHelper.dibujarCallesEstacionamientoMedidoPermitido(this.getContext());
+        for(PolylineOptions segmento : polylineOptionsList2){
+            //tip: guardar las polylines en un arraylist, para cuando haya que guardarlas
+            //tip2: para lo anterior, convendria hacer MapaHelper singleton?
+            Polyline polyline = googleMap.addPolyline(segmento);
+            //polyline.remove();
+        }
     }
 
     /**

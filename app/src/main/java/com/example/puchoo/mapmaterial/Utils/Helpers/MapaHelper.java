@@ -1,10 +1,15 @@
 package com.example.puchoo.mapmaterial.Utils.Helpers;
 
+import android.content.Context;
 import android.graphics.Color;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
@@ -175,6 +180,46 @@ public class MapaHelper {
         );
 
         return polylineOptionsList;
+    }
+
+    private static ArrayList<String[]> readCVSFromAssetFolder(Context context){
+        ArrayList<String[]> csvLine = new ArrayList<>();
+        String[] content = null;
+        try {
+            InputStream inputStream = context.getAssets().open("estacionamientoAutos-coords.csv");
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+            String line = "";
+            while((line = br.readLine()) != null){
+                content = line.split(";");
+                csvLine.add(content);
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return csvLine;
+    }
+
+    public static ArrayList<PolylineOptions> dibujarCallesEstacionamientoMedidoPermitido(Context context){
+
+        ArrayList<PolylineOptions> polylineOptionsList = new ArrayList<>();
+        ArrayList<String[]> csvLines = readCVSFromAssetFolder(context);
+
+        for (String[] line : csvLines) {
+            double latInicio, longInicio, latFin, longFin;
+            latInicio = Double.parseDouble(line[2]);
+            longInicio = Double.parseDouble(line[3]);
+            latFin = Double.parseDouble(line[4]);
+            longFin = Double.parseDouble(line[5]);
+            polylineOptionsList.add(new PolylineOptions()
+                    .add(new LatLng(latInicio, longInicio), new LatLng(latFin, longFin))
+                    .width(5)
+                    .color(Color.GREEN)
+            );
+        }
+
+        return polylineOptionsList;
+
     }
 
 }
