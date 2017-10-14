@@ -24,7 +24,7 @@
         <item
             android:icon="@drawable/icn_notif"
             android:tint="@color/button_grey"
-            android:title="Ver donde estacione"
+            android:title="Ver dónde estacioné"
             android:id="@+id/btnMenuVerDondeEstacione"/>
 
         <item

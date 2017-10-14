@@ -214,7 +214,7 @@ public class MapaHelper {
             polylineOptionsList.add(new PolylineOptions()
                     .add(new LatLng(latInicio, longInicio), new LatLng(latFin, longFin))
                     .width(5)
-                    .color(Color.GREEN)
+                    .color(Color.BLUE)
             );
         }
 
