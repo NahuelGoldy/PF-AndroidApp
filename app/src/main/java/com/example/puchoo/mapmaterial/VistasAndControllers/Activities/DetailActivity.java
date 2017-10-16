@@ -26,6 +26,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
@@ -87,6 +88,10 @@ public class DetailActivity extends AppCompatActivity {
 
         ImageView placePicutre = (ImageView) findViewById(R.id.image);
         placePicutre.setImageDrawable(getBaseContext().getDrawable(R.drawable.img_parque_default));
+
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar_detail);
+        ratingBar.setRating(4.5f);
+        ratingBar.setNumStars(5);
 
         //placePictures.recycle();
     }

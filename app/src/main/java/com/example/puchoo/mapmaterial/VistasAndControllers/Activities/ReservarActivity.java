@@ -1,34 +1,46 @@
 package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Dao.ReservaDAO;
+import com.example.puchoo.mapmaterial.Dto.DatosReservaDTO;
 import com.example.puchoo.mapmaterial.Exceptions.EstacionamientoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
 import com.example.puchoo.mapmaterial.Modelo.ReservaMock;
 import com.example.puchoo.mapmaterial.R;
+import com.example.puchoo.mapmaterial.Utils.Api.ReservaEndpointClient;
 import com.example.puchoo.mapmaterial.Utils.Receivers.AlarmEstacionamientoReceiver;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsEstacionamientoService;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNavigatorView;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNotificaciones;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
+import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -42,6 +54,8 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
     private Button botonConfirmar;
     private int position;
     private Estacionamiento estacionamientoReserva;
+    DatosReservaDTO datos = new DatosReservaDTO();
+    private ArrayList<String> patentes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,21 +78,40 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
         botonConfirmar = (Button) findViewById(R.id.button_confirmar_reserva);
         botonConfirmar.setOnClickListener(this);
 
+
+        // TODO: CAMBIARA PATENTES DEL USUARIO
+        patentes.add("SSS555");
+        patentes.add("GFF879");
+        patentes.add("KBG234");
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, patentes);
+        ((Spinner) findViewById(R.id.spinner_Patentes)).setAdapter(spinnerAdapter);
+
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == botonConfirmar.getId()) {
+            String patenteReserva = "SSS555";
+            int idUsuario = SesionManager.getInstance().getIdUsuario();
 
-            agregarAlarma(estacionamientoReserva, position);
-            agregarAListaReservas(estacionamientoReserva);
-            //generar reserva
+            datos.setIdParqueEstacionamiento(this.estacionamientoReserva.getIdEstacionamiento());
+            datos.setIdUsuario(13);
+            datos.setPatente(patenteReserva);
+            System.out.print("Ingreso!");
 
-            //intent a la lista o OnBackPressed?
+            try {
+                new ReservaEndpointClient().crearReserva(datos);
 
-            //TODO Acomodar con try-cach cuando se mande al servidor la reserva
-            ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = false;
-            ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = false;
+                agregarAlarma(estacionamientoReserva, position);
+                agregarAListaReservas(estacionamientoReserva);
+
+                ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = false;
+                ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = false;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             super.onBackPressed();
         }

@@ -19,7 +19,9 @@ public class AuthenticationEndpointClient {
         LoginDTO login = call.execute().body();
         //seteo el token proveniente en la respuesta
         if(login != null){
-            SesionManager.getInstance().setTokenUsuario(login.getToken());}
+            SesionManager.getInstance().setTokenUsuario(login.getToken());
+            SesionManager.getInstance().setIdUsuario(login.getUser().getIdUsuario());
+        }
 
         return;
     }

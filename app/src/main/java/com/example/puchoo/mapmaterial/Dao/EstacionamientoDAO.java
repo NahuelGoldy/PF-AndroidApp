@@ -167,6 +167,18 @@ public class EstacionamientoDAO {
      */
     /** TODO IMPLEMENTAR */
     private void actualizarArrayEstacionamientos(JSONArray estacionamientos, Estacionamiento estacionamiento) throws JSONException {
+        Gson myGson = new Gson();
+        Type type = new TypeToken<List<Estacionamiento>>() {}.getType();
+
+        List<Estacionamiento> estacionamientosList = myGson.fromJson(estacionamientos.toString(), type);
+
+        for(Estacionamiento e : estacionamientosList){
+            if(e.getIdEstacionamiento() == estacionamiento.getIdEstacionamiento()){
+                estacionamientosList.remove(e);
+                estacionamientosList.add(estacionamiento);
+                return;
+            }
+        }
 
     }
 

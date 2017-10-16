@@ -10,6 +10,15 @@ public class LoginDTO {
 
     @SerializedName("token")
     private String token;
+    private UsuarioDTO user;
+
+    public UsuarioDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UsuarioDTO user) {
+        this.user = user;
+    }
 
     public LoginDTO(){}
 

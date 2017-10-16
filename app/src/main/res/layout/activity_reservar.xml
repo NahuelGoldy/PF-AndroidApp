@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff">
@@ -79,16 +80,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tv_descripcion_reserva"
-        android:layout_weight="1"
+        android:layout_weight="0.00"
         android:textSize="18sp"
         android:textColor="#000000"
         android:padding="10dp" />
 
+    <TextView
+        android:id="@+id/tv_confirmarPatente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Confirme la Patente"
+        android:textAlignment="center"
+        android:textColor="?attr/colorAccent"
+        android:textSize="@dimen/article_titles" />
+
+    <TextView
+        android:id="@+id/tv_clickedit_reservar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Toque la patente para editar.   "
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:layout_marginTop="20dp"
+        android:textSize="10sp" />
+
+    <Spinner
+        android:id="@+id/spinner_Patentes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:gravity="right" />
+
     <Button
-        android:text="confirmar reserva"
+        android:id="@+id/button_confirmar_reserva"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:id="@+id/button_confirmar_reserva"
-        android:backgroundTint="@android:color/holo_orange_light" />
+        android:layout_gravity="bottom"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@android:color/holo_orange_light"
+        android:elevation="1dp"
+        android:text="confirmar reserva" />
 
 </LinearLayout>

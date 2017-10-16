@@ -1,6 +1,8 @@
 package com.example.puchoo.mapmaterial.VistasAndControllers;
 
+import com.example.puchoo.mapmaterial.Dto.UsuarioDTO;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
+import com.example.puchoo.mapmaterial.Modelo.Usuario;
 
 import java.util.ArrayList;
 
@@ -13,7 +15,16 @@ public class SesionManager {
     private static SesionManager instance;
     private String tokenUsuario = null;
     private Boolean actualizarBD = false;
+    private int idUsuario;
     private ArrayList<Estacionamiento> listaEstacionamientos;
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     private SesionManager(){
 
