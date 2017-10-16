@@ -96,7 +96,7 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
             int idUsuario = SesionManager.getInstance().getIdUsuario();
 
             datos.setIdParqueEstacionamiento(this.estacionamientoReserva.getIdEstacionamiento());
-            datos.setIdUsuario(13);
+            datos.setIdUsuario(SesionManager.getInstance().getIdUsuario());
             datos.setPatente(patenteReserva);
             System.out.print("Ingreso!");
 
