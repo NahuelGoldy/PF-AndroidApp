@@ -3,6 +3,7 @@ package com.example.puchoo.mapmaterial.VistasAndControllers.Activities;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.puchoo.mapmaterial.Dao.EstacionamientoDAO;
 import com.example.puchoo.mapmaterial.Dao.ReservaDAO;
@@ -27,6 +29,7 @@ import com.example.puchoo.mapmaterial.Utils.Receivers.AlarmEstacionamientoReceiv
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsEstacionamientoService;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNavigatorView;
 import com.example.puchoo.mapmaterial.Utils.Constants.ConstantsNotificaciones;
+import com.example.puchoo.mapmaterial.Utils.Validators.ValidadorReservaAsync;
 import com.example.puchoo.mapmaterial.VistasAndControllers.Fragments.ListContentFragment;
 import com.example.puchoo.mapmaterial.VistasAndControllers.SesionManager;
 import com.google.android.gms.maps.model.LatLng;
@@ -92,28 +95,18 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view.getId() == botonConfirmar.getId()) {
-            String patenteReserva = "SSS555";
-            int idUsuario = SesionManager.getInstance().getIdUsuario();
+            String patenteReserva = (String)((Spinner) findViewById(R.id.spinner_Patentes)).getSelectedItem();
 
             datos.setIdParqueEstacionamiento(this.estacionamientoReserva.getIdEstacionamiento());
             datos.setIdUsuario(SesionManager.getInstance().getIdUsuario());
             datos.setPatente(patenteReserva);
-            System.out.print("Ingreso!");
 
-            try {
-                new ReservaEndpointClient().crearReserva(datos);
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Reservando...");
+            progressDialog.setCanceledOnTouchOutside(false);
 
-                agregarAlarma(estacionamientoReserva, position);
-                agregarAListaReservas(estacionamientoReserva);
-
-                ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = false;
-                ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = false;
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            super.onBackPressed();
+            new ValidadorReservaAsync(progressDialog, datos,this).execute();
         }
     }
 
@@ -162,5 +155,19 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
             }
         }
         return null;
+    }
+
+    public void fail() {
+        Toast.makeText(this.getBaseContext(), "Reserva fallida", Toast.LENGTH_LONG).show();
+    }
+
+    public void success() {
+        agregarAlarma(estacionamientoReserva, position);
+        agregarAListaReservas(estacionamientoReserva);
+
+        ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = false;
+        ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = false;
+
+        super.onBackPressed();
     }
 }
