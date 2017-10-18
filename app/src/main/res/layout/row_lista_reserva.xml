@@ -25,31 +25,31 @@
             android:paddingLeft="10dp">
 
             <TextView
-                android:text="TextView"
+                android:id="@+id/tv_nombreEstac_reserva_lista"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_nombreEstac_reserva_lista"
+                android:text="tv_nombreEstac"
                 android:textColor="@color/colorPrimary" />
 
             <TextView
-                android:text="TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/tv_direccEstac_reserva_lista"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="tv_direccEstac"
                 android:textColor="#000000" />
 
             <TextView
-                android:text="TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/tv_fecha_reserva_lista"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="tv_fecha_reserva"
                 android:textColor="#000000" />
 
             <TextView
-                android:text="TextView"
+                android:id="@+id/tv_hora_reserva_lista"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_hora_reserva_lista"
+                android:text="tv_hora_reserva"
                 android:textColor="#000000" />
         </LinearLayout>
     </LinearLayout>
@@ -58,6 +58,6 @@
         android:layout_width="match_parent"
         app:srcCompat="@color/button_grey"
         android:id="@+id/imageView"
-        android:layout_height="2dp" />
+        android:layout_height="3dp" />
 
 </LinearLayout>

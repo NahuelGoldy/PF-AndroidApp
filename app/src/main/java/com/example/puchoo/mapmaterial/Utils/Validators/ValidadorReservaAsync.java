@@ -39,6 +39,7 @@ public class ValidadorReservaAsync extends AsyncTask<Void,Void,Void> {
                 resultadoReservaDTO = new ReservaEndpointClient().crearReserva(nuevaReserva);
             } catch (IOException e) {
                 reservaActivity.fail();
+                e.printStackTrace();
             }
             return null;
         }
