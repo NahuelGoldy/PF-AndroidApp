@@ -168,6 +168,8 @@ public class ReservarActivity extends AppCompatActivity implements View.OnClickL
         ConstantsNavigatorView.ENABLE_INDIACE_MENU_VER_ESTACIONAMIENTO = false;
         ConstantsNavigatorView.ENABLE_INDICE_MENU_ESTACIONAR_AQUI = false;
 
+        Toast.makeText(this.getBaseContext(), "Reserva exitosa", Toast.LENGTH_LONG).show();
+
         super.onBackPressed();
     }
 }
