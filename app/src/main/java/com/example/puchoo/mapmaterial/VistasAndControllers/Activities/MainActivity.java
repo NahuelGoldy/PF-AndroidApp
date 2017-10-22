@@ -151,6 +151,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.btnMenuPreferenciasUsuario:{
                 System.out.println("CLICKEO PREFERENCIAS");
+                Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getBaseContext().startActivity(intent);
                 item.setChecked(false);
                 break;
             }
