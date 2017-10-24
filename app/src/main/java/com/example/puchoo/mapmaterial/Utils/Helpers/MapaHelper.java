@@ -182,11 +182,11 @@ public class MapaHelper {
         return polylineOptionsList;
     }
 
-    private static ArrayList<String[]> readCVSFromAssetFolder(Context context){
+    private static ArrayList<String[]> readCVSFromAssetFolder(Context context, String filename){
         ArrayList<String[]> csvLine = new ArrayList<>();
         String[] content = null;
         try {
-            InputStream inputStream = context.getAssets().open("estacionamientoAutos-coords.csv");
+            InputStream inputStream = context.getAssets().open(filename);
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             String line = "";
             while((line = br.readLine()) != null){
@@ -203,7 +203,7 @@ public class MapaHelper {
     public static ArrayList<PolylineOptions> dibujarCallesEstacionamientoMedidoPermitido(Context context){
 
         ArrayList<PolylineOptions> polylineOptionsList = new ArrayList<>();
-        ArrayList<String[]> csvLines = readCVSFromAssetFolder(context);
+        ArrayList<String[]> csvLines = readCVSFromAssetFolder(context, "estacionamientoAutos-coords.csv");
 
         for (String[] line : csvLines) {
             double latInicio, longInicio, latFin, longFin;
@@ -219,7 +219,18 @@ public class MapaHelper {
         }
 
         return polylineOptionsList;
+    }
 
+    public static ArrayList<LatLng> dibujarParquimetros(Context context) {
+
+        ArrayList<LatLng> points = new ArrayList<>();
+        ArrayList<String[]> csvLines = readCVSFromAssetFolder(context, "parquimetros-coords.csv");
+
+        for (String[] line : csvLines) {
+            points.add(new LatLng(Double.parseDouble(line[3]), Double.parseDouble(line[4])));
+        }
+
+        return points;
     }
 
 }
