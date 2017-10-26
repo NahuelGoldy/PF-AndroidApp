@@ -40,6 +40,7 @@ import com.example.puchoo.mapmaterial.Dao.JsonDBHelper;
 import com.example.puchoo.mapmaterial.Dao.UbicacionVehiculoEstacionadoDAO;
 import com.example.puchoo.mapmaterial.Exceptions.UbicacionVehiculoException;
 import com.example.puchoo.mapmaterial.Modelo.Estacionamiento;
+import com.example.puchoo.mapmaterial.Modelo.Parquimetro;
 import com.example.puchoo.mapmaterial.Modelo.UbicacionVehiculoEstacionado;
 import com.example.puchoo.mapmaterial.R;
 import com.example.puchoo.mapmaterial.Utils.Adapters.InfoWindowsAdapter;
@@ -259,6 +260,16 @@ public class ListContentFragment extends Fragment implements TimePicker.OnTimeCh
             //tip2: para lo anterior, convendria hacer MapaHelper singleton?
             Polyline polyline = googleMap.addPolyline(segmento);
             //polyline.remove();
+        }
+
+        // TODO dibujar parquimetros
+        ArrayList<Parquimetro> parquimetros = MapaHelper.dibujarParquimetros(this.getContext());
+        for (Parquimetro parkmtr : parquimetros) {
+            Marker marker = googleMap.addMarker(new MarkerOptions()
+                    .position(parkmtr.getCoords()) //Pongo el lugar
+                    .title(parkmtr.getNombre()));//Le meto titulo
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icn_parquimetro));
+            marker.setVisible(true);
         }
     }
 

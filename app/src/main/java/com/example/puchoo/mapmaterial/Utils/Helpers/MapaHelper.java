@@ -3,6 +3,7 @@ package com.example.puchoo.mapmaterial.Utils.Helpers;
 import android.content.Context;
 import android.graphics.Color;
 
+import com.example.puchoo.mapmaterial.Modelo.Parquimetro;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -221,13 +222,14 @@ public class MapaHelper {
         return polylineOptionsList;
     }
 
-    public static ArrayList<LatLng> dibujarParquimetros(Context context) {
+    public static ArrayList<Parquimetro> dibujarParquimetros(Context context) {
 
-        ArrayList<LatLng> points = new ArrayList<>();
+        ArrayList<Parquimetro> points = new ArrayList<>();
         ArrayList<String[]> csvLines = readCVSFromAssetFolder(context, "parquimetros-coords.csv");
 
         for (String[] line : csvLines) {
-            points.add(new LatLng(Double.parseDouble(line[3]), Double.parseDouble(line[4])));
+            Parquimetro p = new Parquimetro(line[2], new LatLng(Double.parseDouble(line[3]), Double.parseDouble(line[4])));
+            points.add(p);
         }
 
         return points;
